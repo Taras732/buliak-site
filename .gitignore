@@ -1,0 +1,7 @@
+frames/
+*.mp4
+*sheet*.png
+contact_sheet.png
+.replicate_token
+.env
+.DS_Store
