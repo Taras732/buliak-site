@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>БУЛЯК — розвиток сайту · що далі</title>
+<meta name="description" content="Розвиток сайту БУЛЯК: кошик, Telegram-бот замовлень, CRM, оплата, реклама. Модульно — обирай що треба." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#15100C;--bg-2:#1E1610;--card:#251B13;--card-2:#2D2118;
+  --wine:#A11D2E;--wine-deep:#6E1423;--ember:#FF6A2B;
+  --gold:#D6A94B;--gold-light:#EBCB82;--cream:#F6ECDD;--ash:#B5A691;--line:rgba(214,169,75,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Unbounded',sans-serif;line-height:1.05;letter-spacing:-.01em}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.orn path{stroke:var(--gold);stroke-width:2.4;fill:none}.orn .filld{fill:var(--gold);stroke:none}
+.eyebrow{font-family:'Unbounded';font-weight:700;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:13px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--gold);opacity:.6}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:linear-gradient(180deg,rgba(21,16,12,.92),transparent);backdrop-filter:blur(6px)}
+.nav-brand{font-family:'Unbounded';font-weight:900;font-size:1.3rem;letter-spacing:.05em;color:var(--cream);text-decoration:none}
+.nav-brand b{color:var(--wine)}
+.nav-cta{font-family:'Unbounded';font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:#fff;background:var(--wine);padding:11px 18px;border-radius:40px;transition:.25s}
+.nav-cta:hover{background:var(--ember)}
+
+.hero{padding:170px 0 90px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(80% 60% at 50% 0%,rgba(161,29,46,.3),transparent 60%)}
+.hero h1{font-weight:900;font-size:clamp(2.4rem,6vw,4.6rem);text-transform:uppercase;margin:18px 0}
+.hero h1 .s{color:transparent;-webkit-text-stroke:1.5px var(--gold)}
+.hero p{max-width:600px;margin:0 auto;font-size:1.2rem;color:var(--ash)}
+.hero p b{color:var(--cream)}
+.btn{font-family:'Unbounded';font-weight:700;font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;padding:15px 28px;border-radius:50px;display:inline-flex;align-items:center;gap:9px;transition:transform .3s,box-shadow .3s}
+.btn-primary{background:var(--wine);color:#fff}.btn-primary:hover{background:var(--ember);box-shadow:0 14px 40px rgba(255,106,43,.4);transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--cream)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-actions{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+
+.sec{padding:80px 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 50px}
+.sec-head h2{font-weight:800;font-size:clamp(2rem,5vw,3.4rem);margin-top:14px}
+.sec-head p{margin-top:14px;color:var(--ash)}
+
+.live{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:36px;text-align:center;max-width:760px;margin:0 auto}
+.live h3{font-size:1.5rem;margin-bottom:10px}
+.live p{color:var(--ash);margin-bottom:20px}
+.live a.lnk{color:var(--gold-light);font-weight:600;word-break:break-all}
+
+.mods{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.mod{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:transform .4s,border-color .4s}
+.mod:hover{transform:translateY(-5px);border-color:var(--gold)}
+.mod-num{font-family:'Unbounded';font-weight:900;font-size:1.6rem;color:var(--wine);margin-bottom:12px}
+.mod h3{font-size:1.25rem;margin-bottom:8px}
+.mod p{color:var(--ash);font-size:.94rem;flex:1}
+.mod-price{font-family:'Unbounded';font-weight:700;color:var(--gold-light);font-size:1.05rem;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.mod-price small{color:var(--ash);font-weight:400;font-size:.8rem}
+
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pack{background:linear-gradient(180deg,var(--card-2),var(--card));border:1px solid var(--line);border-radius:16px;padding:32px;display:flex;flex-direction:column;position:relative}
+.pack.feat{border-color:var(--gold);box-shadow:0 0 60px rgba(214,169,75,.1)}
+.pack .badge{position:absolute;top:16px;right:16px;font-family:'Unbounded';font-weight:700;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:#1a120c;background:var(--gold);padding:5px 11px;border-radius:30px}
+.pack .pemoji{font-size:2rem;margin-bottom:8px}
+.pack h3{font-size:1.5rem;margin-bottom:6px}
+.pack .pdesc{color:var(--ash);font-size:.94rem;margin-bottom:18px;flex:1}
+.pack .pprice{font-family:'Unbounded';font-weight:800;font-size:1.7rem;color:var(--gold-light);margin-bottom:6px}
+.pack .pprice small{font-size:.78rem;color:var(--ash);font-weight:400}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto}
+.step{text-align:center;padding:26px}
+.step .n{font-family:'Unbounded';font-weight:900;font-size:2.6rem;color:var(--wine-deep)}
+.step h3{font-size:1.2rem;margin:8px 0}
+.step p{color:var(--ash);font-size:.93rem}
+
+.final{text-align:center;padding:100px 0;position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 60% at 50% 50%,rgba(161,29,46,.22),transparent 60%)}
+.final h2{font-weight:900;font-size:clamp(2.2rem,6vw,4rem);text-transform:uppercase}
+.final p{color:var(--ash);margin:18px auto 30px;max-width:480px}
+
+footer{border-top:1px solid var(--line);padding:40px 0;text-align:center;background:var(--bg-2)}
+footer .b{font-family:'Unbounded';font-weight:900;font-size:1.6rem}
+footer small{color:var(--ash);display:block;margin-top:8px;font-size:.82rem}
+
+@media(max-width:900px){.mods,.packs,.steps{grid-template-columns:1fr}.hero{padding:130px 0 70px}.nav-cta{display:none}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav>
+  <a class="nav-brand" href="index.html"><b>◆</b> БУЛЯК</a>
+  <a class="nav-cta" href="index.html">← Мій сайт</a>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <svg class="orn" viewBox="0 0 92 28" style="height:30px"><path class="filld" d="M46 3 L52 14 L46 25 L40 14 Z"/><path d="M46 9 L46 19 M41.5 14 L50.5 14"/><path d="M24 7 L31 14 L24 21 L17 14 Z"/><path d="M68 7 L75 14 L68 21 L61 14 Z"/><path d="M6 10 L11 14 L6 18 L1 14 Z"/><path d="M86 10 L91 14 L86 18 L81 14 Z"/></svg>
+    <h1>Твій сайт готовий.<br/><span class="s">Зробимо</span> машину продажів</h1>
+    <p>Сайт уже працює. Далі — нарощуємо його під реальні замовлення. <b>Обираєш тільки те, що треба тобі. Крок за кроком.</b></p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="index.html">Подивитись сайт →</a>
+      <a class="btn btn-ghost" href="#packs">Пакети й ціни</a>
+    </div>
+  </div>
+</header>
+
+<!-- LIVE -->
+<section class="sec">
+  <div class="wrap">
+    <div class="live">
+      <h3>✅ Що вже є</h3>
+      <p>Каталог товару з цінами, готові сети, контакти, карта, замовлення в Telegram. Гарний, апетитний, відкривається з телефону.</p>
+      <a class="lnk" href="index.html">Відкрити сайт →</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Модулі</span><h2>Бери що потрібно</h2><p>Кожен модуль — окрема цінність. Не треба все одразу.</p></div>
+    <div class="mods">
+      <div class="mod"><div class="mod-num">01</div><h3>Кошик на сайті</h3><p>Клієнт оформлює замовлення прямо на сайті — обрав, у корзину, відправив. Заявка одразу падає тобі з усіма деталями. Нічого не губиться в Direct.</p><div class="mod-price">від 7 000 ₴</div></div>
+      <div class="mod"><div class="mod-num">02</div><h3>Telegram-бот замовлень</h3><p>Бот сам приймає й веде замовлення: статуси (нове → готується → в дорозі → виконано), нагадування, історія. Менше ручної мороки.</p><div class="mod-price">від 12 000 ₴ <small>+ 600 ₴/міс</small></div></div>
+      <div class="mod"><div class="mod-num">03</div><h3>CRM — база клієнтів</h3><p>Усі клієнти й замовлення в одному місці. Бачиш, хто й що замовляв. Повторні продажі, постійні клієнти.</p><div class="mod-price">від 8 000 ₴ <small>+ 400 ₴/міс</small></div></div>
+      <div class="mod"><div class="mod-num">04</div><h3>Онлайн-оплата</h3><p>Клієнт платить карткою прямо на сайті — передоплата на сети чи доставку. Менше відмов.</p><div class="mod-price">від 4 000 ₴ <small>+ % банку</small></div></div>
+      <div class="mod"><div class="mod-num">05</div><h3>Фото товару</h3><p>Професійні фото асортименту для сайту й соцмереж — апетитно й продаюче.</p><div class="mod-price">від 3 500 ₴</div></div>
+      <div class="mod"><div class="mod-num">06</div><h3>Реклама й просування</h3><p>Налаштування й ведення реклами в Google та Instagram + SEO, щоб тебе знаходили нові клієнти.</p><div class="mod-price">від 5 000 ₴ <small>+ ведення</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKS -->
+<section class="sec" id="packs">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Пакети</span><h2>Вигідніше разом</h2><p>Готові набори зі знижкою проти окремих модулів.</p></div>
+    <div class="packs">
+      <div class="pack"><div class="pemoji">🥩</div><h3>Старт</h3><div class="pdesc">Кошик на сайті + свій домен і хостинг. Замовлення йдуть прямо з сайту.</div><div class="pprice">від 7 000 ₴ <small>+ 300 ₴/міс</small></div></div>
+      <div class="pack feat"><div class="badge">Популярний</div><div class="pemoji">🔥</div><h3>Бізнес</h3><div class="pdesc">Старт + Telegram-бот замовлень + CRM. Повна автоматизація: замовлення приймаються, ведуться, клієнти в базі.</div><div class="pprice">від 22 000 ₴ <small>+ 1 000 ₴/міс</small></div></div>
+      <div class="pack"><div class="pemoji">👑</div><h3>Все включено</h3><div class="pdesc">Бізнес + онлайн-оплата + реклама. Продажі на автоматі та потік нових клієнтів.</div><div class="pprice">індивідуально</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Як рухаємось</span><h2>Просто й без поспіху</h2></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Обираєш</h3><p>Модулі або пакет — те, що потрібно саме тобі зараз.</p></div>
+      <div class="step"><div class="n">2</div><h3>Робимо головне</h3><p>Починаємо з того, щоб замовлення приходили зручно й не губились.</p></div>
+      <div class="step"><div class="n">3</div><h3>Зростаємо</h3><p>Далі додаємо те, що приводить нових клієнтів. Крок за кроком.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Обговорімо?</h2>
+    <p>Розкажу детальніше, підберемо під твої цілі й порахуємо точно.</p>
+    <a class="btn btn-primary" href="https://t.me/BULIAK_DELIVERY">Написати →</a>
+    <p style="margin-top:18px;font-size:.85rem">або телефонуй: <b style="color:var(--cream)">[твій номер]</b></p>
+  </div>
+</section>
+
+<footer>
+  <div class="b">◆ БУЛЯК</div>
+  <small>Розвиток сайту · від ідеї до результату</small>
+</footer>
+</body>
+</html>
