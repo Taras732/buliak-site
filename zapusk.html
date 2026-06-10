@@ -14,68 +14,63 @@
 body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:'Unbounded',sans-serif;line-height:1.1;letter-spacing:-.01em}
 a{color:var(--gold2)}
-.wrap{max-width:880px;margin:0 auto;padding:0 22px}
+.wrap{max-width:860px;margin:0 auto;padding:0 22px}
 .grain{position:fixed;inset:0;z-index:99;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-/* hero */
-.hero{padding:90px 0 50px;background:radial-gradient(90% 70% at 70% 0%,rgba(184,31,51,.25),transparent 60%),radial-gradient(70% 60% at 10% 30%,rgba(255,106,43,.12),transparent 60%)}
+.hero{padding:80px 0 40px;background:radial-gradient(90% 70% at 70% 0%,rgba(184,31,51,.25),transparent 60%)}
 .eyebrow{font-family:'Unbounded';font-weight:700;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
-.hero h1{font-weight:900;font-size:clamp(2.4rem,6vw,4rem);margin:16px 0;text-transform:uppercase}
+.hero h1{font-weight:900;font-size:clamp(2.2rem,6vw,3.6rem);margin:16px 0;text-transform:uppercase}
 .hero h1 b{color:var(--wine)}
 .hero p{color:var(--ash);font-size:1.15rem;max-width:640px}
 .brand{font-family:'Unbounded';font-weight:900;font-size:1.2rem}.brand b{color:var(--wine)}
 
-/* intro card */
-.note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:12px;padding:18px 22px;margin:24px 0;color:var(--cream)}
-.note b{color:var(--gold2)}
+.tip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--gold);border-radius:16px;padding:24px 26px;margin:26px 0}
+.tip h3{font-size:1.25rem;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.tip p{color:var(--cream);margin:8px 0}
+.tip b{color:var(--gold2)}
 
-/* steps */
-.steps{padding:30px 0 10px}
 .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px;margin-bottom:22px;position:relative;overflow:hidden;transition:border-color .3s}
 .step:hover{border-color:var(--gold)}
-.step .n{position:absolute;top:-12px;right:18px;font-family:'Unbounded';font-weight:900;font-size:5rem;color:rgba(224,181,87,.07);line-height:1}
-.step h2{font-size:1.5rem;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.step .n{position:absolute;top:-14px;right:18px;font-family:'Unbounded';font-weight:900;font-size:5rem;color:rgba(224,181,87,.07);line-height:1}
+.step h2{font-size:1.5rem;display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
 .step .ic{font-size:1.6rem}
-.step h2 .who{font-family:'Manrope';font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:30px;margin-left:auto;white-space:nowrap}
-.who.o{background:rgba(184,31,51,.18);color:#ff9aa6;border:1px solid rgba(184,31,51,.35)}
-.who.t{background:rgba(224,181,87,.14);color:var(--gold2);border:1px solid var(--line)}
-.who.both{background:rgba(255,106,43,.14);color:#ffb38a;border:1px solid rgba(255,106,43,.3)}
 .step p{color:var(--cream);margin:10px 0}
 .step ul{list-style:none;margin:12px 0}
 .step ul li{padding:7px 0 7px 26px;position:relative;color:var(--ash)}
 .step ul li::before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:.7rem;top:11px}
 .step ul li b{color:var(--cream)}
-.price{display:inline-flex;flex-direction:column;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:10px 12px 10px 0;min-width:160px}
-.price .pk{font-size:.72rem;color:var(--ash);text-transform:uppercase;letter-spacing:.06em}
-.price .pv{font-family:'Unbounded';font-weight:700;color:var(--gold2);font-size:1.1rem}
-.prices{display:flex;flex-wrap:wrap}
-.give{margin-top:14px;font-size:.92rem;background:rgba(224,181,87,.07);border-radius:10px;padding:11px 16px}
+.btnlink{display:inline-flex;align-items:center;gap:8px;background:var(--wine);color:#fff!important;font-family:'Unbounded';font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;padding:12px 22px;border-radius:40px;text-decoration:none;margin:8px 0;transition:.25s}
+.btnlink:hover{background:var(--ember)}
+.rec{display:inline-block;background:rgba(224,181,87,.14);color:var(--gold2);font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:30px;border:1px solid var(--line);margin-left:4px}
+.prices{display:flex;flex-wrap:wrap;gap:0}
+.price{display:inline-flex;flex-direction:column;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px 18px;margin:8px 10px 8px 0;min-width:150px}
+.price .pk{font-size:.72rem;color:var(--ash);text-transform:uppercase;letter-spacing:.05em}
+.price .pv{font-family:'Unbounded';font-weight:700;color:var(--gold2);font-size:1.05rem}
+.spec{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.spec div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 15px}
+.spec .sk{font-size:.72rem;color:var(--ash);text-transform:uppercase}
+.spec .sv{font-weight:700;color:var(--cream)}
+.give{margin-top:14px;font-size:.93rem;background:rgba(224,181,87,.07);border-radius:10px;padding:12px 16px}
 .give b{color:var(--gold2)}
+.split{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.split .box{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.split .box h4{font-family:'Unbounded';font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:6px}
+.split .box p{font-size:.9rem;color:var(--ash);margin:0}
 
-/* access section */
-.access{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--wine);border-radius:20px;padding:34px;margin:40px 0}
-.access h2{font-size:1.8rem;margin-bottom:6px}
-.access .lead{color:var(--ash);margin-bottom:18px}
-.access ol{margin:0 0 6px 20px}
-.access ol li{padding:8px 0;color:var(--cream)}
-.warn{background:rgba(184,31,51,.12);border:1px solid rgba(184,31,51,.3);border-radius:12px;padding:16px 20px;margin-top:16px;color:#ffd9dd}
+.access{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--wine);border-radius:20px;padding:32px;margin:40px 0}
+.access h2{font-size:1.7rem;margin-bottom:8px}
+.access ol{margin:10px 0 0 20px}
+.access ol li{padding:7px 0;color:var(--cream)}
+.warn{background:rgba(184,31,51,.12);border:1px solid rgba(184,31,51,.3);border-radius:12px;padding:15px 18px;margin-top:14px;color:#ffd9dd;font-size:.95rem}
 
-/* two paths */
-.paths{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:30px 0}
-.path{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
-.path h3{font-size:1.2rem;color:var(--gold2);margin-bottom:10px}
-.path p{color:var(--ash);font-size:.95rem}
-
-/* roles table */
 table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.95rem}
 th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-family:'Unbounded';font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold)}
 td.role{white-space:nowrap;font-weight:600}
-
-footer{border-top:1px solid var(--line);background:var(--bg2);padding:40px 0;margin-top:50px;text-align:center}
+.note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--wine);border-radius:12px;padding:18px 22px;margin:24px 0}
+.note b{color:var(--gold2)}
+footer{border-top:1px solid var(--line);background:var(--bg2);padding:36px 0;margin-top:50px;text-align:center}
 footer p{color:var(--ash);font-size:.9rem;margin-top:8px}
-
-@media(max-width:680px){.paths{grid-template-columns:1fr}.step{padding:24px}.access{padding:24px}.step h2{flex-wrap:wrap}.step h2 .who{margin-left:0}}
+@media(max-width:680px){.spec,.split{grid-template-columns:1fr}.step{padding:24px}.access{padding:24px}}
 </style>
 </head>
 <body>
@@ -85,166 +80,129 @@ footer p{color:var(--ash);font-size:.9rem;margin-top:8px}
   <div class="wrap">
     <span class="eyebrow">Запуск магазину</span>
     <h1>БУ<b>ЛЯК</b> — що потрібно для старту</h1>
-    <p>Покрокова інструкція: що підготувати, щоб онлайн-магазин запрацював легально й приймав оплату. Робимо по черзі — крок за кроком. Якщо щось незрозуміло — пишіть, підкажемо.</p>
+    <p>Кілька кроків, щоб магазин запрацював і приймав оплату. Робимо по черзі. Якщо щось незрозуміло — пишіть, разом пройдемо.</p>
   </div>
 </section>
 
 <div class="wrap">
-  <div class="note">📌 <b>Як читати:</b> біля кожного кроку є позначка, хто виконує — <span style="color:#ff9aa6">Олена</span> (ви), <span style="color:var(--gold2)">Розробник</span> (Тарас) або <span style="color:#ffb38a">разом</span>. Більшість покупок і реєстрацій — на вас (бо це ваш бізнес і ваші документи), а налаштування й підключення — на розробнику.</div>
 
-  <div class="steps">
+  <!-- TIP: пошта -->
+  <div class="tip">
+    <h3>📧 Спершу — окрема пошта</h3>
+    <p>Створіть <b>одну окрему поштову скриньку</b> (напр. <b>shop.buliak@gmail.com</b>) і реєструйте на неї все нижче — домен, хостинг, LiqPay тощо. Так усе в одному місці й легко передати.</p>
+    <p>⚠️ <b>Важливо:</b> під час реєстрації скрізь задавайте <b>звичайний пароль (email + пароль)</b>, а <b>не</b> «Увійти через Google». Інакше доступ не передати. Пароль знадобиться розробнику на час налаштування (а за бажанням — і для подальшої підтримки).</p>
+  </div>
 
-    <div class="step">
-      <div class="n">1</div>
-      <h2><span class="ic">🌐</span> Домен (адреса сайту) <span class="who o">Олена</span></h2>
-      <p>Це назва, за якою сайт відкривається в інтернеті, напр. <b>buliak.store</b> або <b>buliak.com.ua</b>.</p>
-      <div class="prices">
-        <div class="price"><span class="pk">.store</span><span class="pv">від $1 / 1-й рік</span></div>
-        <div class="price"><span class="pk">.com.ua 🇺🇦</span><span class="pv">~300 грн / рік</span></div>
-        <div class="price"><span class="pk">.com</span><span class="pv">~$12 / рік</span></div>
-      </div>
-      <ul>
-        <li>Де купити: <b>Namecheap</b>, <b>ukraine.com.ua</b>, <b>Hostiq</b>, <b>GoDaddy</b></li>
-        <li>Порада: <b>.com.ua</b> — стабільна ціна й патріотично; <b>.store</b> — дешевий старт, але дорожче продовження</li>
-        <li>⚠️ Реєструйте на <b>окрему пошту</b> (про неї — крок 8)</li>
-      </ul>
-      <div class="give">🔑 <b>Розробнику потрібно:</b> доступ до акаунта реєстратора (щоб налаштувати, куди веде домен).</div>
+  <!-- STEP 1 DOMAIN -->
+  <div class="step">
+    <div class="n">1</div>
+    <h2><span class="ic">🌐</span> Домен (адреса сайту)</h2>
+    <p>Назва, за якою сайт відкривається, напр. <b>buliak.store</b>.</p>
+    <p>Рекомендую <b>Namecheap</b> <span class="rec">моя рекомендація</span> — зручний і недорогий. Аналоги теж є, але з ним простіше.</p>
+    <a class="btnlink" href="https://www.namecheap.com" target="_blank" rel="noopener">Namecheap.com →</a>
+    <div class="prices">
+      <div class="price"><span class="pk">1-й рік</span><span class="pv">від $1–5</span></div>
+      <div class="price"><span class="pk">продовження</span><span class="pv">~$10–30 / рік</span></div>
     </div>
+    <p style="color:var(--ash);font-size:.92rem">Ціни орієнтовні — точні побачите при оформленні.</p>
+    <div class="give">🔑 <b>Розробнику:</b> логін і пароль від акаунта реєстратора (щоб налаштувати, куди веде домен).</div>
+  </div>
 
-    <div class="step">
-      <div class="n">2</div>
-      <h2><span class="ic">🖥️</span> Хостинг (де «живе» сайт) <span class="who both">разом</span></h2>
-      <p>Місце, де зберігається сайт і працює цілодобово. Два варіанти:</p>
-      <ul>
-        <li><b>Варіант А (простіше):</b> сайт лишається на сервері розробника — ви платите за <b>супровід + хостинг</b> однією сумою, нічого окремо не купуєте</li>
-        <li><b>Варіант Б (незалежність):</b> власний WordPress-хостинг — <b>HostiQ, Cityhost, ukraine.com.ua</b> (~150–400 грн/міс)</li>
-      </ul>
-      <p style="color:var(--ash)">Для старту рекомендуємо <b style="color:var(--cream)">Варіант А</b> — швидше й без зайвих налаштувань. Перейти на власний хостинг можна будь-коли.</p>
-      <div class="give">🔑 <b>Розробнику потрібно:</b> якщо Варіант Б — доступ до панелі хостингу.</div>
+  <!-- STEP 2 VPS -->
+  <div class="step">
+    <div class="n">2</div>
+    <h2><span class="ic">🖥️</span> Хостинг — VPS-сервер</h2>
+    <p>Сервер, де працює сайт цілодобово. Рекомендую <b>ukraine.com.ua</b> <span class="rec">моя рекомендація</span> — український провайдер, є потрібні VPS-тарифи.</p>
+    <a class="btnlink" href="https://www.ukraine.com.ua/vps/" target="_blank" rel="noopener">ukraine.com.ua → VPS</a>
+    <p style="margin-top:14px">Обирайте VPS із <b>такими параметрами</b> (мінімум):</p>
+    <div class="spec">
+      <div><div class="sk">Процесор</div><div class="sv">від 2 ядер</div></div>
+      <div><div class="sk">Оперативна пам'ять</div><div class="sv">від 4 ГБ</div></div>
+      <div><div class="sk">Диск</div><div class="sv">від 40 ГБ SSD / NVMe</div></div>
+      <div><div class="sk">Операційна система</div><div class="sv">Ubuntu 22.04 / Debian</div></div>
+      <div><div class="sk">Доступ</div><div class="sv">root (повний)</div></div>
+      <div><div class="sk">Орієнтовна ціна</div><div class="sv">~300–600 грн/міс</div></div>
     </div>
+    <div class="give">🔑 <b>Розробнику:</b> доступ до VPS (логін/пароль або панель) — щоб встановити й налаштувати сайт.</div>
+  </div>
 
-    <div class="step">
-      <div class="n">3</div>
-      <h2><span class="ic">📋</span> ФОП <span class="who o">Олена</span></h2>
-      <p>Потрібен, щоб <b>легально приймати оплату</b> й видавати чеки. Якщо ще немає — реєструється швидко.</p>
-      <ul>
-        <li>Де: застосунок <b>Дія</b> / банк (Приват, Моно) / ЦНАП</li>
-        <li>Група <b>2 або 3</b>, КВЕД — роздрібна торгівля (47.xx)</li>
-        <li>Це база для LiqPay (крок 4) і чеків ПРРО (крок 5)</li>
-      </ul>
+  <!-- STEP 3 LIQPAY -->
+  <div class="step">
+    <div class="n">3</div>
+    <h2><span class="ic">💳</span> LiqPay (оплата картками)</h2>
+    <p>Через нього клієнти платять на сайті. Реєстрація на <b>liqpay.ua</b> (через Приват24 / ваш ФОП).</p>
+    <a class="btnlink" href="https://www.liqpay.ua/uk" target="_blank" rel="noopener">liqpay.ua →</a>
+    <ul>
+      <li>Зареєструватись і <b>створити компанію/магазин</b></li>
+      <li>Заповнити дані компанії та <b>банківський рахунок (IBAN)</b> — щоб надходили гроші</li>
+      <li>У розділі <b>Налаштування → API</b> взяти ключі: <b>Public key</b> і <b>Private key</b></li>
+    </ul>
+    <div class="split">
+      <div class="box"><h4>🧪 Для тесту</h4><p>Ключі з префіксом <b style="color:var(--cream)">sandbox_</b> — перевіряємо оплату без реальних грошей. Потрібні вже зараз.</p></div>
+      <div class="box"><h4>🚀 Для роботи</h4><p>Бойові ключі — активуються після <b style="color:var(--cream)">верифікації</b> (дані ФОП, рахунок). Підключимо перед запуском.</p></div>
     </div>
+    <div class="give">🔑 <b>Розробнику:</b> ключі Public + Private (спершу <b>sandbox</b> для тесту).<br>💬 <b>Зробімо разом онлайн</b> — підключусь, підкажу, які поля заповнити, щоб усе одразу запрацювало.</div>
+  </div>
 
-    <div class="step">
-      <div class="n">4</div>
-      <h2><span class="ic">💳</span> LiqPay (прийом оплати картками) <span class="who o">Олена</span></h2>
-      <p>Через нього клієнти платять на сайті. Реєстрація на <b>liqpay.ua</b> (через Приват24 / ваш ФОП).</p>
-      <ul>
-        <li>Пройти <b>верифікацію мерчанта</b> (документи ФОП) — потрібно для реальних оплат</li>
-        <li>У кабінеті взяти <b>API-ключі</b> (Public + Private)</li>
-      </ul>
-      <div class="give">🔑 <b>Розробнику потрібно:</b> ключі LiqPay (Public + Private), щоб підключити оплату до сайту.<br>⚠️ <b>Цей крок не можна зробити за вас</b> — верифікація прив'язана до вашого ФОП.</div>
-    </div>
+  <!-- STEP 4 MORKVA -->
+  <div class="step">
+    <div class="n">4</div>
+    <h2><span class="ic">🥕</span> Підписка morkva PRO</h2>
+    <p>Це інструмент, який робить «розумну» оплату для магазину. Закриває одразу кілька задач:</p>
+    <ul>
+      <li><b>Заморозка суми:</b> при замовленні гроші <b>бронюються</b>, а списується <b>фактична</b> сума після зважування (зручно для вагового товару)</li>
+      <li><b>Чеки (ПРРО):</b> фіскальний чек формується й надсилається клієнту <b>автоматично</b> — окремо налаштовувати не треба</li>
+      <li><b>Національний кешбек</b> для покупців</li>
+    </ul>
+    <a class="btnlink" href="https://morkva.co.ua/shop/woocommerce-liqpay-extended-pro/" target="_blank" rel="noopener">morkva LiqPay Extended PRO →</a>
+    <div class="prices"><div class="price"><span class="pk">вартість</span><span class="pv">999 грн / рік</span></div></div>
+    <div class="give">🔑 <b>Розробнику:</b> ліцензійний ключ (після покупки) — щоб встановити й увімкнути заморозку та чеки.</div>
+  </div>
 
-    <div class="step">
-      <div class="n">5</div>
-      <h2><span class="ic">🧾</span> ПРРО + електронний підпис (чеки) <span class="who o">Олена</span></h2>
-      <p>За законом ФОП <b>зобов'язаний видавати фіскальний чек</b> на кожен продаж. ПРРО — це «каса» в телефоні/онлайн.</p>
-      <ul>
-        <li>Отримати <b>КЕП</b> (електронний підпис) — у банку / Дія / АЦСК</li>
-        <li>Зареєструвати ПРРО в податковій (<b>Електронний кабінет ДПС</b>)</li>
-        <li>Призначити касира (себе)</li>
-      </ul>
-      <div class="give">⚠️ <b>Тільки ви:</b> потрібен ваш ФОП і ваш електронний підпис. Розробник лише підключить готовий ПРРО до сайту.</div>
-    </div>
-
-    <div class="step">
-      <div class="n">6</div>
-      <h2><span class="ic">🥕</span> Підписка morkva PRO <span class="who o">Олена</span></h2>
-      <p>Один плагін, що робить одразу <b>три</b> важливі речі для магазину:</p>
-      <ul>
-        <li><b>Заморозка суми (hold):</b> при замовленні гроші бронюються, а списується <b>фактична</b> сума після зважування</li>
-        <li><b>Автоматичні чеки ПРРО:</b> чек формується й надсилається клієнту сам</li>
-        <li><b>Національний кешбек</b> для покупців</li>
-      </ul>
-      <div class="prices"><div class="price"><span class="pk">morkva LiqPay Extended PRO</span><span class="pv">999 грн / рік</span></div></div>
-      <div class="give">🔑 <b>Розробнику потрібно:</b> ліцензійний ключ (після покупки на morkva.co.ua), щоб встановити й налаштувати hold-оплату.</div>
-    </div>
-
-    <div class="step">
-      <div class="n">7</div>
-      <h2><span class="ic">🚚</span> Ключ Нової Пошти <span class="who o">Олена</span></h2>
-      <p>Щоб клієнт обирав відділення прямо на сайті, а накладні (ТТН) створювались автоматично.</p>
-      <ul>
-        <li>Кабінет НП → <b>Налаштування → Безпека → ключ API</b></li>
-        <li>Безкоштовно (бажано бізнес/ФОП-кабінет для друку ТТН)</li>
-      </ul>
-      <div class="give">🔑 <b>Розробнику потрібно:</b> API-ключ Нової Пошти.</div>
-    </div>
-
-    <div class="step">
-      <div class="n">8</div>
-      <h2><span class="ic">📧</span> Окрема пошта + доступи <span class="who both">разом</span></h2>
-      <p>Створіть <b>одну окрему поштову скриньку</b> (напр. <b>shop.buliak@gmail.com</b>) — і реєструйте на неї <b>усе</b> з кроків вище.</p>
-      <ul>
-        <li>Усі підтвердження, логіни й паролі — в одному місці</li>
-        <li>Легко передати розробнику й легко забрати назад</li>
-        <li>Нічого не загубиться</li>
-      </ul>
-    </div>
-
+  <!-- STEP 5 NP -->
+  <div class="step">
+    <div class="n">5</div>
+    <h2><span class="ic">🚚</span> Нова Пошта</h2>
+    <p>Щоб клієнт обирав відділення на сайті, а накладні (ТТН) створювались автоматично.</p>
+    <ul>
+      <li>У кабінеті НП: <b>Налаштування → Безпека → ключ API</b> (безкоштовно)</li>
+      <li>Часто це працює в зв'язці з <b>morkva</b> — тож, імовірно, окремо нічого не треба, лише ключ</li>
+    </ul>
+    <div class="give">🔑 <b>Розробнику:</b> API-ключ Нової Пошти. Деталі узгодимо на етапі налаштування.</div>
   </div>
 
   <!-- ACCESS -->
   <div class="access">
     <h2>🔐 Доступи для розробника</h2>
-    <p class="lead">Щоб усе налаштувати й запустити, розробнику потрібен <b>тимчасовий доступ</b> до сервісів вище.</p>
+    <p style="color:var(--ash)">Щоб усе налаштувати й запустити, потрібен <b style="color:var(--cream)">тимчасовий доступ</b> до сервісів вище.</p>
     <ol>
-      <li>Зберіть логіни/паролі (домен, хостинг, LiqPay, morkva, Нова Пошта, пошта) — найкраще в одному документі</li>
-      <li>Передайте їх <b>безпечно</b> — не у звичайному чаті, а окремим повідомленням / менеджером паролів</li>
-      <li>Розробник усе налаштовує й запускає</li>
-      <li>Після запуску — на ваш вибір:
-        <ul style="margin-top:6px">
-          <li><b>Змінити паролі</b> (повний контроль у вас), або</li>
-          <li><b>Лишити доступ розробнику</b> в межах підтримки (зручніше для дрібних правок) — за домовленістю</li>
-        </ul>
-      </li>
+      <li>Реєструйте все на окрему пошту, скрізь — <b>email + пароль</b> (не через Google)</li>
+      <li>Зберіть логіни/паролі в одному документі</li>
+      <li>Передайте їх <b>безпечно</b> — окремим повідомленням, не у відкритому чаті</li>
+      <li>Після запуску — на ваш вибір: <b>змінити паролі</b> або <b>лишити доступ</b> для подальшої підтримки</li>
     </ol>
-    <div class="warn">⚠️ <b>Важливо:</b> деякі кроки (LiqPay-верифікація, ПРРО, електронний підпис) <b>неможливо зробити за вас</b> — вони прив'язані до вашого ФОП і особистого підпису. Тут розробник лише підключає вже готове до сайту.</div>
-  </div>
-
-  <!-- TWO PATHS -->
-  <h2 style="font-size:1.6rem;margin:10px 0">Два шляхи — як вам зручніше</h2>
-  <div class="paths">
-    <div class="path">
-      <h3>Шлях А — ви робите за інструкцією</h3>
-      <p>Проходите кроки самі, а розробнику передаєте лише ключі (LiqPay, НП, morkva). Більше контролю, трохи більше вашого часу.</p>
-    </div>
-    <div class="path">
-      <h3>Шлях Б — «під ключ»</h3>
-      <p>Даєте розробнику доступ до окремої пошти — він реєструє й налаштовує те, що можливо (домен, хостинг, плагіни). Але ФОП, LiqPay-верифікацію й ПРРО все одно проходите ви особисто.</p>
-    </div>
+    <div class="warn">⚠️ <b>LiqPay</b> потребує вашої особистої <b>верифікації</b> (документи ФОП, рахунок) — це проходите ви, а розробник підключає ключі до сайту. Решту можна налаштувати з вашими доступами.</div>
   </div>
 
   <!-- ROLES -->
-  <h2 style="font-size:1.6rem;margin:24px 0 6px">Хто що робить</h2>
+  <h2 style="font-size:1.5rem;margin:24px 0 6px">Хто що робить</h2>
   <table>
     <tr><th>Що</th><th>Олена</th><th>Розробник</th></tr>
-    <tr><td>Домен + хостинг</td><td class="role">купує / оплачує</td><td class="role">налаштовує</td></tr>
-    <tr><td>ФОП</td><td class="role">реєструє</td><td class="role">—</td></tr>
-    <tr><td>LiqPay</td><td class="role">реєстрація + верифікація, дає ключі</td><td class="role">підключає до сайту</td></tr>
-    <tr><td>ПРРО + КЕП</td><td class="role">реєструє (її підпис)</td><td class="role">підключає</td></tr>
-    <tr><td>morkva PRO</td><td class="role">купує підписку, дає ключ</td><td class="role">встановлює, вмикає hold</td></tr>
-    <tr><td>Нова Пошта</td><td class="role">дає API-ключ</td><td class="role">підключає, налаштовує ТТН</td></tr>
-    <tr><td>Сам сайт, дизайн, тести</td><td class="role">контент і фото</td><td class="role">розробка й налаштування</td></tr>
+    <tr><td>Домен (Namecheap)</td><td class="role">купує</td><td class="role">налаштовує</td></tr>
+    <tr><td>VPS-хостинг (ukraine.com.ua)</td><td class="role">купує</td><td class="role">ставить сайт</td></tr>
+    <tr><td>LiqPay</td><td class="role">реєстрація + ключі</td><td class="role">підключає (разом онлайн)</td></tr>
+    <tr><td>morkva PRO</td><td class="role">купує, дає ключ</td><td class="role">вмикає hold + чеки</td></tr>
+    <tr><td>Нова Пошта</td><td class="role">дає API-ключ</td><td class="role">підключає ТТН</td></tr>
+    <tr><td>Сайт, дизайн, тести</td><td class="role">контент і фото</td><td class="role">розробка</td></tr>
   </table>
 
-  <div class="note" style="border-left-color:var(--wine)">✅ <b>Підсумок:</b> після цих кроків магазин БУЛЯК повністю робочий і легальний — приймає оплату, морозить суму до зважування, видає чеки й створює накладні Нової Пошти автоматично.</div>
+  <div class="note">✅ <b>Підсумок:</b> після цих кроків магазин БУЛЯК повністю робочий — приймає оплату, морозить суму до зважування, видає чеки й створює накладні Нової Пошти автоматично.</div>
 </div>
 
 <footer>
   <div class="wrap">
     <div class="brand">◆ БУ<b>ЛЯК</b></div>
-    <p>Питання по кроках — пишіть, підкажемо. М'ясні традиції Галичини 🔥</p>
+    <p>Питання по кроках — пишіть, підкажемо. 🔥</p>
   </div>
 </footer>
 
