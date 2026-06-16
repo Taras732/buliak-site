@@ -527,8 +527,55 @@ add_action( 'wp_head', function () { ?>
     .hero h1 { font-size: clamp(2.8rem, 24vw, 5.5rem) !important; }
     .mtrack { font-size: clamp(1.4rem, 10vw, 2.4rem) !important; }
   }
+  /* нотіс «передзамовлення + вакуум» */
+  .blk-notice { max-width: 1100px; margin: 0 auto 22px; padding: 13px 18px;
+    display: flex; flex-direction: column; gap: 5px;
+    background: rgba(224,181,87,.08); border: 1px solid rgba(224,181,87,.30);
+    border-radius: 12px; color: #f3e9d6; font-size: .9rem; line-height: 1.4; }
+  .blk-notice b { color: #e0b557; }
+  @media (max-width: 600px) { .blk-notice { font-size: .8rem; margin-bottom: 16px; padding: 11px 14px; } }
+  /* правові лінки у футері */
+  .blk-foot-legal { margin-bottom: 8px; }
+  .blk-foot-legal a { color: #e0b557 !important; text-decoration: none; opacity: .85; }
+  .blk-foot-legal a:hover { text-decoration: underline; opacity: 1; }
+  /* cookie-нотіс */
+  .blk-cookie { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 99998;
+    max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 14px;
+    background: #1d1917; color: #f3e9d6; border: 1px solid rgba(224,181,87,.35);
+    border-radius: 14px; padding: 12px 16px; box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    font-size: .86rem; line-height: 1.4; transform: translateY(150%); opacity: 0; transition: transform .35s ease, opacity .35s ease; }
+  .blk-cookie.show { transform: translateY(0); opacity: 1; }
+  .blk-cookie a { color: #e0b557; text-decoration: underline; }
+  .blk-cookie-ok { flex: 0 0 auto; background: #b00020; color: #fff; border: 0; border-radius: 999px;
+    padding: 9px 18px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .blk-cookie-ok:hover { background: #8a0019; }
+  @media (max-width: 520px) { .blk-cookie { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; bottom: 10px; } }
 </style>
 <?php } );
+
+/* ---- Легкий cookie-нотіс (не блокуючий, закривається, localStorage) ---- */
+add_action( 'wp_footer', function () {
+	if ( is_admin() ) { return; }
+	$pp = ( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ) ? get_privacy_policy_url() : home_url( '/privacy-policy/' );
+	?>
+<div id="blk-cookie" class="blk-cookie" hidden>
+  <span>🍪 Ми використовуємо файли cookie для роботи кошика та карти. Деталі — у <a href="<?php echo esc_url( $pp ); ?>">Політиці конфіденційності</a>.</span>
+  <button type="button" class="blk-cookie-ok">Зрозуміло</button>
+</div>
+<script>
+(function () {
+  try { if (localStorage.getItem('blk_cookie_ok')) { return; } } catch (e) {}
+  var el = document.getElementById('blk-cookie'); if (!el) { return; }
+  el.hidden = false; requestAnimationFrame(function () { el.classList.add('show'); });
+  el.querySelector('.blk-cookie-ok').addEventListener('click', function () {
+    el.classList.remove('show');
+    setTimeout(function () { el.hidden = true; }, 350);
+    try { localStorage.setItem('blk_cookie_ok', '1'); } catch (e) {}
+  });
+})();
+</script>
+	<?php
+} );
 
 /* ---- JS: клік по всій картці -> сторінка товару; кнопки працюють окремо ---- */
 add_action( 'wp_footer', function () { ?>
