@@ -404,6 +404,15 @@ add_action( 'wp_head', function () { ?>
   .buliak-footer p, .buliak-footer a { line-height: 1.6 !important; }
   .buliak-footer .fb img { max-height: 56px !important; }
   .buliak-footer .copyr { margin-top: 18px !important; padding-top: 14px !important; white-space: nowrap; }
+  /* іконки соцмереж у футері (замість текстових Telegram/Instagram/TikTok) */
+  .buliak-footer .blk-foot-social { display: flex; gap: 12px; margin-top: 14px; }
+  .buliak-footer .blk-foot-social a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(224,181,87,.10); border: 1px solid rgba(224,181,87,.30);
+    color: #e0b557 !important; transition: background .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .buliak-footer .blk-foot-social a:hover { background: #b00020; border-color: #b00020; color: #fff !important; transform: translateY(-2px); }
   .buliak-footer .copyr a { display: inline !important; }
   /* кнопку "вгору" прибрано (зайва) */
   #ast-scroll-top, .ast-scroll-top-wrapper, #ast-scroll-top.ast-scroll-to-top-enabled { display: none !important; }

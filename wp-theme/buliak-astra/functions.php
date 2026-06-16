@@ -42,18 +42,22 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 // Брендовий футер БУЛЯК
 add_action('astra_footer_before', function () {
     $tel = '073 111 76 70';
+    $blk_logo = wp_get_attachment_image_url( get_theme_mod('custom_logo'), 'full' );
+    $blk_logo_html = '<a href="' . esc_url(home_url('/')) . '" class="footer-logo-link">' . ( $blk_logo ? '<img src="' . esc_url($blk_logo) . '" alt="Буляк" style="max-height:72px;width:auto">' : '◆ БУЛЯК' ) . '</a>';
     echo '<footer class="buliak-footer"><div class="fcols">'
-        . '<div><div class="fb">◆ БУЛЯК</div><p>М\'ясні традиції Галичини. М\'ясо, BBQ та копченості власного виробництва. Зимна Вода, Львівщина.</p></div>'
+        . '<div><div class="fb">' . $blk_logo_html . '</div></div>'
         . '<div><h4>Контакти</h4>'
         . '<a href="tel:0731117670">' . $tel . '</a>'
-        . '<a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener">Telegram</a>'
-        . '<a href="https://www.instagram.com/buliak_space" target="_blank" rel="noopener">Instagram</a>'
-        . '<a href="https://www.tiktok.com/@buliak_space" target="_blank" rel="noopener">TikTok</a></div>'
+        . '<div class="blk-foot-social">'
+        . '<a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M21.94 4.6 18.9 19.2c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.95.46l.34-4.78L18.5 6.3c.38-.34-.08-.53-.6-.19L6.9 13.18l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5L20.63 3.2c.84-.32 1.58.2 1.31 1.4z"/></svg></a>'
+        . '<a href="https://www.instagram.com/buliak_space" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>'
+        . '<a href="https://www.tiktok.com/@buliak_space" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.6 5.82a4.3 4.3 0 0 1-1.06-2.82h-3.2v12.9a2.59 2.59 0 1 1-2.59-2.59c.27 0 .54.04.79.12V9.97a5.86 5.86 0 0 0-.79-.06 5.85 5.85 0 1 0 5.85 5.85V8.49a7.5 7.5 0 0 0 4.4 1.41V6.7a4.3 4.3 0 0 1-3.4-.88z"/></svg></a>'
+        . '</div></div>'
         . '<div><h4>Магазин</h4>'
         . '<a href="' . esc_url(home_url('/shop/')) . '">Усі товари</a>'
-        . '<a href="' . esc_url(home_url('/cart/')) . '">Кошик</a>'
-        . '<p style="margin-top:10px">Зимна Вода,<br>вул. Яворівська 2г<br>Пн–Сб 09–19 · Нд 10–18</p></div>'
-        . '</div><div class="copyr">© ' . date('Y') . ' БУЛЯК. Усі смаки захищені.</div></footer>';
+        . '<a href="' . esc_url(home_url('/cart/')) . '">Кошик</a>' . '<a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener">Опт / гурт</a>'
+        . '<a href="' . esc_url(home_url('/#contacts')) . '">Контакти</a></div>'
+        . '</div><div class="copyr">© ' . date('Y') . ' БУЛЯК. Усі права захищені. · Сайт викувано в Кузні</div></footer>';
 });
 
 add_filter('loop_shop_columns', function () { return 3; });
