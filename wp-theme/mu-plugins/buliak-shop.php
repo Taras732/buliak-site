@@ -53,6 +53,16 @@ add_action( 'woocommerce_product_thumbnails', function () {
 	if ( buliak_is_bestseller( $product ) ) { echo '<span class="blk-best-badge blk-best-badge--single" role="img" aria-label="Хіт продажів" title="Хіт продажів">🔥</span>'; }
 }, 5 );
 
+/* ---- Помітний нотіс: усе за передзамовленням 1–2 дні + BBQ охолоджена у вакуумі ---- */
+add_action( 'woocommerce_before_main_content', function () {
+	if ( is_cart() || is_checkout() ) { return; }
+	if ( ! ( is_shop() || is_product_category() || is_product() ) ) { return; }
+	echo '<div class="blk-notice">'
+		. '<span class="blk-notice-row"><b>⏱ Усе за передзамовленням</b> — готуємо 1–2 робочі дні, відправляємо Новою Поштою по Україні.</span>'
+		. '<span class="blk-notice-row">🥩 <b>«Готова смажена BBQ»</b> їде охолодженою у вакуумі (не гаряча) — удома достатньо розігріти.</span>'
+		. '</div>';
+}, 15 );
+
 /* ---- Шорткод сітки бестселерів для головної: 5 товарів + 6-й кахель CTA ---- */
 add_shortcode( 'buliak_bestsellers', function () {
 	if ( ! function_exists( 'wc_get_products' ) ) { return ''; }
