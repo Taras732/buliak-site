@@ -59,7 +59,7 @@ add_action('astra_footer_before', function () {
         . '<a href="' . esc_url(home_url('/#contacts')) . '">Контакти</a></div>'
         . '</div><div class="copyr">'
         . '<div class="blk-foot-legal"><a href="' . esc_url( function_exists('get_privacy_policy_url') && get_privacy_policy_url() ? get_privacy_policy_url() : home_url('/privacy-policy/') ) . '">Політика конфіденційності</a> · <a href="' . esc_url(home_url('/refund_returns/')) . '">Повернення та обмін</a></div>'
-        . '© ' . date('Y') . ' БУЛЯК. Усі права захищені. · Сайт викувано в Кузні</div></footer>';
+        . '© ' . date('Y') . ' БУЛЯК. Усі права захищені. · Сайт викувано в <a href="https://kuznya.studio" target="_blank" rel="noopener" style="color:var(--gold,#e0b557)">Кузні</a></div></footer>';
 });
 
 add_filter('loop_shop_columns', function () { return 3; });
