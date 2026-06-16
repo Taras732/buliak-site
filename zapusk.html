@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>БУЛЯК — Що потрібно для запуску магазину</title>
+<title>БУЛЯК — Сайт готовий · передача</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0F0D0C;--bg2:#161312;--card:#1D1917;--card2:#262120;--wine:#B81F33;--ember:#FF6A2B;--gold:#E0B557;--gold2:#F0D391;--cream:#F7EFE4;--ash:#A99C8E;--line:rgba(224,181,87,.16)}
+:root{--bg:#0F0D0C;--bg2:#161312;--card:#1D1917;--card2:#262120;--wine:#B81F33;--ember:#FF6A2B;--gold:#E0B557;--gold2:#F0D391;--cream:#F7EFE4;--ash:#A99C8E;--line:rgba(224,181,87,.16);--green:#4FAE6A}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--cream);font-family:'Manrope',sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:'Unbounded',sans-serif;line-height:1.1;letter-spacing:-.01em}
@@ -22,55 +22,46 @@ a{color:var(--gold2)}
 .hero h1 b{color:var(--wine)}
 .hero p{color:var(--ash);font-size:1.15rem;max-width:640px}
 .brand{font-family:'Unbounded';font-weight:900;font-size:1.2rem}.brand b{color:var(--wine)}
+.live{display:inline-flex;align-items:center;gap:10px;background:rgba(79,174,106,.12);border:1px solid rgba(79,174,106,.4);border-radius:40px;padding:10px 20px;margin-top:10px;font-weight:700;color:#bdf0cb}
+.live .dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(79,174,106,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(79,174,106,.55)}70%{box-shadow:0 0 0 9px rgba(79,174,106,0)}100%{box-shadow:0 0 0 0 rgba(79,174,106,0)}}
+.openbtn{display:inline-flex;align-items:center;gap:8px;background:var(--wine);color:#fff!important;font-family:'Unbounded';font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;padding:14px 26px;border-radius:40px;text-decoration:none;margin:18px 0 0;transition:.25s}
+.openbtn:hover{background:var(--ember)}
 
 .tip{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--gold);border-radius:16px;padding:24px 26px;margin:26px 0}
 .tip h3{font-size:1.25rem;display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .tip p{color:var(--cream);margin:8px 0}
 .tip b{color:var(--gold2)}
 
+.sec-title{font-size:1.7rem;margin:44px 0 6px;display:flex;align-items:center;gap:12px}
+.sec-sub{color:var(--ash);margin-bottom:18px}
+
+.done{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:14px;padding:8px 0;margin-bottom:22px}
+.done ul{list-style:none}
+.done li{padding:11px 22px 11px 48px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+.done li:last-child{border-bottom:0}
+.done li::before{content:"✓";position:absolute;left:18px;top:11px;color:var(--green);font-weight:800}
+.done li b{color:var(--cream)}
+.done li span{color:var(--ash);font-size:.93rem}
+
 .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px;margin-bottom:22px;position:relative;overflow:hidden;transition:border-color .3s}
 .step:hover{border-color:var(--gold)}
 .step .n{position:absolute;top:-14px;right:18px;font-family:'Unbounded';font-weight:900;font-size:5rem;color:rgba(224,181,87,.07);line-height:1}
-.step h2{font-size:1.5rem;display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
-.step .ic{font-size:1.6rem}
+.step h2{font-size:1.4rem;display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.step .ic{font-size:1.5rem}
 .step p{color:var(--cream);margin:10px 0}
 .step ul{list-style:none;margin:12px 0}
 .step ul li{padding:7px 0 7px 26px;position:relative;color:var(--ash)}
 .step ul li::before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:.7rem;top:11px}
 .step ul li b{color:var(--cream)}
-.btnlink{display:inline-flex;align-items:center;gap:8px;background:var(--wine);color:#fff!important;font-family:'Unbounded';font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;padding:12px 22px;border-radius:40px;text-decoration:none;margin:8px 0;transition:.25s}
-.btnlink:hover{background:var(--ember)}
-.rec{display:inline-block;background:rgba(224,181,87,.14);color:var(--gold2);font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:30px;border:1px solid var(--line);margin-left:4px}
-.prices{display:flex;flex-wrap:wrap;gap:0}
-.price{display:inline-flex;flex-direction:column;gap:4px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:13px 18px;margin:8px 10px 8px 0;min-width:150px}
-.price .pk{font-size:.72rem;color:var(--ash);text-transform:uppercase;letter-spacing:.05em}
-.price .pv{font-family:'Unbounded';font-weight:700;color:var(--gold2);font-size:1.05rem}
-.spec{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
-.spec div{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:11px 15px}
-.spec .sk{font-size:.72rem;color:var(--ash);text-transform:uppercase}
-.spec .sv{font-weight:700;color:var(--cream)}
-.give{margin-top:14px;font-size:.93rem;background:rgba(224,181,87,.07);border-radius:10px;padding:12px 16px}
-.give b{color:var(--gold2)}
-.split{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.split .box{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.split .box h4{font-family:'Unbounded';font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:6px}
-.split .box p{font-size:.9rem;color:var(--ash);margin:0}
+.who{margin-top:14px;font-size:.93rem;background:rgba(224,181,87,.07);border-radius:10px;padding:12px 16px}
+.who b{color:var(--gold2)}
 
-.access{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--wine);border-radius:20px;padding:32px;margin:40px 0}
-.access h2{font-size:1.7rem;margin-bottom:8px}
-.access ol{margin:10px 0 0 20px}
-.access ol li{padding:7px 0;color:var(--cream)}
-.warn{background:rgba(184,31,51,.12);border:1px solid rgba(184,31,51,.3);border-radius:12px;padding:15px 18px;margin-top:14px;color:#ffd9dd;font-size:.95rem}
-
-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.95rem}
-th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:'Unbounded';font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--gold)}
-td.role{white-space:nowrap;font-weight:600}
 .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--wine);border-radius:12px;padding:18px 22px;margin:24px 0}
 .note b{color:var(--gold2)}
 footer{border-top:1px solid var(--line);background:var(--bg2);padding:36px 0;margin-top:50px;text-align:center}
 footer p{color:var(--ash);font-size:.9rem;margin-top:8px}
-@media(max-width:680px){.spec,.split{grid-template-columns:1fr}.step{padding:24px}.access{padding:24px}}
+@media(max-width:680px){.step{padding:24px}}
 </style>
 </head>
 <body>
@@ -78,233 +69,98 @@ footer p{color:var(--ash);font-size:.9rem;margin-top:8px}
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Запуск магазину</span>
-    <h1>БУ<b>ЛЯК</b> — що потрібно для старту</h1>
-    <p>Кілька кроків, щоб магазин запрацював і приймав оплату. Робимо по черзі. Якщо щось незрозуміло — пишіть, разом пройдемо.</p>
+    <span class="eyebrow">Передача сайту</span>
+    <h1>БУ<b>ЛЯК</b> — магазин готовий</h1>
+    <p>Сайт працює, приймає замовлення й сповіщає менеджера. Нижче — що вже зроблено і що лишилось зібрати з вашого боку для повного старту.</p>
+    <div class="live"><span class="dot"></span> Сайт онлайн</div>
+    <div><a class="openbtn" href="https://buliak.com" target="_blank" rel="noopener">Відкрити buliak.com →</a></div>
   </div>
 </section>
 
 <div class="wrap">
 
-  <!-- TIP: пошта -->
-  <div class="tip">
-    <h3>📧 Спершу — окрема пошта</h3>
-    <p>Створіть <b>одну окрему поштову скриньку</b> (напр. <b>shop.buliak@gmail.com</b>) і реєструйте на неї все нижче — домен, хостинг, LiqPay тощо. Так усе в одному місці й легко передати.</p>
-    <p>⚠️ <b>Важливо:</b> під час реєстрації скрізь задавайте <b>звичайний пароль (email + пароль)</b>, а <b>не</b> «Увійти через Google». Інакше доступ не передати. Пароль знадобиться розробнику на час налаштування (а за бажанням — і для подальшої підтримки).</p>
-  </div>
-
-  <!-- PRICING MODEL -->
-  <div class="tip">
-    <h3>💰 Як працює ціна й замовлення</h3>
-    <p>Продукція вагова. Ціна на сайті — <b>за 1 кг</b> (орієнтовна вага вказана в картці). Магазин працює як <b>передзамовлення</b>:</p>
-    <ul style="list-style:none;margin:8px 0">
-      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Клієнт обирає товари → корзина → лишає <b>ім'я, телефон, відділення НП, месенджер</b> (Telegram/Viber).</li>
-      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Замовлення падає менеджеру в <b>Telegram</b>. Дівчата дзвонять, уточнюють наявність, фактичну вагу й <b>фінальну суму</b>, до продають.</li>
-      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Відправка <b>Новою Поштою за 1–2 дні</b> (отримувач оплачує доставку). Самовивозу нема, того ж дня не відправляють.</li>
+  <!-- DONE -->
+  <h2 class="sec-title">✅ Що вже працює</h2>
+  <p class="sec-sub">Усе нижче налаштовано й перевірено.</p>
+  <div class="done">
+    <ul>
+      <li><b>Каталог 24 товари</b> — <span>3 категорії: готова BBQ, шашлики та гриль, домашні ковбаси й копченості</span></li>
+      <li><b>Кошик і швидке додавання</b> — <span>товар додається без перезавантаження сторінки</span></li>
+      <li><b>Оформлення замовлення</b> — <span>імʼя, телефон, жива інтеграція Нової Пошти (пошук міста й відділення), месенджер</span></li>
+      <li><b>Сповіщення в Telegram</b> — <span>нове замовлення одразу падає менеджеру в групу. Працює ✓</span></li>
+      <li><b>Адмінка замовлень</b> — <span>статуси обробки, редагування ваги, історія клієнта за телефоном, кнопки звʼязку</span></li>
+      <li><b>Мобільна версія</b> — <span>зручно з телефону: меню, каталог, кошик, оформлення</span></li>
+      <li><b>Домен і захищене зʼєднання</b> — <span>buliak.com з SSL (🔒), автоматичне продовження сертифіката</span></li>
+      <li><b>Резервні копії</b> — <span>щоденний автоматичний бекап сайту й бази</span></li>
     </ul>
-    <p style="color:var(--ash);font-size:.92rem">💳 Онлайн-оплата на сайті (LiqPay + morkva — заморозка суми, чеки) — це <b>Фаза 2</b>, коли захочуть приймати оплату онлайн. Кроки 4–5 нижче (LiqPay, morkva) — на майбутнє, не блокують запуск.</p>
-    <p style="color:var(--ash);font-size:.92rem">❓ Уточнити вагу: <b>Сосиски</b> й <b>Рублена</b>.</p>
   </div>
 
-  <!-- STEP 1 DOMAIN -->
+  <!-- HOW ORDER WORKS -->
+  <div class="tip">
+    <h3>💰 Як працює замовлення</h3>
+    <p>Продукція вагова. Ціна на сайті — <b>за 1 кг</b> (орієнтовна вага в картці). Магазин працює як <b>передзамовлення</b>:</p>
+    <ul style="list-style:none;margin:8px 0">
+      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Клієнт обирає товари → кошик → лишає <b>імʼя, телефон, відділення НП, месенджер</b>.</li>
+      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Замовлення падає менеджеру в <b>Telegram</b>. Менеджер дзвонить, уточнює наявність, фактичну вагу й <b>фінальну суму</b>.</li>
+      <li style="padding:5px 0 5px 22px;position:relative"><span style="position:absolute;left:0;color:var(--gold)">◆</span> Відправка <b>Новою Поштою за 1–2 дні</b> (доставку оплачує отримувач).</li>
+    </ul>
+    <p style="color:var(--ash);font-size:.92rem">💳 Онлайн-оплата картками на сайті — це <b>Фаза 2</b> (нижче). Зараз оплата узгоджується менеджером.</p>
+  </div>
+
+  <!-- TODO FROM CLIENT -->
+  <h2 class="sec-title">🔜 Що лишилось зібрати</h2>
+  <p class="sec-sub">Кілька пунктів з вашого боку — і магазин повністю «бойовий».</p>
+
   <div class="step">
     <div class="n">1</div>
-    <h2><span class="ic">🌐</span> Домен (адреса сайту)</h2>
-    <p>Назва, за якою сайт відкривається. Рекомендую <b>buliak.com.ua</b> — українська зона, недорого й солідно для локального бренду.</p>
-    <p>Реєструвати <b>.com.ua</b> зручно там само, де хостинг — <b>ukraine.com.ua</b> (або imena.ua). <span class="rec">моя рекомендація</span></p>
-    <a class="btnlink" href="https://www.ukraine.com.ua/domains/" target="_blank" rel="noopener">ukraine.com.ua → домени</a>
-    <div class="prices">
-      <div class="price"><span class="pk">buliak.com.ua</span><span class="pv">~70–150 ₴ / рік</span></div>
-    </div>
-    <p style="color:var(--ash);font-size:.92rem">Ціни орієнтовні — точні побачите при оформленні.</p>
-    <div class="give">🔑 <b>Розробнику:</b> логін і пароль від акаунта реєстратора (щоб налаштувати, куди веде домен).</div>
+    <h2><span class="ic">📸</span> Фото 13 товарів</h2>
+    <p>На половині товарів фото вже стоять. Потрібні фотографії решти (як є — на дровах/траві, у тому ж стилі):</p>
+    <ul>
+      <li><b>Готова BBQ:</b> Рулька BBQ · Полоска свиняча BBQ · Фест полоска</li>
+      <li><b>Шашлики та гриль:</b> Шашлик домашній · томатний · курячий · Крила мариновані · Ребра по-угорськи · Ковбаски гриль курячі · свинячі</li>
+      <li><b>Ковбаси:</b> «Бабусина» BBQ · «Бабусина» BBQ з сиром · «Бабусина» з сиром Гауда</li>
+    </ul>
+    <div class="who">📩 <b>Від вас:</b> по одному фото на позицію, підписані (або в порядку списку).</div>
   </div>
 
-  <!-- STEP 2 HOSTING -->
   <div class="step">
     <div class="n">2</div>
-    <h2><span class="ic">🖥️</span> Хостинг (де працює сайт)</h2>
-    <p>Сервер, де сайт працює цілодобово. Для такого магазину <b>потрібен лише найменший тариф</b> — не переплачуйте.</p>
-    <p>Рекомендую <b>ukraine.com.ua → VPS 2G</b> <span class="rec">моя рекомендація</span>:</p>
-    <a class="btnlink" href="https://www.ukraine.com.ua/vps/" target="_blank" rel="noopener">ukraine.com.ua → VPS</a>
-    <div class="spec">
-      <div><div class="sk">Тариф</div><div class="sv">VPS 2G</div></div>
-      <div><div class="sk">Процесор / RAM</div><div class="sv">1 ядро · 2 ГБ</div></div>
-      <div><div class="sk">Диск</div><div class="sv">20 ГБ NVMe</div></div>
-      <div><div class="sk">Система (ОС)</div><div class="sv">Ubuntu — обрати при замовленні</div></div>
-      <div><div class="sk">Ціна</div><div class="sv">~315 грн/міс</div></div>
-    </div>
-    <p style="color:var(--ash);font-size:.92rem">Тарифи 4G/6G — зайвий запас для такого сайту, не потрібні. При замовленні в полі «Операційна система» оберіть <b style="color:var(--cream)">Ubuntu</b>.</p>
-    <div class="give">🔑 <b>Розробнику:</b> доступ до VPS (логін/пароль або панель) — щоб встановити й налаштувати сайт.</div>
+    <h2><span class="ic">🚚</span> Свій ключ Нової Пошти</h2>
+    <p>Зараз пошук відділень працює на <b>тимчасовому ключі</b>. Щоб накладні й ліміти йшли на <b>ваш</b> кабінет НП — потрібен ваш API-ключ.</p>
+    <ul>
+      <li>Кабінет Нової Пошти → <b>Налаштування → Безпека → ключ API</b> (безкоштовно)</li>
+    </ul>
+    <div class="who">🔑 <b>Від вас:</b> API-ключ НП — підставимо за хвилину.</div>
   </div>
 
-  <!-- STEP 3 LIQPAY -->
   <div class="step">
     <div class="n">3</div>
-    <h2><span class="ic">💳</span> LiqPay (оплата картками)</h2>
-    <p>Через нього клієнти платять на сайті. Реєстрація на <b>liqpay.ua</b> (через Приват24 / ваш ФОП).</p>
-    <a class="btnlink" href="https://www.liqpay.ua/uk" target="_blank" rel="noopener">liqpay.ua →</a>
-    <ul>
-      <li>Зареєструватись і <b>створити компанію/магазин</b></li>
-      <li>Заповнити дані компанії та <b>банківський рахунок (IBAN)</b> — щоб надходили гроші</li>
-      <li>У розділі <b>Налаштування → API</b> взяти ключі: <b>Public key</b> і <b>Private key</b></li>
-    </ul>
-    <div class="split">
-      <div class="box"><h4>🧪 Для тесту</h4><p>Ключі з префіксом <b style="color:var(--cream)">sandbox_</b> — перевіряємо оплату без реальних грошей. Потрібні вже зараз.</p></div>
-      <div class="box"><h4>🚀 Для роботи</h4><p>Бойові ключі — активуються після <b style="color:var(--cream)">верифікації</b> (дані ФОП, рахунок). Підключимо перед запуском.</p></div>
-    </div>
-    <div class="give">🔑 <b>Розробнику:</b> ключі Public + Private (спершу <b>sandbox</b> для тесту).<br>💬 <b>Зробімо разом онлайн</b> — підключусь, підкажу, які поля заповнити, щоб усе одразу запрацювало.</div>
+    <h2><span class="ic">👩‍💼</span> Доступи для менеджерів</h2>
+    <p>Створимо окремі акаунти для дівчат-менеджерів — щоб бачили й обробляли замовлення, але не чіпали налаштування.</p>
+    <div class="who">⚙️ <b>Робить розробник.</b> Від вас — імена/пошти для акаунтів.</div>
   </div>
 
-  <!-- STEP 4 MORKVA -->
-  <div class="step">
-    <div class="n">4</div>
-    <h2><span class="ic">🥕</span> Підписка morkva PRO</h2>
-    <p>Це інструмент, який робить «розумну» оплату для магазину. Закриває одразу кілька задач:</p>
-    <ul>
-      <li><b>Заморозка суми:</b> при замовленні гроші <b>бронюються</b>, а списується <b>фактична</b> сума після зважування (зручно для вагового товару)</li>
-      <li><b>Чеки (ПРРО):</b> фіскальний чек формується й надсилається клієнту <b>автоматично</b> — окремо налаштовувати не треба</li>
-      <li><b>Національний кешбек</b> для покупців</li>
-    </ul>
-    <a class="btnlink" href="https://morkva.co.ua/shop/woocommerce-liqpay-extended-pro/" target="_blank" rel="noopener">morkva LiqPay Extended PRO →</a>
-    <div class="prices"><div class="price"><span class="pk">вартість</span><span class="pv">999 грн / рік</span></div></div>
-    <div class="give">🔑 <b>Розробнику:</b> ліцензійний ключ (після покупки) — щоб встановити й увімкнути заморозку та чеки.</div>
-  </div>
-
-  <!-- STEP 5 NP -->
-  <div class="step">
-    <div class="n">5</div>
-    <h2><span class="ic">🚚</span> Нова Пошта</h2>
-    <p>Щоб клієнт обирав відділення на сайті, а накладні (ТТН) створювались автоматично.</p>
-    <ul>
-      <li>У кабінеті НП: <b>Налаштування → Безпека → ключ API</b> (безкоштовно)</li>
-      <li>Часто це працює в зв'язці з <b>morkva</b> — тож, імовірно, окремо нічого не треба, лише ключ</li>
-    </ul>
-    <div class="give">🔑 <b>Розробнику:</b> API-ключ Нової Пошти. Деталі узгодимо на етапі налаштування.</div>
-  </div>
-
-  <!-- STEP 6 ORDERS -->
-  <div class="step">
-    <div class="n">6</div>
-    <h2><span class="ic">📦</span> Прийом замовлень</h2>
-    <p>Зараз замовлення з сайту падають в <b>адмінку магазину</b> + лист на пошту. Перед запуском узгодимо, як вам зручно:</p>
-    <ul>
-      <li><b>Куди</b> хочете бачити замовлення — адмінка сайту / Telegram / Viber?</li>
-      <li><b>Хто й як</b> обробляє: пакування, дзвінок уточнити вагу, створення накладної НП</li>
-      <li>Чи достатньо <b>сайту + листів</b>, чи треба зводити сайт + Instagram + Telegram в одне вікно</li>
-    </ul>
-    <div class="give">💡 <b>Опція на потім (доп):</b> KeyCRM (~$19/міс) — усі замовлення з сайту, Instagram, Telegram в одній системі + статуси + НП + база клієнтів. Підключимо, коли потік виросте.</div>
-  </div>
-
-  <!-- ACCESS -->
-  <div class="access">
-    <h2>🔐 Доступи для розробника</h2>
-    <p style="color:var(--ash)">Щоб усе налаштувати й запустити, потрібен <b style="color:var(--cream)">тимчасовий доступ</b> до сервісів вище.</p>
-    <ol>
-      <li>Реєструйте все на окрему пошту, скрізь — <b>email + пароль</b> (не через Google)</li>
-      <li>Зберіть логіни/паролі в одному документі</li>
-      <li>Передайте їх <b>безпечно</b> — окремим повідомленням, не у відкритому чаті</li>
-      <li>Після запуску — на ваш вибір: <b>змінити паролі</b> або <b>лишити доступ</b> для подальшої підтримки</li>
-    </ol>
-    <div class="warn">⚠️ <b>LiqPay</b> потребує вашої особистої <b>верифікації</b> (документи ФОП, рахунок) — це проходите ви, а розробник підключає ключі до сайту. Решту можна налаштувати з вашими доступами.</div>
-  </div>
-
-  <!-- ROLES -->
-  <h2 style="font-size:1.5rem;margin:24px 0 6px">Хто що робить</h2>
-  <table>
-    <tr><th>Що</th><th>Олена</th><th>Розробник</th></tr>
-    <tr><td>Домен (buliak.com.ua)</td><td class="role">купує</td><td class="role">налаштовує</td></tr>
-    <tr><td>VPS-хостинг (ukraine.com.ua)</td><td class="role">купує</td><td class="role">ставить сайт</td></tr>
-    <tr><td>LiqPay</td><td class="role">реєстрація + ключі</td><td class="role">підключає (разом онлайн)</td></tr>
-    <tr><td>morkva PRO</td><td class="role">купує, дає ключ</td><td class="role">вмикає hold + чеки</td></tr>
-    <tr><td>Нова Пошта</td><td class="role">дає API-ключ</td><td class="role">підключає ТТН</td></tr>
-    <tr><td>Сайт, дизайн, тести</td><td class="role">контент і фото</td><td class="role">розробка</td></tr>
-  </table>
-
-  <div class="note">✅ <b>Підсумок:</b> після цих кроків магазин БУЛЯК повністю робочий — приймає оплату, морозить суму до зважування, видає чеки й створює накладні Нової Пошти автоматично.</div>
-  <!-- IMPROVEMENTS / PHASE 2 -->
+  <!-- PHASE 2 -->
   <div class="step" style="border-color:var(--ember)">
     <div class="n">★</div>
-    <h2><span class="ic">📈</span> Покращення на майбутнє (Фаза 2)</h2>
-    <p style="color:var(--ash)">Магазин повноцінно працює й без цього. Це — наступні кроки, коли захочете підняти рівень сервісу:</p>
+    <h2><span class="ic">📈</span> Розвиток (Фаза 2)</h2>
+    <p style="color:var(--ash)">Магазин повноцінно працює й без цього. Це наступні кроки, коли захочете підняти рівень сервісу:</p>
     <ul>
-      <li>📲 <b>SMS/Viber-підтвердження замовлення на номер.</b> Зараз клієнт бачить № замовлення на екрані, а менеджер пише в месенджер. Бажано додати <b>авто-SMS (або Viber)</b> з номером замовлення на телефон — щоб у клієнта точно лишилось підтвердження, навіть якщо закрив сторінку. Потрібно: <b>TurboSMS</b> (або eSputnik) + підписане імʼя відправника <b>«BULIAK»</b> (реєстрація кілька днів) + бюджет копійки за повідомлення. <i>(Telegram «на номер» технічно неможливий — лише SMS/Viber через провайдера.)</i></li>
-      <li>💳 <b>Онлайн-оплата на сайті</b> (LiqPay + morkva — заморозка суми за вагою, фіскальні чеки). Зараз — передзамовлення без оплати.</li>
-      <li>🤖 <b>Авто-підтвердження в Telegram</b> (опційно — кнопка «отримати підтвердження в Telegram»).</li>
-      <li>📦 <b>Друк ТТН Нової Пошти</b> прямо з адмінки (коли виросте потік замовлень).</li>
+      <li>💳 <b>Онлайн-оплата картками</b> на сайті (LiqPay + заморозка суми за вагою + фіскальні чеки ПРРО)</li>
+      <li>📲 <b>SMS/Viber-підтвердження</b> замовлення на номер клієнта (TurboSMS, імʼя «BULIAK»)</li>
+      <li>📦 <b>Автоматичні накладні НП</b> прямо з адмінки (коли виросте потік)</li>
+      <li>🗂️ <b>CRM (KeyCRM)</b> — замовлення з сайту, Instagram, Telegram в одному вікні</li>
     </ul>
   </div>
 
-  <!-- CHECKLIST -->
-  <div class="access" style="border-color:var(--gold)">
-    <h2>✅ Чек-лист: що зібрати з кожного сервісу</h2>
-    <p style="color:var(--ash)">Щоб нічого не впустити на зустрічі. Відмічай по ходу.</p>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">📧 Пошта</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Створено окрему скриньку (напр. shop.buliak@gmail.com)</li>
-      <li>☐ Пароль збережено; усе реєструємо email+паролем (НЕ через Google)</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">🌐 Домен buliak.com.ua</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Куплено / делеговано</li>
-      <li>☐ Логін+пароль реєстратора (для DNS)</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">🖥️ Хостинг (VPS)</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Рішення: наш сервер чи окремий VPS на Олену</li>
-      <li>☐ Якщо VPS: замовлено (Ubuntu) + доступ (IP, логін, пароль / панель)</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">💳 LiqPay</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Зареєстровано (через Приват24 / ФОП)</li>
-      <li>☐ Заповнено профіль компанії (назва, ЄДРПОУ/ІПН ФОП, контакти)</li>
-      <li>☐ Додано банківський рахунок <b>IBAN</b> (куди йдуть гроші)</li>
-      <li>☐ <b>Sandbox-ключі</b>: sandbox_public + sandbox_private (потрібні ЗАРАЗ для тесту)</li>
-      <li>☐ <b>Бойові ключі</b>: public + private (після верифікації)</li>
-      <li>☐ Запущено верифікацію (документи ФОП)</li>
-      <li>☐ Увімкнено «блокування коштів» (hold / двостадійна оплата)</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">🥕 morkva LiqPay Extended PRO</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Куплено (999 ₴/рік) + ліцензійний ключ отримано</li>
-      <li>☐ Уточнено, що треба для <b>ПРРО-чеків</b> (фіскальний провайдер / РРО ФОП) — може потребувати окремого підключення</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">🚚 Нова Пошта</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ API-ключ (Кабінет → Налаштування → Безпека)</li>
-      <li>☐ Дані відправника: ПІБ/ФОП, телефон, адреса складу-відправлення</li>
-      <li>☐ Підтверджено: доставку оплачує отримувач</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">📦 Замовлення й контент</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Рішення: куди приймати замовлення (адмінка / Telegram / …)</li>
-      <li>☐ Телефон/пошта для сповіщень про замовлення</li>
-      <li>☐ Instagram handle підтверджено · Telegram @BULIAK_DELIVERY · графік</li>
-      <li>☐ Вага уточнена: Сосиски, Рублена · порційна модель ок</li>
-      <li>☐ Фото — пізніше</li>
-    </ul>
-
-    <h3 style="font-size:1.1rem;color:var(--gold2);margin:18px 0 4px">❓ Запитати Олену</h3>
-    <ul class="step" style="background:none;border:0;padding:0;margin:0">
-      <li>☐ Чи можна вказати, що сайт зроблено <b>Кузнею</b> (кредит у футері / портфоліо)? За такою ціною — імовірно так</li>
-      <li>☐ Чи всі товари вагові (порційна модель)?</li>
-      <li>☐ Чи потрібен розділ <b>«Гурт»</b> (опт) і як подавати</li>
-    </ul>
-  </div>
+  <div class="note">✅ <b>Підсумок:</b> сайт БУЛЯК робочий і приймає замовлення вже зараз. Щойно надішлете фото та ключ Нової Пошти — закриваємо передачу повністю.</div>
 
 </div>
 
 <footer>
   <div class="wrap">
     <div class="brand">◆ БУ<b>ЛЯК</b></div>
-    <p>Питання по кроках — пишіть, підкажемо. 🔥</p>
+    <p>Питання — пишіть, підкажемо. 🔥 · Сайт викувано в Кузні</p>
   </div>
 </footer>
 
