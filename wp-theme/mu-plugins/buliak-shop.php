@@ -534,10 +534,19 @@ add_action( 'wp_head', function () { ?>
     border-radius: 12px; color: #f3e9d6; font-size: .9rem; line-height: 1.4; }
   .blk-notice b { color: #e0b557; }
   @media (max-width: 600px) { .blk-notice { font-size: .8rem; margin-bottom: 16px; padding: 11px 14px; } }
-  /* правові лінки у футері */
-  .blk-foot-legal { margin-bottom: 8px; }
-  .blk-foot-legal a { color: #e0b557 !important; text-decoration: none; opacity: .85; }
+  /* нижній рядок футера: копірайт+Кузня зліва, правові лінки окремо справа */
+  .buliak-footer .copyr { display: flex !important; flex-wrap: wrap; align-items: center;
+    justify-content: space-between; gap: 8px 24px; white-space: normal !important; }
+  .buliak-footer .copyr .copyr-c { opacity: .8; }
+  .blk-foot-legal { display: inline-flex; align-items: center; flex: 0 0 auto; gap: 4px;
+    font-size: .92em; }
+  .blk-foot-legal a { color: #e0b557 !important; text-decoration: none; opacity: .9; white-space: nowrap; }
   .blk-foot-legal a:hover { text-decoration: underline; opacity: 1; }
+  .blk-foot-sep { opacity: .4; }
+  @media (max-width: 600px) {
+    .buliak-footer .copyr { justify-content: center; text-align: center; flex-direction: column-reverse; gap: 10px; }
+    .blk-foot-legal { justify-content: center; }
+  }
   /* cookie-нотіс */
   .blk-cookie { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 99998;
     max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 14px;
