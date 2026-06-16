@@ -1,0 +1,8 @@
+{
+	email taras.smalych@gmail.com
+}
+
+buliak.com, www.buliak.com {
+	reverse_proxy buliak-wp:80
+	encode gzip
+}

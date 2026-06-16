@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>БУЛЯК — Адмінка</title>
+<style>
+:root{--bg:#15100C;--card:#251B13;--card2:#2D2118;--wine:#A11D2E;--gold:#D6A94B;--gold2:#EBCB82;--cream:#F6ECDD;--ash:#B5A691;--line:rgba(214,169,75,.18)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+body{background:var(--bg);color:var(--cream);font-size:15px;line-height:1.5;padding:20px;max-width:1000px;margin:0 auto}
+h1{font-size:1.5rem;color:var(--gold)}h2{font-size:1.1rem;margin:0 0 12px}
+.muted{color:var(--ash);font-size:.85rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px}
+input,select,button,textarea{font-size:.95rem;border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--cream);padding:10px 12px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+button{background:var(--wine);color:#fff;border:none;cursor:pointer;font-weight:600;transition:.2s}
+button:hover{background:#c12338}button.ghost{background:transparent;border:1px solid var(--line);color:var(--cream)}
+button.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tabs button{background:var(--card);border:1px solid var(--line);color:var(--ash)}
+.tabs button.on{background:var(--wine);color:#fff;border-color:var(--wine)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--gold);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1;min-width:120px}
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:600}
+.hide{display:none}
+.right{text-align:right}
+.pill{padding:6px 10px;font-size:.82rem;border-radius:7px}
+#login{max-width:340px;margin:60px auto;text-align:center}
+#login input{width:100%;margin:14px 0;text-align:center}
+#login button{width:100%}
+.small{font-size:.8rem;padding:6px 10px}
+.err{color:#ff8a8a;font-size:.85rem;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div id="login" class="card">
+  <h1>◆ БУЛЯК</h1>
+  <p class="muted">Адмінка замовлень і товарів</p>
+  <input id="pass" type="password" placeholder="Пароль" onkeydown="if(event.key==='Enter')doLogin()">
+  <button onclick="doLogin()">Увійти</button>
+  <div id="loginErr" class="err"></div>
+</div>
+
+<div id="app" class="hide">
+  <div class="row" style="margin-bottom:16px">
+    <h1 style="flex:1">◆ БУЛЯК — Адмінка</h1>
+    <button class="ghost small" style="flex:0" onclick="logout()">Вийти</button>
+  </div>
+  <div class="tabs">
+    <button id="tabO" class="on" onclick="tab('orders')">Замовлення</button>
+    <button id="tabP" onclick="tab('products')">Товари</button>
+  </div>
+
+  <div id="orders">
+    <div class="card"><div class="row"><h2 style="flex:1">Замовлення</h2><button class="ghost small" style="flex:0" onclick="loadOrders()">↻ Оновити</button></div>
+      <div id="ordersBox" class="muted">Завантаження…</div>
+    </div>
+  </div>
+
+  <div id="products" class="hide">
+    <div class="card">
+      <h2>Додати / редагувати товар</h2>
+      <input type="hidden" id="pId">
+      <div class="row">
+        <select id="pCat">
+          <option>BBQ на вогні</option><option>Копченості</option><option>Ковбаси</option>
+          <option>Сири та молочне</option><option>Перекус на ходу</option><option>Шашлик маринований</option>
+        </select>
+        <input id="pName" placeholder="Назва товару">
+      </div>
+      <div class="row" style="margin-top:10px">
+        <input id="pPortion" placeholder="Порція (напр. ≈1 кг / 1 шт)">
+        <input id="pPrice" type="number" placeholder="Ціна, ₴">
+        <input id="pPhoto" placeholder="URL фото (необов'язково)">
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button style="flex:0" onclick="saveProduct()">Зберегти</button>
+        <button class="ghost small" style="flex:0" onclick="clearForm()">Очистити</button>
+        <span id="pMsg" class="muted" style="flex:1"></span>
+      </div>
+    </div>
+    <div class="card"><div class="row"><h2 style="flex:1">Каталог</h2><button class="ghost small" style="flex:0" onclick="loadProducts()">↻ Оновити</button></div>
+      <div id="productsBox" class="muted">Завантаження…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ← встав URL Apps Script (.../exec)
+const API = '';
+const STATUSES = ['Нове','Готується','Зважено','Підтверджено','Відправлено','Виконано','Скасовано'];
+let PASS = sessionStorage.getItem('buliak_pass') || '';
+
+function jsonp(params){
+  return new Promise((resolve,reject)=>{
+    if(!API){reject('API не налаштований (впиши URL у admin.html)');return;}
+    const cb='__cb'+Math.floor(Math.random()*1e9);
+    window[cb]=d=>{resolve(d);cleanup();};
+    const s=document.createElement('script');
+    s.onerror=()=>{reject('Помилка з’єднання');cleanup();};
+    function cleanup(){delete window[cb];s.remove();}
+    s.src=API+'?'+params+'&callback='+cb;
+    document.body.appendChild(s);
+  });
+}
+function post(body){
+  return fetch(API,{method:'POST',mode:'no-cors',body:JSON.stringify(Object.assign({key:PASS},body))});
+}
+
+async function doLogin(){
+  PASS=document.getElementById('pass').value.trim();
+  document.getElementById('loginErr').textContent='';
+  try{
+    const r=await jsonp('action=auth&key='+encodeURIComponent(PASS));
+    if(r.ok){sessionStorage.setItem('buliak_pass',PASS);showApp();}
+    else document.getElementById('loginErr').textContent='Невірний пароль';
+  }catch(e){document.getElementById('loginErr').textContent=e;}
+}
+function logout(){sessionStorage.removeItem('buliak_pass');location.reload();}
+function showApp(){document.getElementById('login').classList.add('hide');document.getElementById('app').classList.remove('hide');loadOrders();}
+function tab(t){
+  document.getElementById('orders').classList.toggle('hide',t!=='orders');
+  document.getElementById('products').classList.toggle('hide',t!=='products');
+  document.getElementById('tabO').classList.toggle('on',t==='orders');
+  document.getElementById('tabP').classList.toggle('on',t==='products');
+  if(t==='products')loadProducts();
+}
+
+async function loadOrders(){
+  const box=document.getElementById('ordersBox');box.textContent='Завантаження…';
+  try{
+    const r=await jsonp('action=orders&key='+encodeURIComponent(PASS));
+    if(!r.ok){box.textContent='Помилка: '+(r.error||'');return;}
+    if(!r.orders.length){box.innerHTML='<p class="muted">Замовлень поки немає.</p>';return;}
+    box.innerHTML='<table><tr><th>Дата</th><th>Клієнт</th><th>Позиції</th><th class="right">Сума</th><th>Статус</th></tr>'+
+      r.orders.map(o=>`<tr><td>${fmtDate(o.date)}</td><td><b>${e(o.name)}</b><br><span class="muted">${e(o.phone)}</span><br><span class="muted">${e(o.delivery)} ${e(o.address)}</span><br><span class="muted">${e(o.pay)}</span>${o.note?'<br>📝 '+e(o.note):''}</td><td class="muted">${e(o.items)}</td><td class="right"><b>${o.total} ₴</b></td><td>${statusSel(o)}</td></tr>`).join('')+'</table>';
+  }catch(err){box.textContent=String(err);}
+}
+function statusSel(o){
+  return `<select class="small" onchange="setStatus(${o.row},this.value)">`+
+    STATUSES.map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')+'</select>';
+}
+async function setStatus(row,status){await post({action:'setStatus',row:row,status:status});}
+
+async function loadProducts(){
+  const box=document.getElementById('productsBox');box.textContent='Завантаження…';
+  try{
+    const r=await jsonp('action=products');
+    if(!r.products.length){box.innerHTML='<p class="muted">Товарів поки немає. Додай вище ☝</p>';return;}
+    box.innerHTML='<table><tr><th>Категорія</th><th>Назва</th><th>Порція</th><th class="right">Ціна</th><th></th></tr>'+
+      r.products.map(p=>`<tr><td class="muted">${e(p.category)}</td><td><b>${e(p.name)}</b></td><td class="muted">${e(p.portion)}</td><td class="right">${p.price} ₴</td><td class="right"><button class="ghost small" onclick='editP(${JSON.stringify(p)})'>✎</button> <button class="small" onclick="delP('${p.id}')">✕</button></td></tr>`).join('')+'</table>';
+  }catch(err){box.textContent=String(err);}
+}
+function editP(p){
+  document.getElementById('pId').value=p.id;document.getElementById('pCat').value=p.category;
+  document.getElementById('pName').value=p.name;document.getElementById('pPortion').value=p.portion;
+  document.getElementById('pPrice').value=p.price;document.getElementById('pPhoto').value=p.photo||'';
+  document.getElementById('pMsg').textContent='Редагування: '+p.name;window.scrollTo(0,0);
+}
+function clearForm(){['pId','pName','pPortion','pPrice','pPhoto'].forEach(i=>document.getElementById(i).value='');document.getElementById('pMsg').textContent='';}
+async function saveProduct(){
+  const p={id:document.getElementById('pId').value,category:document.getElementById('pCat').value,name:document.getElementById('pName').value.trim(),portion:document.getElementById('pPortion').value.trim(),price:Number(document.getElementById('pPrice').value),photo:document.getElementById('pPhoto').value.trim()};
+  if(!p.name||!p.price){document.getElementById('pMsg').textContent='Вкажи назву і ціну';return;}
+  await post({action:'saveProduct',product:p});
+  document.getElementById('pMsg').textContent='Збережено ✓';clearForm();
+  setTimeout(loadProducts,800);
+}
+async function delP(id){if(!confirm('Видалити товар?'))return;await post({action:'deleteProduct',id:id});setTimeout(loadProducts,800);}
+
+function e(t){return String(t==null?'':t).replace(/</g,'&lt;');}
+function fmtDate(d){try{return new Date(d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});}catch(x){return d;}}
+
+if(PASS)showApp();
+</script>
+</body>
+</html>
