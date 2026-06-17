@@ -26,17 +26,6 @@ add_action( 'wp_body_open', function () {
 	$cart  = esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' ) );
 	?>
 <div class="blk-hdr-wrap">
-  <div class="blk-topbar"><div class="blk-hdr-container blk-topbar-flex">
-    <div class="blk-topbar-left">
-      <span class="blk-tb-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Зимна Вода</span>
-      <span class="blk-tb-sep">·</span>
-      <span class="blk-tb-item">Пн–Сб: 09:00 – 19:00</span>
-    </div>
-    <div class="blk-topbar-right">
-      <a href="tel:0731117670" class="blk-tb-item"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +38 (073) 111 76 70</a>
-    </div>
-  </div></div>
-
   <header class="blk-header" id="blk-masthead"><div class="blk-hdr-container blk-hdr-flex">
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="blk-brand"><img src="<?php echo esc_url( $logo ); ?>" alt="БУЛЯК" class="blk-logo-img"></a>
 
@@ -91,7 +80,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   a.blk-tb-item:hover { color: var(--bx-gold); }
   .blk-tb-sep { color: rgba(224,181,87,.25); }
   /* floating хедер-пігулка */
-  .blk-header { width: calc(100% - 40px); max-width: 1200px; margin: 15px auto; height: 74px;
+  .blk-header { width: calc(100% - 40px); max-width: 1200px; margin: 10px auto; height: 74px;
     background: rgba(23,20,19,.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--bx-border); border-radius: 16px; display: flex; align-items: center;
     transition: margin .35s ease, height .35s ease, background .35s ease, box-shadow .35s ease; }
