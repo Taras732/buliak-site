@@ -1,4 +1,4 @@
-<?php if (!defined('ABSPATH')) exit; get_header(); $hero = get_stylesheet_directory_uri() . '/assets/hero_bbq.png'; ?>
+<?php if (!defined('ABSPATH')) exit; get_header(); $hero = get_stylesheet_directory_uri() . '/assets/hero_bbq.webp'; ?>
 
 <header class="hero" id="top">
   <div class="hero-media" style="background:#1a0f0c url('<?php echo esc_url($hero); ?>') center/cover"></div>
