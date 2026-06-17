@@ -70,7 +70,10 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   /* приховати дефолтний хедер Astra */
   #masthead.site-header, .site-header, #ast-mobile-header, .ast-mobile-header-wrap, header.site-header { display: none !important; }
   body .blk-hdr-wrap { --bx-primary:#B81F33; --bx-primary-h:#9e1728; --bx-gold:#E0B557; --bx-text:#F7EFE4; --bx-muted:rgba(247,239,228,.65); --bx-border:rgba(224,181,87,.14); }
-  .blk-hdr-wrap { position: sticky; top: 0; z-index: 9999; width: 100%; font-family: 'Manrope', sans-serif; }
+  /* хедер плаває ПОВЕРХ контенту (картинка hero йде до верху, без темного band) */
+  .blk-hdr-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; width: 100%; font-family: 'Manrope', sans-serif; }
+  /* на НЕ-головних сторінках контент не ховається під фіксований хедер */
+  body:not(.home):not(.front-page) #page { padding-top: 96px; }
   /* топбар */
   .blk-topbar { background: rgba(15,13,12,.95); border-bottom: 1px solid rgba(255,255,255,.04); padding: 9px 0; font-size: .75rem; color: var(--bx-muted); }
   .blk-hdr-container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 26px; box-sizing: border-box; }
