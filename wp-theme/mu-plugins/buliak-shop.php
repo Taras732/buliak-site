@@ -592,7 +592,7 @@ add_action( 'wp_footer', function () {
 	$pp = ( function_exists( 'get_privacy_policy_url' ) && get_privacy_policy_url() ) ? get_privacy_policy_url() : home_url( '/privacy-policy/' );
 	?>
 <div id="blk-cookie" class="blk-cookie" hidden>
-  <span>🍪 Ми використовуємо файли cookie для роботи кошика та карти. Деталі — у <a href="<?php echo esc_url( $pp ); ?>">Політиці конфіденційності</a>.</span>
+  <span>🍪 Ми використовуємо файли cookie для роботи кошика, карти та аналітики (Google Analytics). Деталі — у <a href="<?php echo esc_url( $pp ); ?>">Політиці конфіденційності</a>.</span>
   <button type="button" class="blk-cookie-ok">Зрозуміло</button>
 </div>
 <script>

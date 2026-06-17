@@ -45,6 +45,16 @@ add_action( 'wp_head', function () {
 	echo '<meta name="twitter:image" content="' . esc_url( $img ) . '">' . "\n";
 }, 4 );
 
+/* ---------- Google Analytics 4 (не трекаємо адмінів) ---------- */
+add_action( 'wp_head', function () {
+	if ( is_admin() || current_user_can( 'manage_options' ) ) { return; }
+	$id = 'G-39R2Q8C3ZV';
+	?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr( $id ); ?>"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?php echo esc_js( $id ); ?>');</script>
+<?php
+}, 2 );
+
 /* ---------- Прелоадер (надійний: ховається на load + failsafe + noscript) ---------- */
 add_action( 'wp_body_open', function () { ?>
 <div id="blk-preloader" aria-hidden="true"><img src="https://buliak.com/wp-content/uploads/2026/06/mark-300x300.png" alt="" width="96" height="96"></div>
