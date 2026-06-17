@@ -150,6 +150,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .blk-mobile-nav { display: flex; flex-direction: column; gap: 2px; margin: 0 10px; padding: 10px;
     background: rgba(15,13,12,.97); border: 1px solid var(--bx-border); border-radius: 14px; }
+  .blk-mobile-nav[hidden] { display: none !important; }
   .blk-mobile-nav a { color: var(--bx-text); text-decoration: none; padding: 14px 16px; font-weight: 700;
     text-transform: uppercase; font-size: .9rem; letter-spacing: .04em; border-bottom: 1px solid rgba(224,181,87,.1); }
   .blk-mobile-nav a:last-child { border-bottom: 0; }
