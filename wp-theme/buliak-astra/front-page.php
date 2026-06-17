@@ -39,16 +39,6 @@
   </div>
 </section>
 
-<section class="sec wrap" id="about"><div class="about">
-  <div class="about-media" style="background-image:url('<?php echo esc_url($hero); ?>')"></div>
-  <div class="about-text">
-    <span class="eyebrow">Хто такий БУЛЯК</span>
-    <h2 style="margin-top:16px">Ми — про справжнє м'ясо</h2>
-    <p>БУЛЯК почався з простого: робити м'ясо так, як для своїх. Коптити самим, готувати на вогні, не економити на якості. Сьогодні нас обирають тисячі — бо смак не обдуриш, а м'ясо не бреше.</p>
-    <p>Працюємо як передзамовлення: оформлюй на сайті, відправляємо <b>Новою Поштою</b> по всій Україні за 1–2 робочі дні. Їде охолодженим — лишається тільки розігріти.</p>
-  </div>
-</div></section>
-
 <section class="sec wrap" id="contacts">
   <div class="sec-head"><span class="eyebrow">Завітай</span><h2>Магазин у Зимній Воді</h2></div>
   <div class="contact">

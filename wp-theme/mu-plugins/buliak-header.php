@@ -42,7 +42,7 @@ add_action( 'wp_body_open', function () {
 
     <nav class="blk-nav" aria-label="Головна навігація"><ul class="blk-nav-list">
       <li><a href="<?php echo $shop; ?>" class="blk-nav-link">Продукція</a></li>
-      <li><a href="<?php echo esc_url( home_url( '/#about' ) ); ?>" class="blk-nav-link">Про нас</a></li>
+      <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>" class="blk-nav-link">Про нас</a></li>
       <li><details class="blk-contacts">
         <summary class="blk-nav-link blk-contacts-trigger">Контакти</summary>
         <div class="blk-contacts-card"><div class="blk-card-arrow"></div>
@@ -66,7 +66,7 @@ add_action( 'wp_body_open', function () {
 
   <div class="blk-mobile-nav" hidden>
     <a href="<?php echo $shop; ?>">Продукція</a>
-    <a href="<?php echo esc_url( home_url( '/#about' ) ); ?>">Про нас</a>
+    <a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">Про нас</a>
     <a href="<?php echo esc_url( home_url( '/#contacts' ) ); ?>">Контакти</a>
     <a href="tel:0731117670" class="blk-mn-phone">📞 +38 (073) 111 76 70</a>
     <a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" class="blk-mn-tg">Опт / Гурт — Telegram</a>
