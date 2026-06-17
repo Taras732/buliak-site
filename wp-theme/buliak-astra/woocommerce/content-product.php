@@ -23,7 +23,7 @@ $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), arra
 		<div class="blk-card-actions">
 			<div class="blk-card-qty">
 				<button type="button" class="blk-qd" aria-label="Менше">−</button>
-				<span class="blk-qv">1</span>
+				<span class="blk-qv" data-q="1">1 кг</span>
 				<button type="button" class="blk-qi" aria-label="Більше">+</button>
 			</div>
 			<button type="button" class="blk-card-add" data-id="<?php echo esc_attr( $id ); ?>">В кошик</button>

@@ -28,7 +28,7 @@ function blk_drawer_items_html() {
 			. '<div class="blk-ci-price">' . $price . '</div>'
 			. '<div class="blk-ci-actions">'
 			. '<div class="blk-step"><button type="button" class="blk-step-btn blk-dec" aria-label="Менше">−</button>'
-			. '<span class="blk-step-val">' . esc_html( $qty ) . ' шт</span>'
+			. '<span class="blk-step-val">' . esc_html( $qty ) . ' кг</span>'
 			. '<button type="button" class="blk-step-btn blk-inc" aria-label="Більше">+</button></div>'
 			. '<div class="blk-ci-sub">' . $sub . '</div>'
 			. '</div></div>'
@@ -117,7 +117,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-step { display: inline-flex; align-items: center; border: 1px solid var(--bx-border); border-radius: 99px; background: rgba(255,255,255,.04); overflow: hidden; }
   .blk-step-btn { width: 30px; height: 30px; background: none; border: 0; cursor: pointer; color: var(--bx-text); font-size: 1.05rem; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: .15s; }
   .blk-step-btn:hover { background: rgba(255,255,255,.06); color: var(--bx-gold); }
-  .blk-step-val { min-width: 48px; text-align: center; font-size: .82rem; font-weight: 700; color: var(--bx-text); }
+  .blk-step-val { min-width: 60px; text-align: center; font-size: .82rem; font-weight: 700; color: var(--bx-text); white-space: nowrap; }
   .blk-ci-sub { font-family: 'Unbounded',sans-serif; font-size: .92rem; font-weight: 800; color: var(--bx-gold); white-space: nowrap; }
   .blk-ci-rm { position: absolute; top: 0; right: 0; background: none; border: 0; cursor: pointer; color: rgba(247,239,228,.4); transition: color .2s; padding: 0; }
   .blk-ci-rm:hover { color: var(--bx-primary); }
@@ -179,9 +179,9 @@ add_action( 'wp_footer', function () { if ( is_admin() ) return; ?>
   // ± / видалити (делегування — items перемальовуються)
   itemsEl.addEventListener('click', function(e){
     var row = e.target.closest('.blk-ci'); if(!row) return; var key = row.getAttribute('data-key');
-    var val = row.querySelector('.blk-step-val'); var cur = val ? parseInt(val.textContent,10)||1 : 1;
-    if(e.target.closest('.blk-inc')) call('set', key, cur+1);
-    else if(e.target.closest('.blk-dec')) call('set', key, cur-1);
+    var val = row.querySelector('.blk-step-val'); var cur = val ? (parseFloat(val.textContent)||0.25) : 0.25;
+    if(e.target.closest('.blk-inc')) call('set', key, Math.round((cur+0.25)*100)/100);
+    else if(e.target.closest('.blk-dec')) call('set', key, Math.round((cur-0.25)*100)/100);
     else if(e.target.closest('.blk-ci-rm')) call('remove', key);
   });
   clearBtn.addEventListener('click', function(){ if(confirm('Очистити весь кошик?')) call('clear'); });
