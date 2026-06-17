@@ -14,7 +14,7 @@
   </div>
 </header>
 
-<?php $mq_block = str_repeat("М'ЯСО <i>◆</i> BBQ <i>◆</i> КОПЧЕНОСТІ <i>◆</i> ДОМАШНІ КОВБАСИ <i>◆</i> ШАШЛИКИ <i>◆</i> ГРИЛЬ <i>◆</i> ", 3); ?>
+<?php $mq_block = str_repeat("Передзамовлення 1–2 дні <i>·</i> Коптимо самі на вільхових дровах <i>·</i> Вакуумна упаковка <i>·</i> Доставка Новою Поштою по Україні <i>·</i> Тільки свіже м'ясо <i>·</i> ", 2); ?>
 <div class="marquee"><div class="mtrack">
   <span><?php echo $mq_block; ?></span>
   <span><?php echo $mq_block; ?></span>
