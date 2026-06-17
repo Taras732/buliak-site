@@ -3,6 +3,13 @@
 }
 
 buliak.com, www.buliak.com {
+	encode zstd gzip
+
+	# довгий кеш для статики (PageSpeed: efficient cache policy). WP додає ?ver= для cache-bust
+	@static {
+		path *.webp *.png *.jpg *.jpeg *.gif *.svg *.ico *.css *.js *.woff *.woff2 *.ttf *.eot
+	}
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
 	reverse_proxy buliak-wp:80
-	encode gzip
 }
