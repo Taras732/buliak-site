@@ -26,9 +26,10 @@ add_action( 'wp_head', function () {
 		$title = 'Магазин — БУЛЯК';
 		$desc  = 'Каталог мʼясних виробів БУЛЯК: BBQ, копченості, домашні ковбаси, шашлики та для гриля. Передзамовлення з доставкою Новою Поштою по всій Україні.';
 		$url   = get_permalink( wc_get_page_id( 'shop' ) );
-	} elseif ( is_page() ) {
+	} elseif ( is_page() && ! is_front_page() ) {
 		$title = get_the_title() . ' — БУЛЯК'; $url = get_permalink();
 	}
+	// головна — лишаємо брендований заголовок/опис/OG (не «Головна — БУЛЯК»)
 
 	echo "\n<meta name=\"description\" content=\"" . esc_attr( $desc ) . "\">\n";
 	echo '<meta property="og:type" content="website">' . "\n";
