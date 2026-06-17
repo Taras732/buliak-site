@@ -4,6 +4,14 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/* 404 на старих URL прихованих/видалених товарів -> 301 на магазин (SEO, без битих посилань) */
+add_action( 'template_redirect', function () {
+	if ( is_404() && strpos( $_SERVER['REQUEST_URI'] ?? '', '/product/' ) !== false ) {
+		wp_safe_redirect( home_url( '/shop/' ), 301 );
+		exit;
+	}
+}, 1 );
+
 /* 4 колонки + усі товари на одній сторінці (без пагінації) */
 add_filter( 'loop_shop_per_page', function () { return 48; }, 99 );
 add_filter( 'loop_shop_columns', function () { return 4; }, 99 );
@@ -559,6 +567,21 @@ add_action( 'wp_head', function () { ?>
     padding: 9px 18px; font-weight: 700; cursor: pointer; white-space: nowrap; }
   .blk-cookie-ok:hover { background: #8a0019; }
   @media (max-width: 520px) { .blk-cookie { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; bottom: 10px; } }
+  /* === QA-фікси 2026-06-17 === */
+  html, body { overflow-x: hidden; }
+  /* карусель бестселерів: вирівняти з заголовком секції (був вужчий за картки) */
+  .blk-carousel { max-width: none !important; }
+  /* навігація: ховер золотий + прибрати пунктирну рамку фокуса (лишаємо доступний focus-visible) */
+  #masthead .main-header-menu a, #masthead .ast-nav-menu a, #masthead nav a { outline: none !important; }
+  #masthead .main-header-menu a:hover, #masthead .ast-nav-menu a:hover,
+  #masthead .main-header-menu .current-menu-item > a, #masthead .ast-nav-menu .current-menu-item > a {
+    color: var(--gold, #e0b557) !important; }
+  #masthead .main-header-menu a:focus-visible, #masthead .ast-nav-menu a:focus-visible {
+    outline: 1px solid rgba(224,181,87,.55) !important; outline-offset: 4px; border-radius: 4px; }
+  /* контакти/футер: ховер бренд-колір, НЕ синій */
+  .cline .v a, .contact a { transition: color .15s ease, border-color .15s ease; }
+  .cline .v a:hover, .contact a:hover, .buliak-footer a:hover {
+    color: var(--gold, #e0b557) !important; border-bottom-color: var(--gold, #e0b557) !important; }
 </style>
 <?php } );
 
