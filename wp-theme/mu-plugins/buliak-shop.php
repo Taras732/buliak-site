@@ -486,6 +486,9 @@ add_action( 'wp_head', function () { ?>
 
     /* СЕКЦІЇ: внутрішні відступи трохи менші на телефоні */
     .why, .about, .contact, .final { padding-left: 18px !important; padding-right: 18px !important; }
+    /* заголовки секцій + карусель бестселерів — однаковий лівий відступ 18px (як About), не тиснути до краю */
+    .sec-head { padding-left: 18px !important; padding-right: 18px !important; }
+    .blk-carousel { padding-left: 18px !important; padding-right: 18px !important; }
 
     /* КАРТА у контактах: нормальна висота на мобайлі */
     .contact iframe, .contact .map, .contact-map iframe { width: 100% !important; min-height: 240px !important; height: 240px !important; border-radius: 10px; }
