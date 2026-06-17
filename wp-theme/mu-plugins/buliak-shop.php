@@ -568,7 +568,8 @@ add_action( 'wp_head', function () { ?>
   .blk-cookie-ok:hover { background: #8a0019; }
   @media (max-width: 520px) { .blk-cookie { flex-direction: column; align-items: stretch; text-align: center; gap: 10px; bottom: 10px; } }
   /* === QA-фікси 2026-06-17 === */
-  html, body { overflow-x: hidden; }
+  /* clip (не hidden!) — захист від горизонт. скролу БЕЗ поломки position:sticky хедера */
+  html, body { overflow-x: clip; }
   /* карусель бестселерів: вирівняти з заголовком секції (був вужчий за картки) */
   .blk-carousel { max-width: none !important; }
   /* навігація: ховер золотий + прибрати пунктирну рамку фокуса (лишаємо доступний focus-visible) */
