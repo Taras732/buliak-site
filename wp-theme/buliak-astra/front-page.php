@@ -5,7 +5,7 @@
   <div class="hero-grad"></div>
   <div class="hero-inner">
     <span class="eyebrow">М'ясні традиції Галичини</span>
-    <h1>БУ<span class="s">ЛЯК</span></h1>
+    <h1>БУ<span class="s">ЛЯК</span><span class="sr-only"> — мʼясні традиції Галичини: BBQ, копченості та домашні ковбаси з доставкою</span></h1>
     <p class="hero-sub">М'ясо, BBQ та копченості <b>власного виробництва</b>. Коптимо самі — свіже й справжнє. <b>Наше BBQ — твоя слабкість.</b></p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">До меню →</a>

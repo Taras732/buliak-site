@@ -14,12 +14,18 @@ add_action( 'wp_head', function () {
 		$p = wc_get_product( get_the_ID() );
 		if ( $p ) {
 			$title = $p->get_name() . ' — БУЛЯК';
-			$d = trim( wp_strip_all_tags( $p->get_short_description() ?: $p->get_description() ) );
+			$raw = $p->get_short_description() ?: $p->get_description();
+			// пробіл перед тегами, щоб "г</p><p>Склад" не злипалось у "гСклад"
+			$d = trim( preg_replace( '/\s+/u', ' ', wp_strip_all_tags( str_replace( array( '<', '>' ), array( ' <', '> ' ), $raw ) ) ) );
 			if ( $d ) { $desc = mb_substr( $d, 0, 200 ); }
 			$tid = $p->get_image_id();
 			if ( $tid ) { $im = wp_get_attachment_image_url( $tid, 'large' ); if ( $im ) { $img = $im; } }
 			$url = get_permalink();
 		}
+	} elseif ( function_exists( 'is_shop' ) && is_shop() ) {
+		$title = 'Магазин — БУЛЯК';
+		$desc  = 'Каталог мʼясних виробів БУЛЯК: BBQ, копченості, домашні ковбаси, шашлики та для гриля. Передзамовлення з доставкою Новою Поштою по всій Україні.';
+		$url   = get_permalink( wc_get_page_id( 'shop' ) );
 	} elseif ( is_page() ) {
 		$title = get_the_title() . ' — БУЛЯК'; $url = get_permalink();
 	}
@@ -77,6 +83,10 @@ add_action( 'wp_head', function () { ?>
     animation: blk-shimmer 1.25s linear infinite;
   }
   @keyframes blk-shimmer { to { background-position: -200% 0; } }
+  /* доступність: візуально-прихований текст для скрінрідерів (SEO-збагачення H1) */
+  .sr-only { position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  /* iOS Safari: hover-scale зображення не вилазить за радіус картки */
+  .woocommerce ul.products li.product, .blk-carousel-track li.product { isolation: isolate; }
 </style>
 <?php }, 6 );
 
@@ -116,3 +126,22 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_dequeue_style( 'classic-theme-styles' );
 	}
 }, 100 );
+
+/* ---------- Аудит-фікси: переклад skip-link + відправник email ---------- */
+add_filter( 'gettext', function ( $translated, $text, $domain ) {
+	if ( $text === 'Skip to content' ) { return 'Перейти до вмісту'; }
+	return $translated;
+}, 10, 3 );
+add_filter( 'woocommerce_email_from_name', function () { return 'БУЛЯК'; } );
+add_filter( 'woocommerce_email_from_address', function () { return 'noreply@buliak.com'; } );
+add_filter( 'wp_mail_from_name', function ( $n ) { return $n === 'WordPress' ? 'БУЛЯК' : $n; } );
+add_filter( 'wp_mail_from', function ( $e ) { return ( strpos( $e, 'wordpress@' ) === 0 ) ? 'noreply@buliak.com' : $e; } );
+
+/* reveal-анімації для AJAX-довантажених товарів (фільтр/пагінація) — щоб не лишались невидимими */
+add_action( 'wp_footer', function () { ?>
+<script>
+if (window.jQuery) { jQuery(document.body).on('post-load wc-blocks_product_list_rendered', function () {
+  document.querySelectorAll('.reveal').forEach(function (e) { e.style.opacity = '1'; e.style.transform = 'none'; });
+}); }
+</script>
+<?php }, 99 );
