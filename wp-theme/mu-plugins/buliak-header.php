@@ -4,6 +4,9 @@
  * Навігація: Продукція · Про нас · Контакти(dropdown). Праворуч: Пошук + Кошик(drawer). */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/* прибрати адмін-бар WP на фронті (чистий вигляд + без 32px зсуву, що ламав fixed-хедер) */
+add_filter( 'show_admin_bar', '__return_false' );
+
 /* лічильник кошика (к-сть позицій) */
 function blk_hdr_cart_count() {
 	return ( function_exists( 'WC' ) && WC()->cart ) ? count( WC()->cart->get_cart() ) : 0;

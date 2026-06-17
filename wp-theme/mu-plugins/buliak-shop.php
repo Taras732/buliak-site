@@ -318,7 +318,7 @@ add_action( 'wp_head', function () { ?>
   .social-ic { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: #b00020; color: #fff !important; transition: .2s; }
   .social-ic:hover { background: #8a0019; transform: translateY(-2px); }
   /* хедер/hero нижчі — щоб перший екран влазив у монітор */
-  .hero { min-height: 74vh !important; padding-bottom: 4vh !important; }
+  .hero { min-height: 92vh !important; padding-bottom: 6vh !important; }
   /* marquee: безшовний цикл — flex + 2 однакові half-блоки -> translateX(-50%) без розривів.
      Боковий padding span прибрано: інакше на стику виходив зайвий зазор (26+26px) != ритму всередині */
   .marquee { overflow: hidden !important; }
@@ -473,7 +473,7 @@ add_action( 'wp_head', function () { ?>
     .reveal { opacity: 1 !important; transform: none !important; }
 
     /* HERO: заголовок не вилазить за екран, читабельні відступи */
-    .hero { min-height: 64vh !important; padding-left: 18px !important; padding-right: 18px !important; padding-bottom: 6vh !important; }
+    .hero { min-height: 82vh !important; padding-left: 18px !important; padding-right: 18px !important; padding-bottom: 7vh !important; }
     .hero h1 { font-size: clamp(3.2rem, 22vw, 7rem) !important; line-height: 0.95 !important; word-break: break-word; overflow-wrap: anywhere; }
     .hero-sub, .hero p { font-size: clamp(1rem, 4.4vw, 1.25rem) !important; line-height: 1.4 !important; }
 
