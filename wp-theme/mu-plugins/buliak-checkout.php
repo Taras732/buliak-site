@@ -80,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
       if (/Telegram/.test(f)) { l.insertAdjacentHTML('afterbegin', tg); }
       if (/Viber/.test(f)) { l.insertAdjacentHTML('afterbegin', vb); }
     });
+    /* гарант: один месенджер завжди активний (дефолт Telegram), перемикається, ніколи не порожньо */
+    var radios = mf.querySelectorAll('input[type=radio]');
+    if (radios.length && ![].some.call(radios, function (r) { return r.checked; })) {
+      radios[0].checked = true;
+    }
   }
 });
 </script>
@@ -402,6 +407,10 @@ add_action( 'wp_head', function () {
 		. '.woocommerce-additional-fields > h3{display:none!important;}'
 		. '.woocommerce-checkout .optional{display:none!important;}'
 		. '#place_order:disabled,#place_order.blk-btn-disabled{opacity:.45!important;cursor:not-allowed!important;pointer-events:none;}'
+		. '/* кнопка «Оформити замовлення» — топ на вузьких екранах, без кривого переносу */'
+		. '#place_order{width:100%!important;white-space:normal!important;line-height:1.2!important;text-align:center!important;}'
+		. '@media(max-width:480px){#place_order{padding:14px 16px!important;font-size:.82rem!important;letter-spacing:.02em!important;}}'
+		. '@media(max-width:360px){#place_order{padding:13px 10px!important;font-size:.74rem!important;}}'
 		. '.blk-gate-hint{text-align:center;font-size:.85rem;opacity:.7;margin-top:10px;}'
 		. '.woocommerce-checkout-review-order-table .order-total th{background:transparent!important;color:#e0b557!important;}'
 		. '.woocommerce-checkout-review-order-table .order-total td{color:#e0b557!important;}'

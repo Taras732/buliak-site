@@ -4,9 +4,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-/* 404 на старих URL прихованих/видалених товарів -> 301 на магазин (SEO, без битих посилань) */
+/* 404 на старих URL товарів/категорій (приховані / перейменовані slug) -> 301 на магазин */
 add_action( 'template_redirect', function () {
-	if ( is_404() && strpos( $_SERVER['REQUEST_URI'] ?? '', '/product/' ) !== false ) {
+	$uri = $_SERVER['REQUEST_URI'] ?? '';
+	if ( is_404() && ( strpos( $uri, '/product/' ) !== false || strpos( $uri, '/product-category/' ) !== false ) ) {
 		wp_safe_redirect( home_url( '/shop/' ), 301 );
 		exit;
 	}
