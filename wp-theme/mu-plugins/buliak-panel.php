@@ -41,8 +41,8 @@ function blk_panel_render() {
 	else { $from = $today; $to = $today; $range = 'today'; }
 
 	$args = array( 'limit' => 150, 'orderby' => 'date', 'order' => 'DESC' );
-	if ( $from && $to ) { $args['date_created'] = strtotime( $from . ' 00:00:00' ) . '...' . strtotime( $to . ' 23:59:59' ); }
-	elseif ( $from ) { $args['date_created'] = '>=' . strtotime( $from . ' 00:00:00' ); }
+	if ( $from && $to ) { $args['date_created'] = $from . '...' . $to; }
+	elseif ( $from ) { $args['date_created'] = '>=' . $from; }
 	if ( $status && $status !== 'all' ) { $args['status'] = $status; }
 
 	$orders   = wc_get_orders( $args );
