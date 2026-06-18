@@ -251,7 +251,7 @@ function blk_panel_editor( $ord ) {
 			</div>
 
 			<div class="blk-p-box">
-				<h3>Товари <span class="blk-p-hint">вага в кг, можна дробову (0.25)</span></h3>
+				<h3>Товари <span class="blk-p-hint">вага в кг, до грама (напр. 1.005 = 1 кг 5 г)</span></h3>
 				<div id="bp-items" class="blk-p-items-edit"></div>
 				<div class="blk-p-additem">
 					<select id="bp-add-sel"><option value="">+ Обрати товар…</option><?php foreach ( $catalog as $c ) : ?><option value="<?php echo esc_attr( $c['id'] ); ?>" data-name="<?php echo esc_attr( $c['name'] ); ?>" data-price="<?php echo esc_attr( $c['price'] ); ?>"><?php echo esc_html( $c['name'] ); ?> — <?php echo (int) $c['price']; ?> ₴/кг</option><?php endforeach; ?></select>
