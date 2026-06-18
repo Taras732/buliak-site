@@ -135,6 +135,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-cd-checkout.blk-disabled { opacity: .4; pointer-events: none; }
   .blk-cd-clear { display: block; margin: 12px auto 0; background: none; border: 0; font-size: .8rem; color: var(--bx-muted); text-decoration: underline; cursor: pointer; }
   .blk-cd-clear:hover { color: var(--bx-primary); }
+  .blk-cd-clear.blk-cd-clear-armed { color: var(--bx-primary) !important; font-weight: 800; text-decoration: none !important; letter-spacing: .02em; }
   @media (max-width: 480px) { .blk-cart-drawer { max-width: 100%; } }
 </style>
 <?php }, 8 );
@@ -184,7 +185,11 @@ add_action( 'wp_footer', function () { if ( is_admin() ) return; ?>
     else if(e.target.closest('.blk-dec')) call('set', key, Math.round((cur-0.25)*100)/100);
     else if(e.target.closest('.blk-ci-rm')) call('remove', key);
   });
-  clearBtn.addEventListener('click', function(){ if(confirm('Очистити весь кошик?')) call('clear'); });
+  clearBtn.addEventListener('click', function(){
+    if(clearBtn.dataset.armed){ call('clear'); clearBtn.removeAttribute('data-armed'); clearBtn.textContent='Очистити кошик'; clearBtn.classList.remove('blk-cd-clear-armed'); return; }
+    clearBtn.dataset.armed='1'; clearBtn.textContent='Точно очистити? Натисніть ще раз'; clearBtn.classList.add('blk-cd-clear-armed');
+    setTimeout(function(){ if(clearBtn.dataset.armed){ clearBtn.removeAttribute('data-armed'); clearBtn.textContent='Очистити кошик'; clearBtn.classList.remove('blk-cd-clear-armed'); } }, 3000);
+  });
 
   // після AJAX-додавання товару (наш існуючий flow шле fragments) — оновити drawer
   if(window.jQuery){ jQuery(document.body).on('added_to_cart wc_fragments_refreshed', function(){ call('refresh'); }); }

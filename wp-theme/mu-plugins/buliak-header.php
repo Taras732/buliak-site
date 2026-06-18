@@ -98,6 +98,18 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
     box-shadow: 0 12px 34px rgba(255,106,43,.42) !important; transform: translateY(-2px) !important; }
   /* ghost-кнопки (контур) → золотий контур+текст на hover (як «Написати в Telegram») */
   .blk-search-close:hover, .blk-sp-close:hover { color: #E0B557 !important; }
+  /* СТАНИ — жодного синього: visited-посилання золоті, кнопки-лінки білі, focus-ring золотий */
+  a:visited { color: #E0B557; }
+  .blk-cd-checkout:visited, a.button:visited, .woocommerce a.button:visited, .blk-card-tg:visited, .blk-ig-btn:visited,
+  .blk-ab2-btn:visited, .buliak-cta-link:visited, .blk-cta-link:visited, .checkout-button:visited, .blk-continue-btn:visited { color: #fff !important; }
+  .blk-nav-link:visited, .blk-fc-col a:visited, .blk-fc-social a:visited { color: inherit !important; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible,
+  .button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #E0B557 !important; outline-offset: 2px; box-shadow: none !important; }
+  /* прибрати дефолтний синій фон/тінь у focus/active кнопок */
+  .button:focus, .button:active, a.button:focus, a.button:active, #place_order:focus, #place_order:active,
+  .checkout-button:focus, .checkout-button:active, .blk-cd-checkout:focus, .blk-cd-checkout:active,
+  .blk-card-add:focus, .blk-card-add:active, .blk-cart-btn:focus, .blk-cart-btn:active { color: #fff !important; box-shadow: none; }
   /* активний пункт навігації / поточна сторінка — золотий, не синій */
   .blk-nav-link.current, .blk-nav-link[aria-current], .current-menu-item > a { color: #E0B557 !important; }
   body .blk-hdr-wrap { --bx-primary:#B81F33; --bx-primary-h:#9e1728; --bx-gold:#E0B557; --bx-text:#F7EFE4; --bx-muted:rgba(247,239,228,.65); --bx-border:rgba(224,181,87,.14); }
