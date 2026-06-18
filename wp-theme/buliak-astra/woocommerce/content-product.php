@@ -8,7 +8,7 @@ if ( empty( $product ) || ! $product->is_visible() ) { return; }
 $id      = $product->get_id();
 $link    = get_permalink( $id );
 $best    = has_term( 'bestseller', 'product_tag', $id );
-$portion = function_exists( 'blk_product_portion' ) ? blk_product_portion( $product ) : '';
+$portion = function_exists( 'blk_portion_label' ) ? blk_portion_label( $product ) : '';
 $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), array( 'decimals' => 0 ) ) : $product->get_price();
 ?>
 <li <?php wc_product_class( 'blk-card', $product ); ?>>
@@ -18,10 +18,8 @@ $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), arra
 		<h3 class="blk-card-title"><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $product->get_name() ); ?></a></h3>
 		<div class="blk-card-meta">
 			<span class="blk-card-price"><?php echo wp_kses_post( $price ); ?> <span class="blk-card-unit">/ кг</span></span>
-			<?php if ( $portion ) : ?><span class="blk-card-portion">≈ <?php echo esc_html( $portion ); ?></span><?php endif; ?>
+			<?php if ( $portion ) : ?><span class="blk-card-portion"><?php echo esc_html( $portion ); ?></span><?php endif; ?>
 		</div>
-		<?php $pprice = function_exists( 'blk_portion_price_range' ) ? blk_portion_price_range( $product ) : ''; ?>
-		<?php if ( $pprice ) : ?><div class="blk-card-pprice"><?php echo esc_html( $pprice ); ?> <span>/ порція</span></div><?php endif; ?>
 		<div class="blk-card-actions">
 			<div class="blk-card-qty">
 				<button type="button" class="blk-qd" aria-label="Менше">−</button>

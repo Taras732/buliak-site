@@ -48,7 +48,7 @@
       <div class="blk-ig"><h5>🚚 Доставка</h5><p>Швидка доставка Новою Поштою по всій Україні. Термін виготовлення передзамовлення — 1–2 робочих дні.</p></div>
       <div class="blk-ig"><h5>💬 Опт / Співпраця</h5><p>Для великих замовлень, кейтерингу та оптових поставок зв'яжіться з нами в Telegram.</p><a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" class="blk-ig-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.94 4.6 18.9 19.2c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.95.46l.34-4.78L18.5 6.3c.38-.34-.08-.53-.6-.19L6.9 13.18l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5L20.63 3.2c.84-.32 1.58.2 1.31 1.4z"/></svg> Чат Telegram</a></div>
     </div>
-    <div class="blk-map-card"><iframe src="https://maps.google.com/maps?cid=4130221669056022743&output=embed" width="100%" height="100%" style="border:0;min-height:440px" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    <div class="blk-map-card"><?php $blk_mapq = rawurlencode("Буляк - М'ясні Традиції Галичини, Зимна Вода"); ?><iframe src="https://maps.google.com/maps?q=<?php echo $blk_mapq; ?>&hl=uk&z=17&output=embed" width="100%" height="100%" style="border:0;min-height:440px" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
   <style>
     #contacts .blk-contacts-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 24px; align-items: stretch; margin-top: 6px; }

@@ -31,6 +31,20 @@ function blk_portion_price_range( $product ) {
 	return ( $max - $min < 1 ) ? '≈ ' . $f( $max ) . ' ₴' : '≈ ' . $f( $min ) . '–' . $f( $max ) . ' ₴';
 }
 
+/* лейбл порції: «≈225 г / порція» (середнє з діапазону) */
+function blk_portion_label( $product ) {
+	$portion = blk_product_portion( $product );
+	if ( ! $portion ) { return ''; }
+	$unit = ( mb_stripos( $portion, 'кг' ) !== false ) ? 'кг' : ( ( mb_stripos( $portion, 'г' ) !== false ) ? 'г' : '' );
+	if ( ! $unit ) { return ''; }
+	if ( ! preg_match_all( '/\d+(?:[.,]\d+)?/u', $portion, $m ) || empty( $m[0] ) ) { return ''; }
+	$nums = array();
+	foreach ( $m[0] as $x ) { $nums[] = floatval( str_replace( ',', '.', $x ) ); }
+	$avg = array_sum( $nums ) / count( $nums );
+	$val = ( $unit === 'г' ) ? (string) round( $avg ) : rtrim( rtrim( number_format( $avg, 2, '.', '' ), '0' ), '.' );
+	return '≈' . $val . ' ' . $unit . ' / порція';
+}
+
 /* 3 колонки (більші картки) */
 add_filter( 'loop_shop_columns', function () { return 3; }, 200 );
 

@@ -56,8 +56,6 @@ add_action('astra_footer_before', function () {
         <div class="blk-fc-col">
           <h4>Контакти</h4>
           <a href="tel:0731117670" class="blk-fc-tel">073 111 76 70</a>
-          <a href="<?php echo esc_url(home_url('/#contacts')); ?>">Зимна Вода, вул. Яворівська 2г</a>
-          <span class="blk-fc-plain">Пн–Сб: 09:00–19:00</span>
           <div class="blk-fc-social">
             <a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" aria-label="Telegram"><?php echo $tg; ?></a>
             <a href="https://www.instagram.com/buliak_space" target="_blank" rel="noopener" aria-label="Instagram"><?php echo $ig; ?></a>
@@ -86,6 +84,10 @@ add_action('astra_footer_before', function () {
       .blk-fc-social a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%;
         background: rgba(255,255,255,.02); border: 1px solid rgba(224,181,87,.14); color: #f7efe4 !important; transition: background .25s, color .25s, transform .25s, border-color .25s; }
       .blk-fc-social a:hover { background: #E0B557; color: #000 !important; border-color: #E0B557; transform: translateY(-4px); box-shadow: 0 5px 15px rgba(224,181,87,.25); }
+      .blk-fc-social a svg { width: 19px !important; height: 19px !important; display: block; }
+      /* нижні лінки — в один рядок (перебиваємо старе .buliak-footer a{display:block}) */
+      .blk-fc-bottom a, .blk-fc-copy a, .blk-fc-legal a { display: inline !important; }
+      .blk-fc-copy { white-space: nowrap; }
       .blk-fc-col h4 { color: #E0B557; font-family: 'Unbounded',sans-serif; font-size: .92rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 18px; }
       .blk-fc-col a, .blk-fc-plain { display: block; color: rgba(247,239,228,.62) !important; margin-bottom: 12px; text-decoration: none; font-size: 1rem; transition: color .2s; }
       .blk-fc-col a:hover { color: #E0B557 !important; }
