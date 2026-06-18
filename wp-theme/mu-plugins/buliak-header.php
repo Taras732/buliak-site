@@ -77,6 +77,21 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   /* без синього підсвічування при тапі + бренд-колір виділення тексту */
   html { -webkit-tap-highlight-color: transparent; }
   ::selection { background: rgba(224,181,87,.3); color: #fff; }
+  /* === ПРИБРАТИ СИНІЙ ASTRA: посилання → золоті, кнопки → білий текст === */
+  a { color: #E0B557; }
+  a:hover, a:focus, a:focus-visible { color: #F0D391; }
+  .entry-content a, .ast-container a { color: #E0B557; }
+  .entry-content a:hover, .ast-container a:hover { color: #F0D391; }
+  /* усі кнопки — білий текст (не синій), незалежно від контексту */
+  .btn-primary, .button, .wp-block-button__link, #place_order,
+  .woocommerce a.button, .woocommerce button.button, .woocommerce a.button.alt, .woocommerce button.button.alt,
+  .blk-ab2-btn, .blk-cd-checkout, .blk-ig-btn, .blk-card-add, .blk-card-tg, .blk-search-submit,
+  .buliak-cta-link, .blk-cta-link, .add_to_cart_button, .single_add_to_cart_button {
+    color: #fff !important;
+  }
+  .btn-ghost, .btn-ghost:hover { color: #E0B557 !important; }
+  /* активний пункт навігації / поточна сторінка — золотий, не синій */
+  .blk-nav-link.current, .blk-nav-link[aria-current], .current-menu-item > a { color: #E0B557 !important; }
   body .blk-hdr-wrap { --bx-primary:#B81F33; --bx-primary-h:#9e1728; --bx-gold:#E0B557; --bx-text:#F7EFE4; --bx-muted:rgba(247,239,228,.65); --bx-border:rgba(224,181,87,.14); }
   /* хедер плаває ПОВЕРХ контенту (картинка hero йде до верху, без темного band) */
   .blk-hdr-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; width: 100%; font-family: 'Manrope', sans-serif; }
