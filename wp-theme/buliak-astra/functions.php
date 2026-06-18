@@ -52,7 +52,12 @@ add_action('astra_footer_before', function () {
       <div class="blk-fc-cont blk-fc-cols">
         <div class="blk-fc-brand">
           <a href="<?php echo esc_url(home_url('/')); ?>" class="blk-fc-logo"><img src="<?php echo esc_url($logo); ?>" alt="БУЛЯК"></a>
-          <p class="blk-fc-tag">Свіжі м'ясні сети, BBQ та копченості власного виробництва з доставкою по всій Україні.</p>
+        </div>
+        <div class="blk-fc-col">
+          <h4>Контакти</h4>
+          <a href="tel:0731117670" class="blk-fc-tel">073 111 76 70</a>
+          <a href="<?php echo esc_url(home_url('/#contacts')); ?>">Зимна Вода, вул. Яворівська 2г</a>
+          <span class="blk-fc-plain">Пн–Сб: 09:00–19:00</span>
           <div class="blk-fc-social">
             <a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" aria-label="Telegram"><?php echo $tg; ?></a>
             <a href="https://www.instagram.com/buliak_space" target="_blank" rel="noopener" aria-label="Instagram"><?php echo $ig; ?></a>
@@ -60,17 +65,10 @@ add_action('astra_footer_before', function () {
           </div>
         </div>
         <div class="blk-fc-col">
-          <h4>Контакти</h4>
-          <a href="tel:0731117670" class="blk-fc-tel">073 111 76 70</a>
-          <a href="<?php echo esc_url(home_url('/#contacts')); ?>">Зимна Вода, вул. Яворівська 2г</a>
-          <span class="blk-fc-plain">Пн–Сб: 09:00–19:00</span>
-        </div>
-        <div class="blk-fc-col">
           <h4>Магазин</h4>
           <a href="<?php echo esc_url(home_url('/shop/')); ?>">Продукція</a>
-          <a href="<?php echo esc_url(home_url('/about/')); ?>">Про нас</a>
           <a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener">Опт / гурт</a>
-          <a href="<?php echo esc_url(home_url('/#contacts')); ?>">Контакти</a>
+          <a href="<?php echo esc_url(home_url('/about/')); ?>">Про нас</a>
         </div>
       </div>
       <div class="blk-fc-bottom"><div class="blk-fc-cont blk-fc-bflex">
@@ -83,16 +81,15 @@ add_action('astra_footer_before', function () {
         border-top: 1px solid rgba(224,181,87,.14) !important; padding: 58px 0 0 !important; margin-top: 60px !important; font-family: 'Manrope',sans-serif; }
       .blk-fc-cont { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 26px; box-sizing: border-box; }
       .blk-fc-cols { display: grid !important; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
-      .blk-fc-brand .blk-fc-logo img { max-height: 54px; width: auto; display: block; margin-bottom: 16px; }
-      .blk-fc-tag { color: rgba(247,239,228,.6); line-height: 1.6; max-width: 340px; margin: 0 0 18px; font-size: .92rem; }
-      .blk-fc-social { display: flex; gap: 12px; }
-      .blk-fc-social a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%;
+      .blk-fc-brand .blk-fc-logo img { max-height: 66px; width: auto; display: block; }
+      .blk-fc-social { display: flex; gap: 12px; margin-top: 16px; }
+      .blk-fc-social a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%;
         background: rgba(255,255,255,.02); border: 1px solid rgba(224,181,87,.14); color: #f7efe4 !important; transition: background .25s, color .25s, transform .25s, border-color .25s; }
       .blk-fc-social a:hover { background: #E0B557; color: #000 !important; border-color: #E0B557; transform: translateY(-4px); box-shadow: 0 5px 15px rgba(224,181,87,.25); }
-      .blk-fc-col h4 { color: #E0B557; font-family: 'Unbounded',sans-serif; font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 18px; }
-      .blk-fc-col a, .blk-fc-plain { display: block; color: rgba(247,239,228,.6) !important; margin-bottom: 11px; text-decoration: none; font-size: .92rem; transition: color .2s; }
+      .blk-fc-col h4 { color: #E0B557; font-family: 'Unbounded',sans-serif; font-size: .92rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 18px; }
+      .blk-fc-col a, .blk-fc-plain { display: block; color: rgba(247,239,228,.62) !important; margin-bottom: 12px; text-decoration: none; font-size: 1rem; transition: color .2s; }
       .blk-fc-col a:hover { color: #E0B557 !important; }
-      .blk-fc-tel { font-size: 1.2rem !important; font-weight: 700; color: #f7efe4 !important; margin-bottom: 14px !important; }
+      .blk-fc-tel { font-size: 1.4rem !important; font-weight: 700; color: #f7efe4 !important; margin-bottom: 14px !important; }
       .blk-fc-tel:hover { color: #B81F33 !important; }
       .blk-fc-bottom { border-top: 1px solid rgba(224,181,87,.14); padding: 22px 0; color: rgba(247,239,228,.55); font-size: .8rem; }
       .blk-fc-bflex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }

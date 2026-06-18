@@ -15,6 +15,22 @@ function blk_product_portion( $product ) {
 	return '';
 }
 
+/* орієнтовна ціна за порцію = ₴/кг × вага порції (діапазон) */
+function blk_portion_price_range( $product ) {
+	$portion = blk_product_portion( $product );
+	if ( ! $portion ) { return ''; }
+	$factor = ( mb_stripos( $portion, 'кг' ) !== false ) ? 1 : ( ( mb_stripos( $portion, 'г' ) !== false ) ? 0.001 : 0 );
+	if ( ! $factor ) { return ''; }
+	if ( ! preg_match_all( '/\d+(?:[.,]\d+)?/u', $portion, $m ) || empty( $m[0] ) ) { return ''; }
+	$price = (float) $product->get_price();
+	if ( $price <= 0 ) { return ''; }
+	$vals = array();
+	foreach ( $m[0] as $w ) { $vals[] = floatval( str_replace( ',', '.', $w ) ) * $factor * $price; }
+	$min = round( min( $vals ) ); $max = round( max( $vals ) );
+	$f = function ( $v ) { return number_format( $v, 0, '', "\u{00A0}" ); };
+	return ( $max - $min < 1 ) ? '≈ ' . $f( $max ) . ' ₴' : '≈ ' . $f( $min ) . '–' . $f( $max ) . ' ₴';
+}
+
 /* 3 колонки (більші картки) */
 add_filter( 'loop_shop_columns', function () { return 3; }, 200 );
 
@@ -58,6 +74,8 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-card .blk-card-price .amount, .blk-card .blk-card-price bdi { color: var(--bx-gold) !important; font-family: 'Unbounded',sans-serif !important; }
   .blk-card .blk-card-portion { font-size: .74rem; font-weight: 600; color: var(--bx-muted); background: rgba(255,255,255,.03);
     border: 1px solid var(--bx-border); padding: 4px 9px; border-radius: 6px; white-space: nowrap; }
+  .blk-card .blk-card-pprice { font-size: .9rem; font-weight: 700; color: var(--bx-text); margin: -6px 0 14px; }
+  .blk-card .blk-card-pprice span { font-weight: 500; font-size: .8rem; color: var(--bx-muted); }
   .blk-card .blk-card-actions { display: flex; gap: 10px; align-items: center; }
   .blk-card .blk-card-qty { display: flex; align-items: center; border: 1px solid var(--bx-border); border-radius: 99px; background: rgba(255,255,255,.03); overflow: hidden; flex-shrink: 0; }
   .blk-card .blk-card-qty button { width: 34px; height: 38px; background: none; border: 0; cursor: pointer; color: var(--bx-text); font-size: 1.1rem; font-weight: 600; line-height: 1; transition: .15s; padding: 0; }

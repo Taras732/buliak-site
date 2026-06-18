@@ -20,6 +20,8 @@ $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), arra
 			<span class="blk-card-price"><?php echo wp_kses_post( $price ); ?> <span class="blk-card-unit">/ кг</span></span>
 			<?php if ( $portion ) : ?><span class="blk-card-portion">≈ <?php echo esc_html( $portion ); ?></span><?php endif; ?>
 		</div>
+		<?php $pprice = function_exists( 'blk_portion_price_range' ) ? blk_portion_price_range( $product ) : ''; ?>
+		<?php if ( $pprice ) : ?><div class="blk-card-pprice"><?php echo esc_html( $pprice ); ?> <span>/ порція</span></div><?php endif; ?>
 		<div class="blk-card-actions">
 			<div class="blk-card-qty">
 				<button type="button" class="blk-qd" aria-label="Менше">−</button>

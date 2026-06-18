@@ -93,7 +93,8 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   body.blk-scrolled .blk-header { margin: 7px auto; height: 64px; background: rgba(15,13,12,.88); border-color: rgba(224,181,87,.28); box-shadow: 0 10px 35px rgba(0,0,0,.6); }
   .blk-hdr-flex { display: flex; justify-content: space-between; align-items: center; width: 100%; }
   .blk-brand { display: flex; align-items: center; }
-  .blk-logo-img { height: 46px; width: auto; display: block; }
+  /* !important + специфічність — інакше .woocommerce img{height:auto} роздуває лого на /shop/ */
+  .blk-header .blk-logo-img { height: 46px !important; max-height: 46px !important; width: auto !important; display: block; }
   /* навігація */
   .blk-nav-list { display: flex; list-style: none; gap: 40px; align-items: center; margin: 0; padding: 0; }
   .blk-nav-link { font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
@@ -157,7 +158,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
     .blk-topbar { display: none; }
     .blk-nav { display: none; }
     .blk-header { width: calc(100% - 20px); margin: 10px auto; height: 62px; }
-    .blk-logo-img { height: 40px; }
+    .blk-header .blk-logo-img { height: 40px !important; max-height: 40px !important; }
     .blk-burger { display: flex; }
   }
   @media (min-width: 901px) { .blk-mobile-nav { display: none !important; } }
