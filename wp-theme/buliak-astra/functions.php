@@ -81,10 +81,11 @@ add_action('astra_footer_before', function () {
       .blk-fc-cols { display: grid !important; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }
       .blk-fc-brand .blk-fc-logo img { max-height: 66px; width: auto; display: block; }
       .blk-fc-social { display: flex; gap: 12px; margin-top: 16px; }
-      .blk-fc-social a { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%;
-        background: rgba(255,255,255,.02); border: 1px solid rgba(224,181,87,.14); color: #f7efe4 !important; transition: background .25s, color .25s, transform .25s, border-color .25s; }
-      .blk-fc-social a:hover { background: #E0B557; color: #000 !important; border-color: #E0B557; transform: translateY(-4px); box-shadow: 0 5px 15px rgba(224,181,87,.25); }
-      .blk-fc-social a svg { width: 19px !important; height: 19px !important; display: block; }
+      /* оригінальний стиль іконок (золоті кружки) + жорстке центрування */
+      .blk-fc-social a { display: inline-flex !important; align-items: center !important; justify-content: center !important; width: 42px !important; height: 42px !important; border-radius: 50%; margin: 0 !important; padding: 0 !important; line-height: 0 !important; flex: 0 0 auto;
+        background: rgba(224,181,87,.10) !important; border: 1px solid rgba(224,181,87,.30); color: #e0b557 !important; transition: background .2s, color .2s, transform .2s, border-color .2s; }
+      .blk-fc-social a:hover { background: #b00020 !important; color: #fff !important; border-color: #b00020; transform: translateY(-2px); }
+      .blk-fc-social a svg { width: 18px !important; height: 18px !important; display: block; margin: 0 !important; }
       /* нижні лінки — в один рядок (перебиваємо старе .buliak-footer a{display:block}) */
       .blk-fc-bottom a, .blk-fc-copy a, .blk-fc-legal a { display: inline !important; }
       .blk-fc-copy { white-space: nowrap; }
