@@ -73,6 +73,17 @@ add_action( 'wp_ajax_blk_panel_save_product', function () {
 	$p->set_status( $g( 'status' ) === 'draft' ? 'draft' : 'publish' );
 	$img = isset( $_POST['img'] ) ? intval( $_POST['img'] ) : 0;
 	$p->set_image_id( $img ? $img : '' );
+	// категорії
+	$cats = ( isset( $_POST['cats'] ) && is_array( $_POST['cats'] ) ) ? array_values( array_filter( array_map( 'intval', wp_unslash( $_POST['cats'] ) ) ) ) : array();
+	$p->set_category_ids( $cats );
+	// ХІТ (product_tag slug=bestseller) — та сама логіка, що рендерить 🔥 ХІТ на сайті
+	$hit  = ( isset( $_POST['hit'] ) && $_POST['hit'] === '1' );
+	$term = get_term_by( 'slug', 'bestseller', 'product_tag' );
+	if ( ! $term && $hit ) { $ins = wp_insert_term( 'ХІТ', 'product_tag', array( 'slug' => 'bestseller' ) ); if ( ! is_wp_error( $ins ) ) { $term = get_term( $ins['term_id'] ); } }
+	$tid  = $term ? (int) $term->term_id : 0;
+	$tags = array_values( array_diff( $p->get_tag_ids(), array( $tid ) ) );
+	if ( $hit && $tid ) { $tags[] = $tid; }
+	$p->set_tag_ids( $tags );
 	$p->save();
 	wp_send_json_success( array( 'id' => $p->get_id(), 'redirect' => admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() . '&saved=1' ) ) );
 } );
@@ -387,23 +398,45 @@ function blk_panel_products() {
 			<a class="blk-p-tab is-active" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">Товари <span><?php echo count( $products ); ?></span></a>
 		</nav>
 	</div>
-	<div class="blk-p-bar"><a class="blk-p-add" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&product=new' ) ); ?>">➕ Додати товар</a></div>
-	<div class="blk-p-prods">
+	<div class="blk-p-bar">
+		<a class="blk-p-add" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&product=new' ) ); ?>">➕ Додати товар</a>
+		<span class="blk-p-view blk-p-pview">
+			<button type="button" class="blk-p-vw" data-v="cards" title="Картки">▦</button>
+			<button type="button" class="blk-p-vw" data-v="list" title="Список">☰</button>
+		</span>
+	</div>
+	<div class="blk-p-prods" id="blk-p-prods">
 		<?php foreach ( $products as $p ) :
 			$img = $p->get_image_id() ? wp_get_attachment_image_url( $p->get_image_id(), array( 160, 160 ) ) : '';
 			$portion = function_exists( 'blk_product_portion' ) ? blk_product_portion( $p ) : '';
+			$cats = wp_get_post_terms( $p->get_id(), 'product_cat', array( 'fields' => 'names' ) );
+			$cat_str = ( ! is_wp_error( $cats ) && $cats ) ? implode( ', ', $cats ) : '';
+			$hit = has_term( 'bestseller', 'product_tag', $p->get_id() );
 			$url = admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() );
 		?>
 		<a class="blk-p-prod" href="<?php echo esc_url( $url ); ?>">
-			<div class="blk-p-prod-img"><?php echo $img ? '<img src="' . esc_url( $img ) . '" alt="">' : '<span class="blk-p-prod-ph">🥩</span>'; ?></div>
-			<div class="blk-p-prod-b">
+			<div class="blk-p-prod-img"><?php echo $img ? '<img src="' . esc_url( $img ) . '" alt="">' : '<span class="blk-p-prod-ph">🥩</span>'; ?><?php if ( $hit ) : ?><span class="blk-p-prod-hit">🔥 ХІТ</span><?php endif; ?></div>
+			<div class="blk-p-prod-main">
 				<div class="blk-p-prod-name"><?php echo esc_html( $p->get_name() ); ?></div>
-				<div class="blk-p-prod-meta"><span class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴/кг</span><?php echo $portion ? ' · <span class="blk-p-prod-portion">≈' . esc_html( $portion ) . '</span>' : ''; ?></div>
+				<div class="blk-p-prod-cat"><?php echo $cat_str ? '🏷 ' . esc_html( $cat_str ) : '<span class="blk-p-prod-nocat">без категорії</span>'; ?></div>
+				<div class="blk-p-prod-meta"><?php echo $portion ? '≈' . esc_html( $portion ) : ''; ?></div>
+			</div>
+			<div class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴/кг</div>
+			<div class="blk-p-prod-badges">
+				<?php if ( $hit ) : ?><span class="blk-p-prod-hitb">🔥 ХІТ</span><?php endif; ?>
 				<span class="blk-p-prod-st blk-p-prod-<?php echo esc_attr( $p->get_status() ); ?>"><?php echo $p->get_status() === 'publish' ? 'Активний' : 'Чернетка'; ?></span>
 			</div>
 		</a>
 		<?php endforeach; ?>
 	</div>
+	<script>
+	(function(){
+		var box=document.getElementById('blk-p-prods');
+		function v(x){ if(box)box.classList.toggle('is-list',x==='list'); document.querySelectorAll('.blk-p-pview .blk-p-vw').forEach(function(b){b.classList.toggle('on',b.dataset.v===x);}); }
+		v(localStorage.getItem('blk_p_prodview')||'cards');
+		document.querySelectorAll('.blk-p-pview .blk-p-vw').forEach(function(b){ b.addEventListener('click',function(){ localStorage.setItem('blk_p_prodview',b.dataset.v); v(b.dataset.v); }); });
+	})();
+	</script>
 	<?php
 }
 
@@ -421,6 +454,10 @@ function blk_panel_product_editor( $id ) {
 	$status = $is_new ? 'publish' : $p->get_status();
 	$img_id = $is_new ? 0 : $p->get_image_id();
 	$img    = $img_id ? wp_get_attachment_image_url( $img_id, array( 320, 320 ) ) : '';
+	$all_cats = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => false, 'orderby' => 'name' ) );
+	if ( is_wp_error( $all_cats ) ) { $all_cats = array(); }
+	$sel_cats = $is_new ? array() : $p->get_category_ids();
+	$is_hit   = $is_new ? false : has_term( 'bestseller', 'product_tag', $p->get_id() );
 	?>
 	<div class="blk-p-head"><h1><a class="blk-p-back" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">←</a> <?php echo $is_new ? 'Новий товар' : 'Товар: ' . esc_html( $name ); ?></h1></div>
 	<?php if ( isset( $_GET['saved'] ) ) : ?><div class="blk-p-ok">✓ Збережено</div><?php endif; ?>
@@ -435,6 +472,18 @@ function blk_panel_product_editor( $id ) {
 				</div>
 				<label class="blk-p-flbl" style="margin-top:12px">Склад<input type="text" id="pp-sklad" value="<?php echo esc_attr( $sklad ); ?>" placeholder="напр. 100% свинина"></label>
 			</div>
+			<div class="blk-p-box">
+				<h3>Категорії <span class="blk-p-hint">де показувати на сайті</span></h3>
+				<?php if ( $all_cats ) : ?>
+				<div class="blk-p-cats">
+					<?php foreach ( $all_cats as $c ) : ?>
+						<label class="blk-p-chk"><input type="checkbox" class="pp-cat" value="<?php echo esc_attr( $c->term_id ); ?>" <?php checked( in_array( (int) $c->term_id, array_map( 'intval', $sel_cats ), true ) ); ?>><span><?php echo esc_html( $c->name ); ?></span></label>
+					<?php endforeach; ?>
+				</div>
+				<?php else : ?>
+				<p class="blk-p-hint">Категорій ще немає. Створити можна у WooCommerce → Товари → Категорії.</p>
+				<?php endif; ?>
+			</div>
 		</div>
 		<div class="blk-p-col blk-p-side">
 			<div class="blk-p-box">
@@ -447,6 +496,7 @@ function blk_panel_product_editor( $id ) {
 			<div class="blk-p-box">
 				<h3>Статус</h3>
 				<select id="pp-status" class="blk-p-st-big"><option value="publish" <?php selected( $status, 'publish' ); ?>>Активний (на сайті)</option><option value="draft" <?php selected( $status, 'draft' ); ?>>Чернетка (прихований)</option></select>
+				<label class="blk-p-hit"><input type="checkbox" id="pp-hit" <?php checked( $is_hit ); ?>><span>🔥 Позначити як <strong>ХІТ</strong></span></label>
 				<button type="button" class="button button-primary blk-p-save" id="pp-save">💾 Зберегти товар</button>
 				<div id="pp-msg" class="blk-p-msg2"></div>
 			</div>
@@ -464,6 +514,8 @@ function blk_panel_product_editor( $id ) {
 			if(!price||parseFloat(price)<=0){ msg.style.color='#c0392b'; msg.textContent='⚠ Вкажи ціну за кг'; return; }
 			var btn=this; btn.disabled=true; msg.style.color=''; msg.textContent='Збереження…';
 			var b=new URLSearchParams(); b.append('action','blk_panel_save_product'); b.append('_n',N); b.append('id',ID); b.append('name',name); b.append('price',price); b.append('portion',document.getElementById('pp-portion').value); b.append('sklad',document.getElementById('pp-sklad').value); b.append('status',document.getElementById('pp-status').value); b.append('img',document.getElementById('pp-img-id').value);
+			b.append('hit',document.getElementById('pp-hit').checked?'1':'0');
+			document.querySelectorAll('.pp-cat:checked').forEach(function(c){ b.append('cats[]',c.value); });
 			fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString(),credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){ if(res&&res.success){ location=res.data.redirect; } else { btn.disabled=false; msg.style.color='#c0392b'; msg.textContent='Помилка: '+((res&&res.data&&res.data.msg)||'спробуй ще'); } }).catch(function(){ btn.disabled=false; msg.textContent='Помилка мережі'; });
 		};
 	})();
@@ -559,19 +611,38 @@ function blk_panel_styles() { ?>
 		.blk-np-dd li { padding:8px 12px; cursor:pointer; font-size:.9rem; font-weight:400; color:#3c434a; }
 		.blk-np-dd li:hover { background:#faf3e0; }
 		/* товари: сітка карток */
-		.blk-p-prods { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin:18px 20px; }
+		.blk-p-pview { margin-left:auto; display:flex; gap:4px; }
+		.blk-p-prods { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:16px; margin:18px 20px; }
 		.blk-p-prod { display:flex; gap:14px; align-items:center; background:#fff; border:1px solid #e6ddc9; border-radius:14px; padding:14px; text-decoration:none; color:inherit; box-shadow:0 2px 10px rgba(0,0,0,.04); transition:.15s; }
 		.blk-p-prod:hover { box-shadow:0 8px 26px rgba(0,0,0,.1); transform:translateY(-2px); color:inherit; }
-		.blk-p-prod-img { width:74px; height:74px; flex:0 0 74px; border-radius:12px; overflow:hidden; background:#faf3e0; display:flex; align-items:center; justify-content:center; }
+		.blk-p-prod-img { position:relative; width:74px; height:74px; flex:0 0 74px; border-radius:12px; overflow:hidden; background:#faf3e0; display:flex; align-items:center; justify-content:center; }
 		.blk-p-prod-img img { width:100%; height:100%; object-fit:cover; }
 		.blk-p-prod-ph { font-size:2rem; opacity:.6; }
-		.blk-p-prod-b { flex:1; min-width:0; }
-		.blk-p-prod-name { font-weight:700; font-size:1.02rem; line-height:1.3; margin-bottom:4px; }
-		.blk-p-prod-meta { font-size:.85rem; color:#9a8f7a; margin-bottom:8px; }
-		.blk-p-prod-price { color:var(--g); font-weight:700; }
+		.blk-p-prod-hit { position:absolute; top:3px; left:3px; background:var(--p); color:#fff; font-size:.6rem; font-weight:800; padding:2px 6px; border-radius:6px; line-height:1; }
+		.blk-p-prod-main { flex:1; min-width:0; }
+		.blk-p-prod-name { font-weight:700; font-size:1.02rem; line-height:1.3; margin-bottom:3px; }
+		.blk-p-prod-cat { font-size:.8rem; color:#8a7d62; margin-bottom:3px; } .blk-p-prod-nocat { color:#c0b89f; font-style:italic; }
+		.blk-p-prod-meta { font-size:.82rem; color:#9a8f7a; }
+		.blk-p-prod-price { color:var(--g); font-weight:800; font-size:1.05rem; white-space:nowrap; }
+		.blk-p-prod-badges { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
+		.blk-p-prod-hitb { display:none; background:#fff0f2; color:var(--p); border:1px solid #f3c5cd; padding:2px 9px; border-radius:99px; font-size:.7rem; font-weight:800; }
 		.blk-p-prod-st { display:inline-block; padding:2px 11px; border-radius:99px; font-size:.72rem; font-weight:700; }
 		.blk-p-prod-publish { background:#d4edda; color:#155724; } .blk-p-prod-draft { background:#f0f0f1; color:#787c82; }
+		/* товари: режим списку */
+		.blk-p-prods.is-list { display:block; }
+		.blk-p-prods.is-list .blk-p-prod { border-radius:10px; padding:9px 14px; margin-bottom:8px; gap:16px; }
+		.blk-p-prods.is-list .blk-p-prod-img { width:48px; height:48px; flex:0 0 48px; border-radius:8px; }
+		.blk-p-prods.is-list .blk-p-prod-hit { display:none; }
+		.blk-p-prods.is-list .blk-p-prod-meta { display:inline; }
+		.blk-p-prods.is-list .blk-p-prod-badges { flex-direction:row; align-items:center; }
+		.blk-p-prods.is-list .blk-p-prod-hitb { display:inline-block; }
 		/* товар: редактор */
+		.blk-p-cats { display:flex; flex-wrap:wrap; gap:8px; }
+		.blk-p-chk { display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border:1px solid #d8c89e; border-radius:99px; cursor:pointer; font-size:.88rem; background:#fff; transition:.12s; }
+		.blk-p-chk:has(input:checked) { background:#fff0f2; border-color:var(--p); color:var(--p); font-weight:600; }
+		.blk-p-chk input { margin:0; }
+		.blk-p-hit { display:flex; align-items:center; gap:9px; padding:11px 13px; background:#fff8e8; border:1px solid #ead9b0; border-radius:10px; cursor:pointer; margin-bottom:14px; font-size:.95rem; }
+		.blk-p-hit input { width:18px; height:18px; margin:0; }
 		.blk-p-flbl { display:flex; flex-direction:column; gap:4px; font-size:.8rem; color:#6b6256; font-weight:600; }
 		.blk-p-flbl input { padding:9px 11px; border-radius:8px; border:1px solid #d8c89e; font-size:.95rem; }
 		.blk-p-photo { width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:#faf3e0; margin-bottom:12px; display:flex; align-items:center; justify-content:center; }
