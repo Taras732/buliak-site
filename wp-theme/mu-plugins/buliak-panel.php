@@ -306,17 +306,21 @@ function blk_panel_editor( $ord ) {
 		render();
 		document.getElementById('bp-add-btn').onclick=function(){ var sel=document.getElementById('bp-add-sel'), o=sel.selectedOptions[0]; if(!o||!o.value)return; var q=Math.round((parseFloat(String(document.getElementById('bp-add-qty').value).replace(',','.'))||1)*1000)/1000; items.push({id:parseInt(o.value),name:o.dataset.name,qty:q,price:parseFloat(o.dataset.price)}); sel.value=''; render(); };
 
-		/* ---- Нова Пошта автопідбір (ті ж AJAX, що й checkout) ---- */
-		var cityRef='';
-		function npDD(input, ul, fetcher, onPick){
-			var t;
-			input.addEventListener('input', function(){ clearTimeout(t); var q=input.value.trim(); if(q.length<2){ ul.classList.remove('show'); return; } t=setTimeout(function(){ fetcher(q).then(function(list){ ul.innerHTML=''; (list||[]).forEach(function(it){ var li=document.createElement('li'); li.textContent=it.label; li.onclick=function(){ input.value=it.value; ul.classList.remove('show'); onPick&&onPick(it); }; ul.appendChild(li); }); ul.classList.toggle('show', (list||[]).length>0); }); }, 250); });
-			input.addEventListener('focus', function(){ if(ul.children.length) ul.classList.add('show'); });
-			document.addEventListener('click', function(e){ if(!e.target.closest('.blk-np-wrap')) ul.classList.remove('show'); });
-		}
+		/* ---- Нова Пошта автопідбір (ті ж AJAX, що checkout) ---- */
+		var cityRef='', branchList=[];
 		var ctI=document.getElementById('bp-ct'), ctDD=document.getElementById('bp-ct-dd'), brI=document.getElementById('bp-br'), brDD=document.getElementById('bp-br-dd');
-		npDD(ctI, ctDD, function(q){ return fetch(AJAX+'?action=blk_np_city&q='+encodeURIComponent(q),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ return (a||[]).map(function(x){return {label:x.name, value:x.name, ref:x.ref};}); }); }, function(it){ cityRef=it.ref; brI.value=''; brI.placeholder='Почни вводити відділення…'; });
-		npDD(brI, brDD, function(q){ if(!cityRef) return Promise.resolve([]); return fetch(AJAX+'?action=blk_np_wh&ref='+encodeURIComponent(cityRef),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ var ql=q.toLowerCase(); return (a||[]).map(function(x){return {label:x.desc, value:x.desc};}).filter(function(x){return x.label.toLowerCase().indexOf(ql)>-1;}).slice(0,40); }); });
+		function showDD(ul, items, input, onPick){
+			ul.innerHTML='';
+			items.slice(0,40).forEach(function(it){ var li=document.createElement('li'); li.textContent=it.label; li.onclick=function(){ input.value=it.value; ul.classList.remove('show'); onPick&&onPick(it); }; ul.appendChild(li); });
+			ul.classList.toggle('show', items.length>0);
+		}
+		var ct_t;
+		ctI.addEventListener('input', function(){ clearTimeout(ct_t); var q=ctI.value.trim(); if(q.length<2){ ctDD.classList.remove('show'); return; } ct_t=setTimeout(function(){ fetch(AJAX+'?action=blk_np_city&q='+encodeURIComponent(q),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ showDD(ctDD,(a||[]).map(function(x){return {label:x.name,value:x.name,ref:x.ref};}), ctI, function(it){ cityRef=it.ref; brI.value=''; branchList=[]; brI.placeholder='Завантаження…'; loadBranches(); }); }); },250); });
+		function loadBranches(){ if(!cityRef)return; fetch(AJAX+'?action=blk_np_wh&ref='+encodeURIComponent(cityRef),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ branchList=(a||[]).map(function(x){return {label:x.desc,value:x.desc};}); brI.placeholder='Почни вводити відділення…'; brI.focus(); filterBranches(); }); }
+		function filterBranches(){ var q=brI.value.trim().toLowerCase(); var items=q?branchList.filter(function(x){return x.label.toLowerCase().indexOf(q)>-1;}):branchList; showDD(brDD, items, brI); }
+		brI.addEventListener('input', filterBranches);
+		brI.addEventListener('focus', function(){ if(branchList.length) filterBranches(); });
+		document.addEventListener('click', function(e){ if(!e.target.closest('.blk-np-wrap')){ ctDD.classList.remove('show'); brDD.classList.remove('show'); } });
 		document.getElementById('bp-save').onclick=function(){
 			var btn=this; btn.disabled=true; var msg=document.getElementById('bp-msg'); msg.textContent='Збереження…';
 			var b=new URLSearchParams(); b.append('action','blk_panel_save'); b.append('_n',N); b.append('id',ID); b.append('status',document.getElementById('bp-status').value.replace(/^wc-/,''));
