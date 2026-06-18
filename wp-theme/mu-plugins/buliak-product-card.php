@@ -89,6 +89,10 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-card .blk-card-media img { width: 100% !important; height: 100% !important; object-fit: cover; display: block;
     margin: 0 !important; border-radius: 0 !important; transition: transform .4s cubic-bezier(.4,0,.2,1); }
   .blk-card:hover .blk-card-media img { transform: scale(1.06); }
+  /* безшовний плейсхолдер (без рамки картинки) — заповнює медіа кольором картки */
+  .blk-card .blk-card-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; width: 100%; height: 100%; background: #1d1917; }
+  .blk-card .blk-card-ph-em { width: 72px; height: auto; opacity: .92; }
+  .blk-card .blk-card-ph-t { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: rgba(247,239,228,.36); }
   .blk-card .blk-card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .blk-card .blk-card-title { font-size: 1.12rem; font-weight: 800; color: var(--bx-text); margin: 0 0 12px; line-height: 1.3; }
   .blk-card .blk-card-title a { color: inherit; text-decoration: none; }

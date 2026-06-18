@@ -13,7 +13,13 @@ $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), arra
 ?>
 <li <?php wc_product_class( 'blk-card', $product ); ?>>
 	<?php if ( $best ) : ?><span class="blk-hit">🔥 ХІТ</span><?php endif; ?>
-	<a href="<?php echo esc_url( $link ); ?>" class="blk-card-media"><?php echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore ?></a>
+	<a href="<?php echo esc_url( $link ); ?>" class="blk-card-media"><?php
+		if ( $product->get_image_id() ) {
+			echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore
+		} else {
+			echo '<span class="blk-card-ph"><img src="https://buliak.com/wp-content/uploads/2026/06/mark-300x300.png" alt="" class="blk-card-ph-em" loading="lazy"><span class="blk-card-ph-t">фото незабаром</span></span>';
+		}
+	?></a>
 	<div class="blk-card-body">
 		<h3 class="blk-card-title"><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $product->get_name() ); ?></a></h3>
 		<div class="blk-card-meta">
