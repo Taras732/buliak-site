@@ -90,6 +90,14 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
     color: #fff !important;
   }
   .btn-ghost, .btn-ghost:hover { color: #E0B557 !important; }
+  /* HOVER усіх кнопок = як у хіро (підсвічування ember + свічення + підйом) */
+  .blk-card-add:hover, .blk-cd-checkout:hover:not(.blk-disabled), .blk-ig-btn:hover, .blk-ab2-btn:hover,
+  .blk-card-tg:hover, .blk-search-submit:hover, .blk-cart-btn:hover, .buliak-cta-link:hover, .blk-cta-link:hover,
+  .woocommerce a.button:hover, .woocommerce button.button:hover, .woocommerce a.button.alt:hover {
+    background: var(--ember, #ff6a2b) !important; color: #fff !important;
+    box-shadow: 0 12px 34px rgba(255,106,43,.42) !important; transform: translateY(-2px) !important; }
+  /* ghost-кнопки (контур) → золотий контур+текст на hover (як «Написати в Telegram») */
+  .blk-search-close:hover, .blk-sp-close:hover { color: #E0B557 !important; }
   /* активний пункт навігації / поточна сторінка — золотий, не синій */
   .blk-nav-link.current, .blk-nav-link[aria-current], .current-menu-item > a { color: #E0B557 !important; }
   body .blk-hdr-wrap { --bx-primary:#B81F33; --bx-primary-h:#9e1728; --bx-gold:#E0B557; --bx-text:#F7EFE4; --bx-muted:rgba(247,239,228,.65); --bx-border:rgba(224,181,87,.14); }
