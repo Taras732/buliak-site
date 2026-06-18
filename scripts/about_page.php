@@ -1,7 +1,9 @@
 <?php
 /* Сторінка «Про нас» — преміум-дизайн (порт з buliak-modern about.astro). Запуск: wp eval-file - */
 if ( ! function_exists( 'wp_insert_post' ) ) { WP_CLI::error( 'WP off' ); }
-$hero = 'https://buliak.com/wp-content/themes/buliak-astra/assets/hero_bbq.webp';
+$base    = 'https://buliak.com/wp-content/themes/buliak-astra/assets';
+$hero_bg = "$base/set_feast.webp";
+$media   = "$base/sausages.webp";
 
 $svg_smoke = '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22s2.5-1.5 5-1.5 5 1.5 8 1.5 7-1.5 7-1.5"/><path d="M7 16c.5-2 1.5-3.5 3-4.5s2.5-3 2-5.5"/><path d="M12 14c.5-2 1.5-3.5 3-4.5s2.5-3 2-5.5"/><path d="M17 17.5c.3-1 .8-1.8 1.5-2.3s1.2-1.5 1-2.7"/></svg>';
 $svg_shield = '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M9 11h6"/></svg>';
@@ -10,7 +12,7 @@ $svg_craft = '<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke
 
 $content = <<<HTML
 <div class="blk-ab2">
-<section class="blk-ab2-hero" style="background-image:url('$hero')">
+<section class="blk-ab2-hero" style="background-image:url('$hero_bg')">
   <div class="blk-ab2-hero-ov"></div>
   <div class="blk-ab2-cont blk-ab2-hero-in">
     <span class="blk-ab2-badge">🔥 Наша філософія</span>
@@ -26,7 +28,7 @@ $content = <<<HTML
     <p>Ми — виробництво з Зимної Води на Львівщині. BBQ, копченості, домашні ковбаси та м'ясні сети власного виготовлення. Те, що ставимо на свій стіл — пропонуємо й вам.</p>
     <p>Кожен шматок м'яса відбираємо вручну, маринуємо за авторськими рецептами з натуральних спецій і відправляємо в коптильню на вільхових дровах. Жодної хімії, жодних замінників — тільки чистий м'ясний смак.</p>
   </div>
-  <div class="blk-ab2-media" style="background-image:url('$hero')"><div class="blk-ab2-media-ov"></div></div>
+  <div class="blk-ab2-media" style="background-image:url('$media')"><div class="blk-ab2-media-ov"></div></div>
 </div></section>
 
 <section class="blk-ab2-principles"><div class="blk-ab2-cont">
@@ -64,7 +66,7 @@ $content = <<<HTML
   .blk-ab2-cont { width:100%; max-width:1140px; margin:0 auto; padding:0 26px; box-sizing:border-box; }
   .blk-ab2-card { background:rgba(23,20,19,.5); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); border:1px solid var(--bd); border-radius:20px; box-shadow:0 10px 40px rgba(0,0,0,.45); }
   /* hero */
-  .blk-ab2-hero { position:relative; padding:150px 0 80px; background-size:cover; background-position:center; text-align:center; border-bottom:1px solid var(--bd); }
+  .blk-ab2-hero { position:relative; padding:150px 0 90px; background-size:cover; background-position:center; text-align:center; }
   .blk-ab2-hero-ov { position:absolute; inset:0; background:linear-gradient(180deg,rgba(8,7,7,.45),rgba(8,7,7,.85) 70%,var(--bg)); z-index:1; }
   .blk-ab2-hero-in { position:relative; z-index:2; max-width:820px; }
   .blk-ab2-badge { display:inline-block; font-family:'Unbounded',sans-serif; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--g); border:1px solid rgba(224,181,87,.25); background:rgba(224,181,87,.05); padding:7px 16px; border-radius:99px; margin-bottom:22px; }
