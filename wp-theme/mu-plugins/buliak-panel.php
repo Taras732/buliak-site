@@ -52,13 +52,48 @@ add_action( 'wp_ajax_blk_panel_save', function () {
 	wp_send_json_success( array( 'id' => $order->get_id(), 'redirect' => admin_url( 'admin.php?page=buliak-panel&order=' . $order->get_id() . '&saved=1' ) ) );
 } );
 
+/* ---- AJAX: зберегти/створити товар ---- */
+add_action( 'wp_ajax_blk_panel_save_product', function () {
+	if ( ! current_user_can( 'edit_products' ) ) { wp_send_json_error( array( 'msg' => 'Немає прав' ) ); }
+	check_ajax_referer( 'blk_panel', '_n' );
+	$id = isset( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : 'new';
+	$g  = function ( $k ) { return isset( $_POST[ $k ] ) ? sanitize_text_field( wp_unslash( $_POST[ $k ] ) ) : ''; };
+	$p  = ( $id === 'new' ) ? new WC_Product_Simple() : wc_get_product( intval( $id ) );
+	if ( ! $p ) { wp_send_json_error( array( 'msg' => 'Товар не знайдено' ) ); }
+	$name = $g( 'name' );
+	if ( ! $name ) { wp_send_json_error( array( 'msg' => 'Вкажи назву' ) ); }
+	$p->set_name( $name );
+	$price = floatval( str_replace( ',', '.', $g( 'price' ) ) );
+	$p->set_regular_price( (string) $price ); $p->set_price( (string) $price );
+	$portion = $g( 'portion' ); $sklad = $g( 'sklad' );
+	$sd = '';
+	if ( $portion ) { $sd .= '<strong>Орієнтовна вага:</strong> ' . $portion; }
+	if ( $sklad ) { $sd .= ( $sd ? '<br/>' : '' ) . '<strong>Склад:</strong> ' . $sklad; }
+	$p->set_short_description( wp_kses_post( $sd ) );
+	$p->set_status( $g( 'status' ) === 'draft' ? 'draft' : 'publish' );
+	$img = isset( $_POST['img'] ) ? intval( $_POST['img'] ) : 0;
+	$p->set_image_id( $img ? $img : '' );
+	$p->save();
+	wp_send_json_success( array( 'id' => $p->get_id(), 'redirect' => admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() . '&saved=1' ) ) );
+} );
+
+/* медіа-аплоадер на сторінці панелі */
+add_action( 'admin_enqueue_scripts', function () {
+	if ( isset( $_GET['page'] ) && $_GET['page'] === 'buliak-panel' ) { wp_enqueue_media(); }
+} );
+
 /* ====================== РОУТЕР ====================== */
 function blk_panel_render() {
 	if ( ! function_exists( 'wc_get_orders' ) ) { echo '<div class="wrap"><p>WooCommerce вимкнено.</p></div>'; return; }
-	$ord = isset( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
+	$ord  = isset( $_GET['order'] ) ? sanitize_text_field( wp_unslash( $_GET['order'] ) ) : '';
+	$prod = isset( $_GET['product'] ) ? sanitize_text_field( wp_unslash( $_GET['product'] ) ) : '';
+	$tab  = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : '';
 	echo '<div class="blk-panel">';
 	blk_panel_styles();
-	if ( $ord ) { blk_panel_editor( $ord ); } else { blk_panel_list(); }
+	if ( $prod ) { blk_panel_product_editor( $prod ); }
+	elseif ( $tab === 'products' ) { blk_panel_products(); }
+	elseif ( $ord ) { blk_panel_editor( $ord ); }
+	else { blk_panel_list(); }
 	echo '</div>';
 }
 
@@ -85,8 +120,8 @@ function blk_panel_list() {
 	<div class="blk-p-head">
 		<h1>🥩 Панель БУЛЯК</h1>
 		<nav class="blk-p-tabs">
-			<a class="blk-p-tab is-active" href="#">Замовлення <span><?php echo count( $orders ); ?></span></a>
-			<a class="blk-p-tab is-soon" href="#">Товари <em>скоро</em></a>
+			<a class="blk-p-tab is-active" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel' ) ); ?>">Замовлення <span><?php echo count( $orders ); ?></span></a>
+			<a class="blk-p-tab" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">Товари</a>
 		</nav>
 	</div>
 
@@ -322,7 +357,12 @@ function blk_panel_editor( $ord ) {
 		brI.addEventListener('focus', function(){ if(branchList.length) filterBranches(); });
 		document.addEventListener('click', function(e){ if(!e.target.closest('.blk-np-wrap')){ ctDD.classList.remove('show'); brDD.classList.remove('show'); } });
 		document.getElementById('bp-save').onclick=function(){
-			var btn=this; btn.disabled=true; var msg=document.getElementById('bp-msg'); msg.textContent='Збереження…';
+			var msg=document.getElementById('bp-msg');
+			var ln=document.getElementById('bp-ln').value.trim(), fn=document.getElementById('bp-fn').value.trim(), ph=document.getElementById('bp-ph').value.trim(), ct=document.getElementById('bp-ct').value.trim(), br=document.getElementById('bp-br').value.trim();
+			var miss=[];
+			if(!ln && !fn) miss.push('імʼя/прізвище'); if(!ph) miss.push('телефон'); if(!ct) miss.push('місто (НП)'); if(!br) miss.push('відділення (НП)'); if(!items.length) miss.push('хоча б 1 товар');
+			if(miss.length){ msg.style.color='#c0392b'; msg.textContent='⚠ Заповни: '+miss.join(', '); return; }
+			var btn=this; btn.disabled=true; msg.style.color=''; msg.textContent='Збереження…';
 			var b=new URLSearchParams(); b.append('action','blk_panel_save'); b.append('_n',N); b.append('id',ID); b.append('status',document.getElementById('bp-status').value.replace(/^wc-/,''));
 			b.append('last_name',document.getElementById('bp-ln').value); b.append('first_name',document.getElementById('bp-fn').value); b.append('phone',document.getElementById('bp-ph').value);
 			b.append('messenger',document.getElementById('bp-mg').value); b.append('np_city',document.getElementById('bp-ct').value); b.append('np_branch',document.getElementById('bp-br').value);
@@ -336,10 +376,106 @@ function blk_panel_editor( $ord ) {
 	<?php
 }
 
+/* ====================== ТОВАРИ: СПИСОК ====================== */
+function blk_panel_products() {
+	$products = wc_get_products( array( 'limit' => -1, 'status' => array( 'publish', 'draft' ), 'orderby' => 'title', 'order' => 'ASC' ) );
+	?>
+	<div class="blk-p-head">
+		<h1>🥩 Панель БУЛЯК</h1>
+		<nav class="blk-p-tabs">
+			<a class="blk-p-tab" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel' ) ); ?>">Замовлення</a>
+			<a class="blk-p-tab is-active" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">Товари <span><?php echo count( $products ); ?></span></a>
+		</nav>
+	</div>
+	<div class="blk-p-bar"><a class="blk-p-add" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&product=new' ) ); ?>">➕ Додати товар</a></div>
+	<div class="blk-p-prods">
+		<?php foreach ( $products as $p ) :
+			$img = $p->get_image_id() ? wp_get_attachment_image_url( $p->get_image_id(), array( 160, 160 ) ) : '';
+			$portion = function_exists( 'blk_product_portion' ) ? blk_product_portion( $p ) : '';
+			$url = admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() );
+		?>
+		<a class="blk-p-prod" href="<?php echo esc_url( $url ); ?>">
+			<div class="blk-p-prod-img"><?php echo $img ? '<img src="' . esc_url( $img ) . '" alt="">' : '<span class="blk-p-prod-ph">🥩</span>'; ?></div>
+			<div class="blk-p-prod-b">
+				<div class="blk-p-prod-name"><?php echo esc_html( $p->get_name() ); ?></div>
+				<div class="blk-p-prod-meta"><span class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴/кг</span><?php echo $portion ? ' · <span class="blk-p-prod-portion">≈' . esc_html( $portion ) . '</span>' : ''; ?></div>
+				<span class="blk-p-prod-st blk-p-prod-<?php echo esc_attr( $p->get_status() ); ?>"><?php echo $p->get_status() === 'publish' ? 'Активний' : 'Чернетка'; ?></span>
+			</div>
+		</a>
+		<?php endforeach; ?>
+	</div>
+	<?php
+}
+
+/* ====================== ТОВАР: РЕДАКТОР ====================== */
+function blk_panel_product_editor( $id ) {
+	$is_new = ( $id === 'new' );
+	$p = $is_new ? null : wc_get_product( intval( $id ) );
+	if ( ! $is_new && ! $p ) { echo '<p>Товар не знайдено. <a href="' . esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ) . '">← Назад</a></p>'; return; }
+	$nonce  = wp_create_nonce( 'blk_panel' );
+	$name   = $is_new ? '' : $p->get_name();
+	$price  = $is_new ? '' : $p->get_regular_price();
+	$portion= ( $is_new || ! function_exists( 'blk_product_portion' ) ) ? '' : blk_product_portion( $p );
+	$sklad  = '';
+	if ( ! $is_new ) { $sd = wp_strip_all_tags( $p->get_short_description() ); if ( preg_match( '/Склад:\s*(.+)$/u', $sd, $m ) ) { $sklad = trim( $m[1] ); } }
+	$status = $is_new ? 'publish' : $p->get_status();
+	$img_id = $is_new ? 0 : $p->get_image_id();
+	$img    = $img_id ? wp_get_attachment_image_url( $img_id, array( 320, 320 ) ) : '';
+	?>
+	<div class="blk-p-head"><h1><a class="blk-p-back" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">←</a> <?php echo $is_new ? 'Новий товар' : 'Товар: ' . esc_html( $name ); ?></h1></div>
+	<?php if ( isset( $_GET['saved'] ) ) : ?><div class="blk-p-ok">✓ Збережено</div><?php endif; ?>
+	<div class="blk-p-edit">
+		<div class="blk-p-col">
+			<div class="blk-p-box">
+				<h3>Інформація</h3>
+				<label class="blk-p-flbl">Назва<input type="text" id="pp-name" value="<?php echo esc_attr( $name ); ?>"></label>
+				<div class="blk-p-grid2" style="margin-top:12px">
+					<label>Ціна за кг, ₴<input type="number" id="pp-price" value="<?php echo esc_attr( $price ); ?>" step="1" min="0"></label>
+					<label>Орієнтовна вага порції<input type="text" id="pp-portion" value="<?php echo esc_attr( $portion ); ?>" placeholder="напр. 200–250 г"></label>
+				</div>
+				<label class="blk-p-flbl" style="margin-top:12px">Склад<input type="text" id="pp-sklad" value="<?php echo esc_attr( $sklad ); ?>" placeholder="напр. 100% свинина"></label>
+			</div>
+		</div>
+		<div class="blk-p-col blk-p-side">
+			<div class="blk-p-box">
+				<h3>Фото</h3>
+				<div class="blk-p-photo"><?php echo $img ? '<img id="pp-img-prev" src="' . esc_url( $img ) . '">' : '<div id="pp-img-prev" class="blk-p-photo-empty">🥩 без фото</div>'; ?></div>
+				<input type="hidden" id="pp-img-id" value="<?php echo esc_attr( $img_id ); ?>">
+				<button type="button" class="button" id="pp-img-btn">📷 Обрати / завантажити</button>
+				<button type="button" class="button" id="pp-img-rm" style="<?php echo $img ? '' : 'display:none'; ?>">Прибрати</button>
+			</div>
+			<div class="blk-p-box">
+				<h3>Статус</h3>
+				<select id="pp-status" class="blk-p-st-big"><option value="publish" <?php selected( $status, 'publish' ); ?>>Активний (на сайті)</option><option value="draft" <?php selected( $status, 'draft' ); ?>>Чернетка (прихований)</option></select>
+				<button type="button" class="button button-primary blk-p-save" id="pp-save">💾 Зберегти товар</button>
+				<div id="pp-msg" class="blk-p-msg2"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+	(function(){
+		var AJAX='<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>', N='<?php echo esc_js( $nonce ); ?>', ID='<?php echo esc_js( $is_new ? 'new' : $p->get_id() ); ?>';
+		var frame;
+		document.getElementById('pp-img-btn').onclick=function(e){ e.preventDefault(); if(frame){frame.open();return;} frame=wp.media({title:'Фото товару',button:{text:'Обрати'},library:{type:'image'},multiple:false}); frame.on('select',function(){ var a=frame.state().get('selection').first().toJSON(); document.getElementById('pp-img-id').value=a.id; var url=(a.sizes&&a.sizes.medium)?a.sizes.medium.url:a.url; document.getElementById('pp-img-prev').outerHTML='<img id="pp-img-prev" src="'+url+'">'; document.getElementById('pp-img-rm').style.display=''; }); frame.open(); };
+		document.getElementById('pp-img-rm').onclick=function(){ document.getElementById('pp-img-id').value=''; document.getElementById('pp-img-prev').outerHTML='<div id="pp-img-prev" class="blk-p-photo-empty">🥩 без фото</div>'; this.style.display='none'; };
+		document.getElementById('pp-save').onclick=function(){
+			var name=document.getElementById('pp-name').value.trim(), price=document.getElementById('pp-price').value, msg=document.getElementById('pp-msg');
+			if(!name){ msg.style.color='#c0392b'; msg.textContent='⚠ Вкажи назву'; return; }
+			if(!price||parseFloat(price)<=0){ msg.style.color='#c0392b'; msg.textContent='⚠ Вкажи ціну за кг'; return; }
+			var btn=this; btn.disabled=true; msg.style.color=''; msg.textContent='Збереження…';
+			var b=new URLSearchParams(); b.append('action','blk_panel_save_product'); b.append('_n',N); b.append('id',ID); b.append('name',name); b.append('price',price); b.append('portion',document.getElementById('pp-portion').value); b.append('sklad',document.getElementById('pp-sklad').value); b.append('status',document.getElementById('pp-status').value); b.append('img',document.getElementById('pp-img-id').value);
+			fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString(),credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){ if(res&&res.success){ location=res.data.redirect; } else { btn.disabled=false; msg.style.color='#c0392b'; msg.textContent='Помилка: '+((res&&res.data&&res.data.msg)||'спробуй ще'); } }).catch(function(){ btn.disabled=false; msg.textContent='Помилка мережі'; });
+		};
+	})();
+	</script>
+	<?php
+}
+
 /* ====================== СТИЛІ ====================== */
 function blk_panel_styles() { ?>
 	<style>
-		.blk-panel { --g:#b8860b; --gl:#E0B557; --p:#B81F33; max-width:1240px; }
+		.blk-panel { --g:#b8860b; --gl:#E0B557; --p:#B81F33; max-width:none; }
+		#wpcontent, #wpbody-content { overflow-x:hidden; }
 		.blk-panel input, .blk-panel select { box-sizing:border-box; max-width:100%; }
 		.blk-p-head { display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; margin:16px 20px 0; }
 		.blk-p-head h1 { font-size:1.6rem; margin:0; display:flex; align-items:center; gap:12px; }
@@ -422,6 +558,26 @@ function blk_panel_styles() { ?>
 		.blk-np-dd.show { display:block; }
 		.blk-np-dd li { padding:8px 12px; cursor:pointer; font-size:.9rem; font-weight:400; color:#3c434a; }
 		.blk-np-dd li:hover { background:#faf3e0; }
+		/* товари: сітка карток */
+		.blk-p-prods { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin:18px 20px; }
+		.blk-p-prod { display:flex; gap:14px; align-items:center; background:#fff; border:1px solid #e6ddc9; border-radius:14px; padding:14px; text-decoration:none; color:inherit; box-shadow:0 2px 10px rgba(0,0,0,.04); transition:.15s; }
+		.blk-p-prod:hover { box-shadow:0 8px 26px rgba(0,0,0,.1); transform:translateY(-2px); color:inherit; }
+		.blk-p-prod-img { width:74px; height:74px; flex:0 0 74px; border-radius:12px; overflow:hidden; background:#faf3e0; display:flex; align-items:center; justify-content:center; }
+		.blk-p-prod-img img { width:100%; height:100%; object-fit:cover; }
+		.blk-p-prod-ph { font-size:2rem; opacity:.6; }
+		.blk-p-prod-b { flex:1; min-width:0; }
+		.blk-p-prod-name { font-weight:700; font-size:1.02rem; line-height:1.3; margin-bottom:4px; }
+		.blk-p-prod-meta { font-size:.85rem; color:#9a8f7a; margin-bottom:8px; }
+		.blk-p-prod-price { color:var(--g); font-weight:700; }
+		.blk-p-prod-st { display:inline-block; padding:2px 11px; border-radius:99px; font-size:.72rem; font-weight:700; }
+		.blk-p-prod-publish { background:#d4edda; color:#155724; } .blk-p-prod-draft { background:#f0f0f1; color:#787c82; }
+		/* товар: редактор */
+		.blk-p-flbl { display:flex; flex-direction:column; gap:4px; font-size:.8rem; color:#6b6256; font-weight:600; }
+		.blk-p-flbl input { padding:9px 11px; border-radius:8px; border:1px solid #d8c89e; font-size:.95rem; }
+		.blk-p-photo { width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:#faf3e0; margin-bottom:12px; display:flex; align-items:center; justify-content:center; }
+		.blk-p-photo img { width:100%; height:100%; object-fit:cover; }
+		.blk-p-photo-empty { color:#b8a87f; font-size:1rem; }
+		.blk-p-side .button { width:100%; justify-content:center; margin-bottom:8px; }
 		/* флекс/мобільна адаптація */
 		@media (max-width:900px) { .blk-p-edit { grid-template-columns:1fr; } .blk-p-side .blk-p-box { position:static; } }
 		@media (max-width:700px) {
@@ -431,7 +587,7 @@ function blk_panel_styles() { ?>
 			.blk-p-irow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
 			.blk-p-iname { flex:1 1 100%; } .bp-rm { order:2; } .blk-p-iprice { order:3; } .blk-p-iqty { order:4; } .blk-p-iline { order:5; margin-left:auto; min-width:0; }
 			.blk-p-additem { flex-direction:column; align-items:stretch; }
-			.blk-p-orders { grid-template-columns:1fr; margin:14px; }
+			.blk-p-orders, .blk-p-prods { grid-template-columns:1fr; margin:14px; }
 			.blk-p-head, .blk-p-bar, .blk-p-edit { margin-left:12px; margin-right:12px; }
 		}
 	</style>
