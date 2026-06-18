@@ -41,18 +41,29 @@
 
 <section class="sec wrap" id="contacts">
   <div class="sec-head"><span class="eyebrow">Завітай</span><h2>Магазин у Зимній Воді</h2></div>
-  <div class="contact">
-    <div class="map-frame"><?php $map_q = rawurlencode("Буляк - М'ясні Традиції Галичини, Зимна Вода"); ?><iframe src="https://maps.google.com/maps?q=<?php echo $map_q; ?>&hl=uk&z=17&output=embed" loading="lazy"></iframe></div>
-    <div>
-      <div class="cline"><div class="k">Адреса</div><div class="v">Зимна Вода, вул. Яворівська 2г</div></div>
-      <div class="cline"><div class="k">Телефон</div><div class="v"><a href="tel:0731117670">073 111 76 70</a></div></div>
-      <div class="cline"><div class="k">Графік</div><div class="v">Пн–Сб 09–19 · Нд 10–18</div></div>
-      <div class="social-row">
-        <a class="social-ic" href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21.94 4.6 18.9 19.2c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.95.46l.34-4.78L18.5 6.3c.38-.34-.08-.53-.6-.19L6.9 13.18l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5L20.63 3.2c.84-.32 1.58.2 1.31 1.4z"/></svg></a>
-        <a class="social-ic" href="https://instagram.com/buliak_space" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
-      </div>
+  <div class="blk-contacts-grid">
+    <div class="blk-ci-card">
+      <div class="blk-ig"><h5>🏬 Наша адреса</h5><p>Львівська обл., с. Зимна Вода, вул. Яворівська 2г</p></div>
+      <div class="blk-ig"><h5>📞 Зв'язок та замовлення</h5><a href="tel:0731117670" class="blk-ig-phone">073 111 76 70</a><p class="blk-ig-muted">Пн–Сб 09:00–19:00 · Нд 10:00–18:00</p></div>
+      <div class="blk-ig"><h5>🚚 Доставка</h5><p>Швидка доставка Новою Поштою по всій Україні. Термін виготовлення передзамовлення — 1–2 робочих дні.</p></div>
+      <div class="blk-ig"><h5>💬 Опт / Співпраця</h5><p>Для великих замовлень, кейтерингу та оптових поставок зв'яжіться з нами в Telegram.</p><a href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener" class="blk-ig-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M21.94 4.6 18.9 19.2c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.95.46l.34-4.78L18.5 6.3c.38-.34-.08-.53-.6-.19L6.9 13.18l-4.65-1.45c-1.01-.32-1.03-1.01.21-1.5L20.63 3.2c.84-.32 1.58.2 1.31 1.4z"/></svg> Чат Telegram</a></div>
     </div>
+    <div class="blk-map-card"><iframe src="https://maps.google.com/maps?cid=4130221669056022743&output=embed" width="100%" height="100%" style="border:0;min-height:440px" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
   </div>
+  <style>
+    #contacts .blk-contacts-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 24px; align-items: stretch; margin-top: 6px; }
+    #contacts .blk-ci-card { background: rgba(23,20,19,.5); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(224,181,87,.16); border-radius: 18px; padding: 34px; display: flex; flex-direction: column; gap: 24px; }
+    #contacts .blk-ig h5 { color: #E0B557; font-family: 'Unbounded',sans-serif; font-size: .9rem; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+    #contacts .blk-ig p { color: rgba(247,239,228,.7); line-height: 1.55; margin: 0; font-size: 1rem; }
+    #contacts .blk-ig-phone { font-family: 'Unbounded',sans-serif; font-size: 1.5rem; font-weight: 800; color: #E0B557; text-decoration: none; display: inline-block; }
+    #contacts .blk-ig-phone:hover { color: #fff; }
+    #contacts .blk-ig-muted { color: rgba(247,239,228,.5) !important; font-size: .9rem !important; margin-top: 4px !important; }
+    #contacts .blk-ig-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: #B81F33; color: #fff !important; font-weight: 700; padding: 12px 24px; border-radius: 99px; text-decoration: none; transition: background .2s, transform .15s; box-shadow: 0 4px 15px rgba(184,31,51,.25); }
+    #contacts .blk-ig-btn:hover { background: #9e1728; transform: translateY(-1px); }
+    #contacts .blk-map-card { border-radius: 18px; overflow: hidden; border: 1px solid rgba(224,181,87,.16); min-height: 440px; background: #1a1614; }
+    #contacts .blk-map-card iframe { display: block; width: 100%; height: 100%; min-height: 440px; filter: grayscale(.15) contrast(1.05) brightness(.95); }
+    @media (max-width: 880px) { #contacts .blk-contacts-grid { grid-template-columns: 1fr; } #contacts .blk-map-card { min-height: 320px; } #contacts .blk-map-card iframe { min-height: 320px; } #contacts .blk-ci-card { padding: 26px; } }
+  </style>
 </section>
 
 <section class="final"><div class="wrap">
