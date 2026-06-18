@@ -72,6 +72,11 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
 <style id="blk-header-css">
   /* приховати дефолтний хедер Astra */
   #masthead.site-header, .site-header, #ast-mobile-header, .ast-mobile-header-wrap, header.site-header { display: none !important; }
+  /* прибрати старі кошик-елементи від хедера Astra (дублювали кошик на мобільному — синій) */
+  body .blk-mobile-cart, body .buliak-cart-item, body .buliak-contacts-item { display: none !important; }
+  /* без синього підсвічування при тапі + бренд-колір виділення тексту */
+  html { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: rgba(224,181,87,.3); color: #fff; }
   body .blk-hdr-wrap { --bx-primary:#B81F33; --bx-primary-h:#9e1728; --bx-gold:#E0B557; --bx-text:#F7EFE4; --bx-muted:rgba(247,239,228,.65); --bx-border:rgba(224,181,87,.14); }
   /* хедер плаває ПОВЕРХ контенту (картинка hero йде до верху, без темного band) */
   .blk-hdr-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; width: 100%; font-family: 'Manrope', sans-serif; }
