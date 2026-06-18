@@ -112,8 +112,8 @@ add_filter('loop_shop_per_page', function () { return 12; });
 
 // головна — на всю ширину (без контейнера Astra), щоб hero був повноекранний
 add_filter('astra_get_content_layout', function ($layout) {
-    return is_front_page() ? 'page-builder' : $layout;
+    return ( is_front_page() || is_page('about') ) ? 'page-builder' : $layout;
 });
 add_filter('astra_the_title_enabled', function ($enabled) {
-    return is_front_page() ? false : $enabled;
+    return ( is_front_page() || is_page('about') ) ? false : $enabled;
 });
