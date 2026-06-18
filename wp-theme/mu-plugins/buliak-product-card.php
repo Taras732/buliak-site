@@ -59,7 +59,9 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   @media (max-width: 600px) { .woocommerce ul.products:not(.blk-carousel-track):not(.buliak-best-grid) { grid-template-columns: 1fr !important; gap: 18px !important; } }
   /* «з цим купують» (related / upsells) на мобільному → горизонтальний скрол, як бестселери на головній */
   @media (max-width: 768px) {
-    .woocommerce .related ul.products, .woocommerce .up-sells ul.products, .woocommerce .upsells ul.products {
+    .woocommerce .related ul.products:not(.blk-carousel-track):not(.buliak-best-grid),
+    .woocommerce .up-sells ul.products:not(.blk-carousel-track):not(.buliak-best-grid),
+    .woocommerce .upsells ul.products:not(.blk-carousel-track):not(.buliak-best-grid) {
       display: flex !important; grid-template-columns: none !important; overflow-x: auto !important; gap: 14px !important;
       scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; margin-top: 16px !important; }
     .woocommerce .related ul.products::-webkit-scrollbar, .woocommerce .up-sells ul.products::-webkit-scrollbar, .woocommerce .upsells ul.products::-webkit-scrollbar { display: none; }
