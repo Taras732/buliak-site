@@ -84,6 +84,9 @@ add_action( 'wp_ajax_blk_panel_save_product', function () {
 	$tags = array_values( array_diff( $p->get_tag_ids(), array( $tid ) ) );
 	if ( $hit && $tid ) { $tags[] = $tid; }
 	$p->set_tag_ids( $tags );
+	// одиниця виміру (як міряємо) — довідкове поле, фронт не зачіпає
+	$unit = $g( 'unit' );
+	$p->update_meta_data( '_blk_unit_label', $unit ? $unit : 'кг' );
 	$p->save();
 	wp_send_json_success( array( 'id' => $p->get_id(), 'redirect' => admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() . '&saved=1' ) ) );
 } );
@@ -412,6 +415,7 @@ function blk_panel_products() {
 			$cats = wp_get_post_terms( $p->get_id(), 'product_cat', array( 'fields' => 'names' ) );
 			$cat_str = ( ! is_wp_error( $cats ) && $cats ) ? implode( ', ', $cats ) : '';
 			$hit = has_term( 'bestseller', 'product_tag', $p->get_id() );
+			$unit = $p->get_meta( '_blk_unit_label' ) ? $p->get_meta( '_blk_unit_label' ) : 'кг';
 			$url = admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() );
 		?>
 		<a class="blk-p-prod" href="<?php echo esc_url( $url ); ?>">
@@ -421,7 +425,7 @@ function blk_panel_products() {
 				<div class="blk-p-prod-cat"><?php echo $cat_str ? '🏷 ' . esc_html( $cat_str ) : '<span class="blk-p-prod-nocat">без категорії</span>'; ?></div>
 				<div class="blk-p-prod-meta"><?php echo $portion ? '≈' . esc_html( $portion ) : ''; ?></div>
 			</div>
-			<div class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴/кг</div>
+			<div class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴ / <?php echo esc_html( $unit ); ?></div>
 			<div class="blk-p-prod-badges">
 				<?php if ( $hit ) : ?><span class="blk-p-prod-hitb">🔥 ХІТ</span><?php endif; ?>
 				<span class="blk-p-prod-st blk-p-prod-<?php echo esc_attr( $p->get_status() ); ?>"><?php echo $p->get_status() === 'publish' ? 'Активний' : 'Чернетка'; ?></span>
@@ -458,6 +462,12 @@ function blk_panel_product_editor( $id ) {
 	if ( is_wp_error( $all_cats ) ) { $all_cats = array(); }
 	$sel_cats = $is_new ? array() : $p->get_category_ids();
 	$is_hit   = $is_new ? false : has_term( 'bestseller', 'product_tag', $p->get_id() );
+	$unit     = $is_new ? 'кг' : ( $p->get_meta( '_blk_unit_label' ) ? $p->get_meta( '_blk_unit_label' ) : 'кг' );
+	$unit_opts = array( 'кг', 'г', 'шт', 'відерце', 'порція', 'кільце', 'пучок', 'упаковка', 'банка', 'пляшка' );
+	foreach ( wc_get_products( array( 'limit' => -1, 'status' => array( 'publish', 'draft' ), 'return' => 'objects' ) ) as $up ) {
+		$u = $up->get_meta( '_blk_unit_label' );
+		if ( $u && ! in_array( $u, $unit_opts, true ) ) { $unit_opts[] = $u; }
+	}
 	?>
 	<div class="blk-p-head"><h1><a class="blk-p-back" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">←</a> <?php echo $is_new ? 'Новий товар' : 'Товар: ' . esc_html( $name ); ?></h1></div>
 	<?php if ( isset( $_GET['saved'] ) ) : ?><div class="blk-p-ok">✓ Збережено</div><?php endif; ?>
@@ -468,8 +478,9 @@ function blk_panel_product_editor( $id ) {
 				<label class="blk-p-flbl">Назва<input type="text" id="pp-name" value="<?php echo esc_attr( $name ); ?>"></label>
 				<div class="blk-p-grid2" style="margin-top:12px">
 					<label>Ціна за кг, ₴<input type="number" id="pp-price" value="<?php echo esc_attr( $price ); ?>" step="1" min="0"></label>
-					<label>Орієнтовна вага порції<input type="text" id="pp-portion" value="<?php echo esc_attr( $portion ); ?>" placeholder="напр. 200–250 г"></label>
+					<label>Одиниця виміру (як міряємо)<input list="pp-units" type="text" id="pp-unit" value="<?php echo esc_attr( $unit ); ?>" placeholder="кг · шт · відерце · порція · кільце"><datalist id="pp-units"><?php foreach ( $unit_opts as $uo ) : ?><option value="<?php echo esc_attr( $uo ); ?>"><?php endforeach; ?></datalist></label>
 				</div>
+				<label class="blk-p-flbl" style="margin-top:12px">Орієнтовна вага / порція <span class="blk-p-hint">довільно: «200–300 г», «600–700 г», «1–1,5 кг», «25 кг»</span><input type="text" id="pp-portion" value="<?php echo esc_attr( $portion ); ?>" placeholder="напр. 200–300 г або 1–1,5 кг"></label>
 				<label class="blk-p-flbl" style="margin-top:12px">Склад<input type="text" id="pp-sklad" value="<?php echo esc_attr( $sklad ); ?>" placeholder="напр. 100% свинина"></label>
 			</div>
 			<div class="blk-p-box">
@@ -515,6 +526,7 @@ function blk_panel_product_editor( $id ) {
 			var btn=this; btn.disabled=true; msg.style.color=''; msg.textContent='Збереження…';
 			var b=new URLSearchParams(); b.append('action','blk_panel_save_product'); b.append('_n',N); b.append('id',ID); b.append('name',name); b.append('price',price); b.append('portion',document.getElementById('pp-portion').value); b.append('sklad',document.getElementById('pp-sklad').value); b.append('status',document.getElementById('pp-status').value); b.append('img',document.getElementById('pp-img-id').value);
 			b.append('hit',document.getElementById('pp-hit').checked?'1':'0');
+			b.append('unit',document.getElementById('pp-unit').value);
 			document.querySelectorAll('.pp-cat:checked').forEach(function(c){ b.append('cats[]',c.value); });
 			fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString(),credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){ if(res&&res.success){ location=res.data.redirect; } else { btn.disabled=false; msg.style.color='#c0392b'; msg.textContent='Помилка: '+((res&&res.data&&res.data.msg)||'спробуй ще'); } }).catch(function(){ btn.disabled=false; msg.textContent='Помилка мережі'; });
 		};
