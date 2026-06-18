@@ -340,6 +340,7 @@ function blk_panel_editor( $ord ) {
 function blk_panel_styles() { ?>
 	<style>
 		.blk-panel { --g:#b8860b; --gl:#E0B557; --p:#B81F33; max-width:1240px; }
+		.blk-panel input, .blk-panel select { box-sizing:border-box; max-width:100%; }
 		.blk-p-head { display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; margin:16px 20px 0; }
 		.blk-p-head h1 { font-size:1.6rem; margin:0; display:flex; align-items:center; gap:12px; }
 		.blk-p-back { text-decoration:none; color:var(--p); font-size:1.4rem; }
