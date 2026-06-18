@@ -238,8 +238,8 @@ function blk_panel_editor( $ord ) {
 					<label>Ім'я<input type="text" id="bp-fn" value="<?php echo esc_attr( $fn ); ?>"></label>
 					<label>Телефон<input type="text" id="bp-ph" value="<?php echo esc_attr( $ph ); ?>" placeholder="073..."></label>
 					<label>Месенджер<select id="bp-mg"><option <?php selected( $mg, 'Telegram' ); ?>>Telegram</option><option <?php selected( $mg, 'Viber' ); ?>>Viber</option></select></label>
-					<label>Місто (НП)<input type="text" id="bp-ct" value="<?php echo esc_attr( $ct ); ?>"></label>
-					<label>Відділення (НП)<input type="text" id="bp-br" value="<?php echo esc_attr( $br ); ?>"></label>
+					<label class="blk-np-wrap">Місто (НП)<input type="text" id="bp-ct" value="<?php echo esc_attr( $ct ); ?>" autocomplete="off" placeholder="Почни вводити місто…"><ul class="blk-np-dd" id="bp-ct-dd"></ul></label>
+					<label class="blk-np-wrap">Відділення (НП)<input type="text" id="bp-br" value="<?php echo esc_attr( $br ); ?>" autocomplete="off" placeholder="Спершу обери місто"><ul class="blk-np-dd" id="bp-br-dd"></ul></label>
 				</div>
 				<?php if ( $pclean ) : ?>
 				<div class="blk-p-contact" style="margin-top:12px">
@@ -255,7 +255,7 @@ function blk_panel_editor( $ord ) {
 				<div id="bp-items" class="blk-p-items-edit"></div>
 				<div class="blk-p-additem">
 					<select id="bp-add-sel"><option value="">+ Обрати товар…</option><?php foreach ( $catalog as $c ) : ?><option value="<?php echo esc_attr( $c['id'] ); ?>" data-name="<?php echo esc_attr( $c['name'] ); ?>" data-price="<?php echo esc_attr( $c['price'] ); ?>"><?php echo esc_html( $c['name'] ); ?> — <?php echo (int) $c['price']; ?> ₴/кг</option><?php endforeach; ?></select>
-					<input type="number" id="bp-add-qty" value="1" step="0.25" min="0.25" style="width:90px">
+					<input type="number" id="bp-add-qty" value="1" step="0.001" min="0.001" style="width:90px">
 					<button type="button" class="button" id="bp-add-btn">Додати</button>
 				</div>
 				<div class="blk-p-totalrow">Орієнтовна сума: <strong id="bp-total">0 ₴</strong></div>
@@ -293,10 +293,10 @@ function blk_panel_editor( $ord ) {
 			wrap.innerHTML=''; var sum=0;
 			items.forEach(function(it,i){ var line=Math.round(it.price*it.qty); sum+=line;
 				var row=document.createElement('div'); row.className='blk-p-irow';
-				row.innerHTML='<span class="blk-p-iname">'+it.name+'</span><span class="blk-p-iprice">'+Math.round(it.price)+' ₴/кг</span><span class="blk-p-iqty"><button type="button" class="bp-dec">−</button><input type="number" value="'+it.qty+'" step="0.25" min="0.25"><span>кг</span><button type="button" class="bp-inc">+</button></span><span class="blk-p-iline">'+fmt(line)+'</span><button type="button" class="bp-rm" title="Прибрати">✕</button>';
-				row.querySelector('.bp-dec').onclick=function(){ it.qty=Math.max(0.25,Math.round((it.qty-0.25)*100)/100); render(); };
-				row.querySelector('.bp-inc').onclick=function(){ it.qty=Math.round((it.qty+0.25)*100)/100; render(); };
-				row.querySelector('input').onchange=function(e){ var v=parseFloat(String(e.target.value).replace(',','.'))||0.25; it.qty=v; render(); };
+				row.innerHTML='<span class="blk-p-iname">'+it.name+'</span><span class="blk-p-iprice">'+Math.round(it.price)+' ₴/кг</span><span class="blk-p-iqty"><button type="button" class="bp-dec">−</button><input type="number" value="'+it.qty+'" step="0.001" min="0.001"><span>кг</span><button type="button" class="bp-inc">+</button></span><span class="blk-p-iline">'+fmt(line)+'</span><button type="button" class="bp-rm" title="Прибрати">✕</button>';
+				row.querySelector('.bp-dec').onclick=function(){ it.qty=Math.max(0.001,Math.round((it.qty-0.25)*1000)/1000); render(); };
+				row.querySelector('.bp-inc').onclick=function(){ it.qty=Math.round((it.qty+0.25)*1000)/1000; render(); };
+				row.querySelector('input').onchange=function(e){ var v=parseFloat(String(e.target.value).replace(',','.'))||0.001; it.qty=Math.round(v*1000)/1000; render(); };
 				row.querySelector('.bp-rm').onclick=function(){ items.splice(i,1); render(); };
 				wrap.appendChild(row);
 			});
@@ -304,7 +304,19 @@ function blk_panel_editor( $ord ) {
 			totalEl.textContent=fmt(sum);
 		}
 		render();
-		document.getElementById('bp-add-btn').onclick=function(){ var sel=document.getElementById('bp-add-sel'), o=sel.selectedOptions[0]; if(!o||!o.value)return; var q=parseFloat(document.getElementById('bp-add-qty').value)||1; items.push({id:parseInt(o.value),name:o.dataset.name,qty:q,price:parseFloat(o.dataset.price)}); sel.value=''; render(); };
+		document.getElementById('bp-add-btn').onclick=function(){ var sel=document.getElementById('bp-add-sel'), o=sel.selectedOptions[0]; if(!o||!o.value)return; var q=Math.round((parseFloat(String(document.getElementById('bp-add-qty').value).replace(',','.'))||1)*1000)/1000; items.push({id:parseInt(o.value),name:o.dataset.name,qty:q,price:parseFloat(o.dataset.price)}); sel.value=''; render(); };
+
+		/* ---- Нова Пошта автопідбір (ті ж AJAX, що й checkout) ---- */
+		var cityRef='';
+		function npDD(input, ul, fetcher, onPick){
+			var t;
+			input.addEventListener('input', function(){ clearTimeout(t); var q=input.value.trim(); if(q.length<2){ ul.classList.remove('show'); return; } t=setTimeout(function(){ fetcher(q).then(function(list){ ul.innerHTML=''; (list||[]).forEach(function(it){ var li=document.createElement('li'); li.textContent=it.label; li.onclick=function(){ input.value=it.value; ul.classList.remove('show'); onPick&&onPick(it); }; ul.appendChild(li); }); ul.classList.toggle('show', (list||[]).length>0); }); }, 250); });
+			input.addEventListener('focus', function(){ if(ul.children.length) ul.classList.add('show'); });
+			document.addEventListener('click', function(e){ if(!e.target.closest('.blk-np-wrap')) ul.classList.remove('show'); });
+		}
+		var ctI=document.getElementById('bp-ct'), ctDD=document.getElementById('bp-ct-dd'), brI=document.getElementById('bp-br'), brDD=document.getElementById('bp-br-dd');
+		npDD(ctI, ctDD, function(q){ return fetch(AJAX+'?action=blk_np_city&q='+encodeURIComponent(q),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ return (a||[]).map(function(x){return {label:x.name, value:x.name, ref:x.ref};}); }); }, function(it){ cityRef=it.ref; brI.value=''; brI.placeholder='Почни вводити відділення…'; });
+		npDD(brI, brDD, function(q){ if(!cityRef) return Promise.resolve([]); return fetch(AJAX+'?action=blk_np_wh&ref='+encodeURIComponent(cityRef),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(a){ var ql=q.toLowerCase(); return (a||[]).map(function(x){return {label:x.desc, value:x.desc};}).filter(function(x){return x.label.toLowerCase().indexOf(ql)>-1;}).slice(0,40); }); });
 		document.getElementById('bp-save').onclick=function(){
 			var btn=this; btn.disabled=true; var msg=document.getElementById('bp-msg'); msg.textContent='Збереження…';
 			var b=new URLSearchParams(); b.append('action','blk_panel_save'); b.append('_n',N); b.append('id',ID); b.append('status',document.getElementById('bp-status').value.replace(/^wc-/,''));
@@ -399,6 +411,23 @@ function blk_panel_styles() { ?>
 		.blk-p-hist { list-style:none; margin:0; padding:0; }
 		.blk-p-hist li { display:flex; align-items:center; gap:8px; padding:7px 0; border-bottom:1px solid #f0ead9; font-size:.85rem; }
 		.blk-p-hist a { font-weight:700; text-decoration:none; } .blk-p-hist span { color:#9a8f7a; } .blk-p-hist em { font-style:normal; margin-left:auto; color:#6b6256; }
+		/* Нова Пошта автопідбір */
+		.blk-np-wrap { position:relative; }
+		.blk-np-dd { position:absolute; left:0; right:0; top:100%; z-index:50; background:#fff; border:1px solid #d8c89e; border-radius:8px; max-height:240px; overflow:auto; list-style:none; margin:2px 0 0; padding:4px 0; display:none; box-shadow:0 10px 28px rgba(0,0,0,.15); }
+		.blk-np-dd.show { display:block; }
+		.blk-np-dd li { padding:8px 12px; cursor:pointer; font-size:.9rem; font-weight:400; color:#3c434a; }
+		.blk-np-dd li:hover { background:#faf3e0; }
+		/* флекс/мобільна адаптація */
 		@media (max-width:900px) { .blk-p-edit { grid-template-columns:1fr; } .blk-p-side .blk-p-box { position:static; } }
+		@media (max-width:700px) {
+			.blk-p-grid2 { grid-template-columns:1fr; }
+			.blk-p-bar { flex-direction:column; align-items:stretch; } .blk-p-add { text-align:center; }
+			.blk-p-filters { flex-direction:column; align-items:stretch; } .blk-p-view { margin:0; }
+			.blk-p-irow { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+			.blk-p-iname { flex:1 1 100%; } .bp-rm { order:2; } .blk-p-iprice { order:3; } .blk-p-iqty { order:4; } .blk-p-iline { order:5; margin-left:auto; min-width:0; }
+			.blk-p-additem { flex-direction:column; align-items:stretch; }
+			.blk-p-orders { grid-template-columns:1fr; margin:14px; }
+			.blk-p-head, .blk-p-bar, .blk-p-edit { margin-left:12px; margin-right:12px; }
+		}
 	</style>
 <?php }
