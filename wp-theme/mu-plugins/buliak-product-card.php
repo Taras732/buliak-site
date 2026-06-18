@@ -56,7 +56,16 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .woocommerce-page ul.products:not(.blk-carousel-track):not(.buliak-best-grid) {
     display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 26px !important; }
   @media (max-width: 1024px) { .woocommerce ul.products:not(.blk-carousel-track):not(.buliak-best-grid) { grid-template-columns: repeat(2, 1fr) !important; } }
-  @media (max-width: 560px) { .woocommerce ul.products:not(.blk-carousel-track):not(.buliak-best-grid) { grid-template-columns: 1fr !important; gap: 16px !important; } }
+  @media (max-width: 600px) { .woocommerce ul.products:not(.blk-carousel-track):not(.buliak-best-grid) { grid-template-columns: 1fr !important; gap: 18px !important; } }
+  /* «з цим купують» (related / upsells) на мобільному → горизонтальний скрол, як бестселери на головній */
+  @media (max-width: 768px) {
+    .woocommerce .related ul.products, .woocommerce .up-sells ul.products, .woocommerce .upsells ul.products {
+      display: flex !important; grid-template-columns: none !important; overflow-x: auto !important; gap: 14px !important;
+      scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; margin-top: 16px !important; }
+    .woocommerce .related ul.products::-webkit-scrollbar, .woocommerce .up-sells ul.products::-webkit-scrollbar, .woocommerce .upsells ul.products::-webkit-scrollbar { display: none; }
+    .woocommerce .related ul.products li.product, .woocommerce .up-sells ul.products li.product, .woocommerce .upsells ul.products li.product {
+      flex: 0 0 80% !important; max-width: 80% !important; min-width: 0 !important; scroll-snap-align: start; margin: 0 !important; }
+  }
   .buliak-best-grid { grid-template-columns: repeat(3, 1fr) !important; }
   /* карусель: ширші картки під новий дизайн */
   .blk-carousel-track li.product.blk-card { flex: 0 0 300px !important; max-width: 300px !important; }
@@ -103,7 +112,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   /* прибрати старий бейдж-вогник (тепер 🔥ХІТ пігулка) */
   .blk-card .blk-best-badge { display: none !important; }
 </style>
-<?php }, 9 );
+<?php }, 999 );
 
 /* JS: степер к-сті + В кошик (наш WooCommerce AJAX) */
 add_action( 'wp_footer', function () { if ( is_admin() ) return; ?>
