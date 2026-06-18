@@ -419,16 +419,15 @@ function blk_panel_products() {
 			$url = admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() );
 		?>
 		<a class="blk-p-prod" href="<?php echo esc_url( $url ); ?>">
-			<div class="blk-p-prod-img"><?php echo $img ? '<img src="' . esc_url( $img ) . '" alt="">' : '<span class="blk-p-prod-ph">🥩</span>'; ?><?php if ( $hit ) : ?><span class="blk-p-prod-hit">🔥 ХІТ</span><?php endif; ?></div>
-			<div class="blk-p-prod-main">
+			<div class="blk-p-prod-img"><?php echo $img ? '<img src="' . esc_url( $img ) . '" alt="">' : '<span class="blk-p-prod-ph">🥩</span>'; ?><?php if ( $hit ) : ?><span class="blk-p-prod-hit">🔥</span><?php endif; ?></div>
+			<div class="blk-p-prod-b">
 				<div class="blk-p-prod-name"><?php echo esc_html( $p->get_name() ); ?></div>
 				<div class="blk-p-prod-cat"><?php echo $cat_str ? '🏷 ' . esc_html( $cat_str ) : '<span class="blk-p-prod-nocat">без категорії</span>'; ?></div>
-				<div class="blk-p-prod-meta"><?php echo $portion ? '≈' . esc_html( $portion ) : ''; ?></div>
-			</div>
-			<div class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴ / <?php echo esc_html( $unit ); ?></div>
-			<div class="blk-p-prod-badges">
-				<?php if ( $hit ) : ?><span class="blk-p-prod-hitb">🔥 ХІТ</span><?php endif; ?>
-				<span class="blk-p-prod-st blk-p-prod-<?php echo esc_attr( $p->get_status() ); ?>"><?php echo $p->get_status() === 'publish' ? 'Активний' : 'Чернетка'; ?></span>
+				<div class="blk-p-prod-meta"><span class="blk-p-prod-price"><?php echo (int) $p->get_price(); ?> ₴ / <?php echo esc_html( $unit ); ?></span><?php echo $portion ? '<span class="blk-p-prod-portion">≈' . esc_html( $portion ) . '</span>' : ''; ?></div>
+				<div class="blk-p-prod-badges">
+					<?php if ( $hit ) : ?><span class="blk-p-prod-hitb">🔥 ХІТ</span><?php endif; ?>
+					<span class="blk-p-prod-st blk-p-prod-<?php echo esc_attr( $p->get_status() ); ?>"><?php echo $p->get_status() === 'publish' ? 'Активний' : 'Чернетка'; ?></span>
+				</div>
 			</div>
 		</a>
 		<?php endforeach; ?>
@@ -624,30 +623,34 @@ function blk_panel_styles() { ?>
 		.blk-np-dd li:hover { background:#faf3e0; }
 		/* товари: сітка карток */
 		.blk-p-pview { margin-left:auto; display:flex; gap:4px; }
-		.blk-p-prods { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:16px; margin:18px 20px; }
-		.blk-p-prod { display:flex; gap:14px; align-items:center; background:#fff; border:1px solid #e6ddc9; border-radius:14px; padding:14px; text-decoration:none; color:inherit; box-shadow:0 2px 10px rgba(0,0,0,.04); transition:.15s; }
+		.blk-p-prods { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:16px; margin:18px 20px; }
+		.blk-p-prod { display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid #e6ddc9; border-radius:14px; padding:14px; text-decoration:none; color:inherit; box-shadow:0 2px 10px rgba(0,0,0,.04); transition:.15s; }
 		.blk-p-prod:hover { box-shadow:0 8px 26px rgba(0,0,0,.1); transform:translateY(-2px); color:inherit; }
-		.blk-p-prod-img { position:relative; width:74px; height:74px; flex:0 0 74px; border-radius:12px; overflow:hidden; background:#faf3e0; display:flex; align-items:center; justify-content:center; }
+		.blk-p-prod-img { position:relative; width:76px; height:76px; flex:0 0 76px; border-radius:12px; overflow:hidden; background:#faf3e0; display:flex; align-items:center; justify-content:center; }
 		.blk-p-prod-img img { width:100%; height:100%; object-fit:cover; }
 		.blk-p-prod-ph { font-size:2rem; opacity:.6; }
-		.blk-p-prod-hit { position:absolute; top:3px; left:3px; background:var(--p); color:#fff; font-size:.6rem; font-weight:800; padding:2px 6px; border-radius:6px; line-height:1; }
-		.blk-p-prod-main { flex:1; min-width:0; }
-		.blk-p-prod-name { font-weight:700; font-size:1.02rem; line-height:1.3; margin-bottom:3px; }
-		.blk-p-prod-cat { font-size:.8rem; color:#8a7d62; margin-bottom:3px; } .blk-p-prod-nocat { color:#c0b89f; font-style:italic; }
-		.blk-p-prod-meta { font-size:.82rem; color:#9a8f7a; }
+		.blk-p-prod-hit { position:absolute; top:3px; left:3px; background:var(--p); color:#fff; font-size:.72rem; padding:1px 5px; border-radius:6px; line-height:1.2; }
+		.blk-p-prod-b { flex:1; min-width:0; display:flex; flex-direction:column; gap:5px; }
+		.blk-p-prod-name { font-weight:700; font-size:1.02rem; line-height:1.3; }
+		.blk-p-prod-cat { font-size:.8rem; color:#8a7d62; } .blk-p-prod-nocat { color:#c0b89f; font-style:italic; }
+		.blk-p-prod-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 		.blk-p-prod-price { color:var(--g); font-weight:800; font-size:1.05rem; white-space:nowrap; }
-		.blk-p-prod-badges { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
-		.blk-p-prod-hitb { display:none; background:#fff0f2; color:var(--p); border:1px solid #f3c5cd; padding:2px 9px; border-radius:99px; font-size:.7rem; font-weight:800; }
+		.blk-p-prod-portion { font-size:.76rem; color:#9a8f7a; background:#faf3e0; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+		.blk-p-prod-badges { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:2px; }
+		.blk-p-prod-hitb { background:#fff0f2; color:var(--p); border:1px solid #f3c5cd; padding:2px 9px; border-radius:99px; font-size:.7rem; font-weight:800; }
 		.blk-p-prod-st { display:inline-block; padding:2px 11px; border-radius:99px; font-size:.72rem; font-weight:700; }
 		.blk-p-prod-publish { background:#d4edda; color:#155724; } .blk-p-prod-draft { background:#f0f0f1; color:#787c82; }
-		/* товари: режим списку */
+		/* товари: режим списку — повна ширина, компактний рядок */
 		.blk-p-prods.is-list { display:block; }
-		.blk-p-prods.is-list .blk-p-prod { border-radius:10px; padding:9px 14px; margin-bottom:8px; gap:16px; }
-		.blk-p-prods.is-list .blk-p-prod-img { width:48px; height:48px; flex:0 0 48px; border-radius:8px; }
-		.blk-p-prods.is-list .blk-p-prod-hit { display:none; }
-		.blk-p-prods.is-list .blk-p-prod-meta { display:inline; }
-		.blk-p-prods.is-list .blk-p-prod-badges { flex-direction:row; align-items:center; }
-		.blk-p-prods.is-list .blk-p-prod-hitb { display:inline-block; }
+		.blk-p-prods.is-list .blk-p-prod { align-items:center; border-radius:10px; padding:9px 16px; margin-bottom:8px; gap:16px; }
+		.blk-p-prods.is-list .blk-p-prod-img { width:46px; height:46px; flex:0 0 46px; border-radius:8px; }
+		.blk-p-prods.is-list .blk-p-prod-hit { font-size:.6rem; top:2px; left:2px; padding:0 3px; }
+		.blk-p-prods.is-list .blk-p-prod-b { flex-direction:row; align-items:center; gap:14px; }
+		.blk-p-prods.is-list .blk-p-prod-name { flex:1 1 40%; min-width:120px; }
+		.blk-p-prods.is-list .blk-p-prod-cat { flex:0 1 auto; }
+		.blk-p-prods.is-list .blk-p-prod-meta { margin-left:auto; }
+		.blk-p-prods.is-list .blk-p-prod-badges { margin-top:0; }
+		.blk-p-prods.is-list .blk-p-prod-portion { display:none; }
 		/* товар: редактор */
 		.blk-p-cats { display:flex; flex-wrap:wrap; gap:8px; }
 		.blk-p-chk { display:inline-flex; align-items:center; gap:7px; padding:7px 13px; border:1px solid #d8c89e; border-radius:99px; cursor:pointer; font-size:.88rem; background:#fff; transition:.12s; }
