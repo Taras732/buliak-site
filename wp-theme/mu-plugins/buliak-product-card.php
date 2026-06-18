@@ -62,7 +62,8 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
     .woocommerce .related ul.products:not(.blk-carousel-track):not(.buliak-best-grid),
     .woocommerce .up-sells ul.products:not(.blk-carousel-track):not(.buliak-best-grid),
     .woocommerce .upsells ul.products:not(.blk-carousel-track):not(.buliak-best-grid) {
-      display: flex !important; grid-template-columns: none !important; overflow-x: auto !important; gap: 14px !important;
+      display: flex !important; grid-template-columns: none !important; overflow-x: auto !important; overflow-y: hidden !important;
+      touch-action: pan-x !important; overscroll-behavior-x: contain; gap: 14px !important;
       scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; margin-top: 16px !important; }
     .woocommerce .related ul.products::-webkit-scrollbar, .woocommerce .up-sells ul.products::-webkit-scrollbar, .woocommerce .upsells ul.products::-webkit-scrollbar { display: none; }
     .woocommerce .related ul.products li.product, .woocommerce .up-sells ul.products li.product, .woocommerce .upsells ul.products li.product {
