@@ -91,7 +91,7 @@ add_action( 'wp_head', function () { if ( is_admin() ) return; ?>
   .blk-card:hover .blk-card-media img { transform: scale(1.06); }
   /* безшовний плейсхолдер (без рамки картинки) — заповнює медіа кольором картки */
   .blk-card .blk-card-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; width: 100%; height: 100%; background: #1d1917; }
-  .blk-card .blk-card-ph-em { width: 72px; height: auto; opacity: .92; }
+  .blk-card .blk-card-media .blk-card-ph .blk-card-ph-em { width: 72px !important; height: auto !important; object-fit: contain !important; opacity: .92; transform: none !important; }
   .blk-card .blk-card-ph-t { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: rgba(247,239,228,.36); }
   .blk-card .blk-card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
   .blk-card .blk-card-title { font-size: 1.12rem; font-weight: 800; color: var(--bx-text); margin: 0 0 12px; line-height: 1.3; }
