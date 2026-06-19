@@ -58,6 +58,22 @@ add_filter( 'woocommerce_checkout_fields', function ( $fields ) {
 	return $fields;
 }, 20 );
 
+/* ---- 2b. Не підставляти billing з ПРОФІЛЮ персоналу на гостьовому checkout ----
+ * Корінь проблеми: коли менеджер/адмін залогінений у wp-admin, WooCommerce тягне
+ * ім'я/прізвище/телефон з його акаунта (де лишились тестові дані) → плутанина.
+ * Звичайні клієнти НЕ залогінені — їх це не торкає (їхні дані беруться з сесії браузера).
+ * Тут для залогіненого персоналу повертаємо порожньо для стандартних полів,
+ * а НП лишаємо з сесії цього ж браузера (їхній власний останній ввід). */
+add_filter( 'woocommerce_checkout_get_value', function ( $value, $input ) {
+	if ( ! is_user_logged_in() || ! current_user_can( 'edit_shop_orders' ) ) { return $value; }
+	if ( in_array( $input, array( 'billing_first_name', 'billing_last_name', 'billing_phone' ), true ) ) {
+		return ( $input === 'billing_phone' ) ? '+380' : '';
+	}
+	if ( $input === 'billing_np_city' )   { return ( function_exists( 'WC' ) && WC()->session ) ? (string) WC()->session->get( 'blk_np_city', '' ) : ''; }
+	if ( $input === 'billing_np_branch' ) { return ( function_exists( 'WC' ) && WC()->session ) ? (string) WC()->session->get( 'blk_np_branch', '' ) : ''; }
+	return $value;
+}, 10, 2 );
+
 /* зберегти прізвище в meta замовлення теж (для НП) — first/last вже стандартні */
 
 /* нотатка менеджера + іконки месенджера + вигляд-квитанція на checkout */
