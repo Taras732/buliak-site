@@ -60,6 +60,8 @@ a{color:inherit}
 
 /* секції */
 .sec{padding:100px 0}
+/* .sec визначено після .wrap → перебивало його бокові padding на 0; повертаємо адаптивні відступи (0,2,0 виграє) */
+.sec.wrap{padding-left:clamp(16px,3.5vw,40px);padding-right:clamp(16px,3.5vw,40px)}
 .sec-head{max-width:680px;margin-bottom:50px}
 .sec-head h2{font-weight:800;font-size:clamp(2.3rem,5.5vw,4rem);margin-top:16px}
 .sec-head p{margin-top:16px;color:var(--ash);font-size:1.1rem}
