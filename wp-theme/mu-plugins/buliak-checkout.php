@@ -66,11 +66,13 @@ add_filter( 'woocommerce_checkout_fields', function ( $fields ) {
  * а НП лишаємо з сесії цього ж браузера (їхній власний останній ввід). */
 add_filter( 'woocommerce_checkout_get_value', function ( $value, $input ) {
 	if ( ! is_user_logged_in() || ! current_user_can( 'edit_shop_orders' ) ) { return $value; }
-	if ( in_array( $input, array( 'billing_first_name', 'billing_last_name', 'billing_phone' ), true ) ) {
-		return ( $input === 'billing_phone' ) ? '+380' : '';
-	}
-	if ( $input === 'billing_np_city' )   { return ( function_exists( 'WC' ) && WC()->session ) ? (string) WC()->session->get( 'blk_np_city', '' ) : ''; }
-	if ( $input === 'billing_np_branch' ) { return ( function_exists( 'WC' ) && WC()->session ) ? (string) WC()->session->get( 'blk_np_branch', '' ) : ''; }
+	// для персоналу (адмін/менеджер) НЕ беремо дані з акаунта — беремо з сесії ЦЬОГО браузера (комп'ютера)
+	$sess = ( function_exists( 'WC' ) && WC()->session ) ? WC()->session : null;
+	if ( $input === 'billing_first_name' ) { return $sess ? (string) $sess->get( 'blk_first_name', '' ) : ''; }
+	if ( $input === 'billing_last_name' )  { return $sess ? (string) $sess->get( 'blk_last_name', '' ) : ''; }
+	if ( $input === 'billing_phone' )      { $v = $sess ? (string) $sess->get( 'blk_phone', '' ) : ''; return $v !== '' ? $v : '+380'; }
+	if ( $input === 'billing_np_city' )    { return $sess ? (string) $sess->get( 'blk_np_city', '' ) : ''; }
+	if ( $input === 'billing_np_branch' )  { return $sess ? (string) $sess->get( 'blk_np_branch', '' ) : ''; }
 	return $value;
 }, 10, 2 );
 
@@ -133,6 +135,9 @@ add_action( 'woocommerce_checkout_create_order', function ( $order ) {
 	if ( function_exists( 'WC' ) && WC()->session ) {
 		WC()->session->set( 'blk_np_city', $city );
 		WC()->session->set( 'blk_np_branch', $branch );
+		WC()->session->set( 'blk_first_name', $order->get_billing_first_name() );
+		WC()->session->set( 'blk_last_name', $order->get_billing_last_name() );
+		WC()->session->set( 'blk_phone', $order->get_billing_phone() );
 		if ( ! empty( $_POST['billing_messenger'] ) ) {
 			WC()->session->set( 'blk_messenger', sanitize_text_field( wp_unslash( $_POST['billing_messenger'] ) ) );
 		}
