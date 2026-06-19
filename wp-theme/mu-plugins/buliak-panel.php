@@ -91,6 +91,18 @@ add_action( 'wp_ajax_blk_panel_save_product', function () {
 	wp_send_json_success( array( 'id' => $p->get_id(), 'redirect' => admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() . '&saved=1' ) ) );
 } );
 
+/* ---- AJAX: видалити товар (у кошик WP, відновлюваний — НЕ назавжди) ---- */
+add_action( 'wp_ajax_blk_panel_delete_product', function () {
+	if ( ! current_user_can( 'delete_products' ) && ! current_user_can( 'edit_products' ) ) { wp_send_json_error( array( 'msg' => 'Немає прав' ) ); }
+	check_ajax_referer( 'blk_panel', '_n' );
+	$id = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
+	$p  = $id ? wc_get_product( $id ) : false;
+	if ( ! $p ) { wp_send_json_error( array( 'msg' => 'Товар не знайдено' ) ); }
+	$res = wp_trash_post( $id ); // у кошик, можна відновити; не wp_delete_post(force)
+	if ( ! $res ) { wp_send_json_error( array( 'msg' => 'Не вдалося видалити' ) ); }
+	wp_send_json_success( array( 'redirect' => admin_url( 'admin.php?page=buliak-panel&tab=products&trashed=1' ) ) );
+} );
+
 /* медіа-аплоадер на сторінці панелі */
 add_action( 'admin_enqueue_scripts', function () {
 	if ( isset( $_GET['page'] ) && $_GET['page'] === 'buliak-panel' ) { wp_enqueue_media(); }
@@ -401,6 +413,7 @@ function blk_panel_products() {
 			<a class="blk-p-tab is-active" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&tab=products' ) ); ?>">Товари <span><?php echo count( $products ); ?></span></a>
 		</nav>
 	</div>
+	<?php if ( isset( $_GET['trashed'] ) ) : ?><div class="blk-p-ok">🗑 Товар переміщено в кошик. Відновити можна у WordPress → Товари → Кошик.</div><?php endif; ?>
 	<div class="blk-p-bar">
 		<a class="blk-p-add" href="<?php echo esc_url( admin_url( 'admin.php?page=buliak-panel&product=new' ) ); ?>">➕ Додати товар</a>
 		<span class="blk-p-view blk-p-pview">
@@ -412,8 +425,10 @@ function blk_panel_products() {
 		<?php foreach ( $products as $p ) :
 			$img = $p->get_image_id() ? wp_get_attachment_image_url( $p->get_image_id(), array( 160, 160 ) ) : '';
 			$portion = function_exists( 'blk_product_portion' ) ? blk_product_portion( $p ) : '';
-			$cats = wp_get_post_terms( $p->get_id(), 'product_cat', array( 'fields' => 'names' ) );
-			$cat_str = ( ! is_wp_error( $cats ) && $cats ) ? implode( ', ', $cats ) : '';
+			$cat_objs = wp_get_post_terms( $p->get_id(), 'product_cat' );
+			$cnames = array();
+			if ( ! is_wp_error( $cat_objs ) ) { foreach ( $cat_objs as $ct ) { if ( $ct->slug !== 'uncategorized' ) { $cnames[] = $ct->name; } } }
+			$cat_str = $cnames ? implode( ', ', $cnames ) : '';
 			$hit = has_term( 'bestseller', 'product_tag', $p->get_id() );
 			$unit = $p->get_meta( '_blk_unit_label' ) ? $p->get_meta( '_blk_unit_label' ) : 'кг';
 			$url = admin_url( 'admin.php?page=buliak-panel&product=' . $p->get_id() );
@@ -459,6 +474,8 @@ function blk_panel_product_editor( $id ) {
 	$img    = $img_id ? wp_get_attachment_image_url( $img_id, array( 320, 320 ) ) : '';
 	$all_cats = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => false, 'orderby' => 'name' ) );
 	if ( is_wp_error( $all_cats ) ) { $all_cats = array(); }
+	// ховаємо службову дефолтну «Uncategorized» — це не контентна категорія, на сайт не впливає
+	$all_cats = array_values( array_filter( $all_cats, function ( $c ) { return $c->slug !== 'uncategorized'; } ) );
 	$sel_cats = $is_new ? array() : $p->get_category_ids();
 	$is_hit   = $is_new ? false : has_term( 'bestseller', 'product_tag', $p->get_id() );
 	$unit     = $is_new ? 'кг' : ( $p->get_meta( '_blk_unit_label' ) ? $p->get_meta( '_blk_unit_label' ) : 'кг' );
@@ -510,6 +527,19 @@ function blk_panel_product_editor( $id ) {
 				<button type="button" class="button button-primary blk-p-save" id="pp-save">💾 Зберегти товар</button>
 				<div id="pp-msg" class="blk-p-msg2"></div>
 			</div>
+			<?php if ( ! $is_new ) : ?>
+			<div class="blk-p-box blk-p-danger">
+				<button type="button" class="blk-p-del" id="pp-del">🗑 Видалити товар</button>
+				<div class="blk-p-del-c" id="pp-del-c">
+					<p>Видалити «<strong><?php echo esc_html( $name ); ?></strong>»? Товар піде в кошик WordPress — його можна відновити.</p>
+					<div class="blk-p-del-actions">
+						<button type="button" class="blk-p-del-yes" id="pp-del-yes">Так, видалити</button>
+						<button type="button" class="blk-p-del-no" id="pp-del-no">Скасувати</button>
+					</div>
+					<div id="pp-del-msg" class="blk-p-msg2"></div>
+				</div>
+			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	<script>
@@ -529,6 +559,18 @@ function blk_panel_product_editor( $id ) {
 			document.querySelectorAll('.pp-cat:checked').forEach(function(c){ b.append('cats[]',c.value); });
 			fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b.toString(),credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){ if(res&&res.success){ location=res.data.redirect; } else { btn.disabled=false; msg.style.color='#c0392b'; msg.textContent='Помилка: '+((res&&res.data&&res.data.msg)||'спробуй ще'); } }).catch(function(){ btn.disabled=false; msg.textContent='Помилка мережі'; });
 		};
+		/* ---- видалення (у кошик) з інлайн-підтвердженням ---- */
+		var delBtn=document.getElementById('pp-del');
+		if(delBtn){
+			var dc=document.getElementById('pp-del-c');
+			delBtn.onclick=function(){ dc.classList.add('show'); delBtn.style.display='none'; };
+			document.getElementById('pp-del-no').onclick=function(){ dc.classList.remove('show'); delBtn.style.display=''; };
+			document.getElementById('pp-del-yes').onclick=function(){
+				var y=this, m=document.getElementById('pp-del-msg'); y.disabled=true; m.style.color=''; m.textContent='Видалення…';
+				var bb=new URLSearchParams(); bb.append('action','blk_panel_delete_product'); bb.append('_n',N); bb.append('id',ID);
+				fetch(AJAX,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:bb.toString(),credentials:'same-origin'}).then(function(r){return r.json();}).then(function(res){ if(res&&res.success){ location=res.data.redirect; } else { y.disabled=false; m.style.color='#c0392b'; m.textContent='Помилка: '+((res&&res.data&&res.data.msg)||'спробуй ще'); } }).catch(function(){ y.disabled=false; m.textContent='Помилка мережі'; });
+			};
+		}
 	})();
 	</script>
 	<?php
@@ -658,6 +700,17 @@ function blk_panel_styles() { ?>
 		.blk-p-chk input { margin:0; }
 		.blk-p-hit { display:flex; align-items:center; gap:9px; padding:11px 13px; background:#fff8e8; border:1px solid #ead9b0; border-radius:10px; cursor:pointer; margin-bottom:14px; font-size:.95rem; }
 		.blk-p-hit input { width:18px; height:18px; margin:0; }
+		/* видалення товару */
+		.blk-p-danger { border-color:#f0d6d6 !important; }
+		.blk-p-del { width:100%; background:#fff; color:#c0392b; border:1px solid #e6b3b3; border-radius:9px; padding:11px; font-weight:600; cursor:pointer; transition:.12s; }
+		.blk-p-del:hover { background:#fdf2f2; border-color:#d98b8b; }
+		.blk-p-del-c { display:none; } .blk-p-del-c.show { display:block; }
+		.blk-p-del-c p { font-size:.9rem; color:#6b6256; margin:0 0 12px; line-height:1.5; }
+		.blk-p-del-actions { display:flex; gap:8px; }
+		.blk-p-del-yes { flex:1; background:#c0392b; color:#fff; border:0; border-radius:8px; padding:11px; font-weight:700; cursor:pointer; }
+		.blk-p-del-yes:hover { background:#a32f24; } .blk-p-del-yes:disabled { opacity:.6; }
+		.blk-p-del-no { flex:1; background:#f0f0f1; color:#3c434a; border:0; border-radius:8px; padding:11px; font-weight:600; cursor:pointer; }
+		.blk-p-del-no:hover { background:#e4e4e6; }
 		.blk-p-flbl { display:flex; flex-direction:column; gap:4px; font-size:.8rem; color:#6b6256; font-weight:600; }
 		.blk-p-flbl input { padding:9px 11px; border-radius:8px; border:1px solid #d8c89e; font-size:.95rem; }
 		.blk-p-photo { width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; background:#faf3e0; margin-bottom:12px; display:flex; align-items:center; justify-content:center; }
