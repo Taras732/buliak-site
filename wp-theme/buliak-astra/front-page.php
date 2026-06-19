@@ -8,7 +8,7 @@
     <h1>БУ<span class="s">ЛЯК</span><span class="sr-only"> — мʼясні традиції Галичини: BBQ, копченості та домашні ковбаси з доставкою</span></h1>
     <p class="hero-sub">М'ясо, BBQ та копченості <b>власного виробництва</b>. Коптимо самі — свіже й справжнє. <b>Наше BBQ — твоя слабкість.</b></p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">До меню →</a>
+      <a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">До товарів →</a>
       <a class="btn btn-ghost" href="https://t.me/BULIAK_DELIVERY" target="_blank" rel="noopener">Написати в Telegram</a>
     </div>
   </div>
@@ -26,7 +26,7 @@
     <h2>Бестселери, від яких тече слина</h2>
   </div>
   <?php if (class_exists('WooCommerce')) echo do_shortcode('[buliak_bestsellers]'); ?>
-  <div style="text-align:center;margin-top:30px"><a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">Усе меню →</a></div>
+  <div style="text-align:center;margin-top:30px"><a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">Усі товари →</a></div>
 </section>
 
 <section class="sec wrap">
@@ -68,8 +68,8 @@
 
 <section class="final"><div class="wrap">
   <h2>Зголоднів?</h2>
-  <p>Обери в меню — зберемо, закоптимо й привеземо. Наше BBQ — твоя слабкість.</p>
-  <a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">До меню →</a>
+  <p>Обери з товарів — зберемо, закоптимо й привеземо. Наше BBQ — твоя слабкість.</p>
+  <a class="btn btn-primary" href="<?php echo esc_url(home_url('/shop/')); ?>">До товарів →</a>
 </div></section>
 
 <?php get_footer(); ?>

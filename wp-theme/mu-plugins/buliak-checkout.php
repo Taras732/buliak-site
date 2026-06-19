@@ -443,7 +443,7 @@ add_filter( 'woocommerce_loop_add_to_cart_link', function ( $html, $product ) {
 /* ---- 10. Порожній кошик: прибрати чужорідні картки + стилізувати ---- */
 remove_action( 'woocommerce_cart_collaterals', 'woocommerce_cross_sell_display' );
 add_filter( 'wc_empty_cart_message', function () {
-	return 'Тут поки порожньо. Обери щось смачне в меню — і повертайся 🔥';
+	return 'Тут поки порожньо. Обери щось смачне серед товарів — і повертайся 🔥';
 } );
 add_action( 'wp_head', function () {
 	if ( ! ( function_exists( 'is_cart' ) && is_cart() ) ) { return; }

@@ -11,7 +11,7 @@ function blk_drawer_items_html() {
 	if ( empty( $cart ) ) {
 		return '<div class="blk-cart-empty"><div class="blk-empty-emoji">🥩</div>'
 			. '<div class="blk-empty-title">Кошик порожній</div>'
-			. '<div class="blk-empty-sub">Оберіть щось смачне в нашому Меню</div></div>';
+			. '<div class="blk-empty-sub">Оберіть щось смачне серед товарів</div></div>';
 	}
 	$html = '';
 	foreach ( $cart as $key => $item ) {

@@ -34,7 +34,7 @@ add_action( 'woocommerce_no_products_found', function () {
 		. '<div class="blk-empty-emoji">🔥</div>'
 		. '<p class="blk-empty-title">Тут скоро з’являться смаколики</p>'
 		. '<p class="blk-empty-sub">Цю категорію ще наповнюємо. Зазирни в інші — там уже багато смачного!</p>'
-		. '<p><a class="button blk-empty-btn" href="' . esc_url( $shop ) . '">Дивитись усе меню →</a></p>'
+		. '<p><a class="button blk-empty-btn" href="' . esc_url( $shop ) . '">Дивитись усі товари →</a></p>'
 		. '</div>';
 } );
 
