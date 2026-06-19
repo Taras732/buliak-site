@@ -390,9 +390,14 @@ add_action( 'wp_head', function () { ?>
   ul.products li.product .woocommerce-loop-product__title {
     min-height: 3.6em; display: flex; align-items: center; justify-content: center; text-align: center;
   }
-  /* картки в каруселі однакової висоти (тягнуться під найвищу) */
-  .blk-carousel-track { align-items: stretch; }
-  .blk-carousel-track li.product { height: auto; }
+  /* картки в каруселі однакової висоти (тягнуться під найвищу).
+     ВАЖЛИВО: .blk-card має height:100%!important (специфічність 0,4,2) → перебиваємо вищою (0,5,2),
+     ставимо height:auto, щоб align-items:stretch реально вирівняв висоту незалежно від фото/тексту */
+  .blk-carousel-track { align-items: stretch !important; }
+  .woocommerce ul.products.blk-carousel-track li.product.blk-card { align-self: stretch !important; height: auto !important; }
+  /* фото/плейсхолдер не впливають на розмір: медіа завжди 4/3, тіло тягнеться рівномірно */
+  .woocommerce ul.products.blk-carousel-track li.product.blk-card .blk-card-media { aspect-ratio: 4/3 !important; height: auto !important; flex: 0 0 auto; }
+  .woocommerce ul.products.blk-carousel-track li.product.blk-card .blk-card-body { flex: 1 1 auto; }
   /* кнопка — до НИЗУ всієї картки: summary-wrap тягнеться, кнопка margin-top:auto */
   ul.products li.product { height: 100%; }
   ul.products li.product .astra-shop-summary-wrap { display: flex !important; flex-direction: column; align-items: center; flex: 1 1 auto; }
