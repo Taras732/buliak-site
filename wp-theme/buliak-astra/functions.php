@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit;
 
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('astra-parent', get_template_directory_uri() . '/style.css', array(), null);
-    wp_enqueue_style('buliak-fonts', 'https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap', array(), null);
+    wp_enqueue_style('buliak-fonts', 'https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&display=optional', array(), null);
     wp_enqueue_style('buliak-brand', get_stylesheet_uri(), array('astra-parent', 'buliak-fonts'), '1.5');
     wp_enqueue_script('buliak-qty', get_stylesheet_directory_uri() . '/quantity.js', array(), '1.0', true);
     wp_enqueue_script('buliak-reveal', get_stylesheet_directory_uri() . '/reveal.js', array(), '1.0', true);

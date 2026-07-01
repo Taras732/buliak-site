@@ -113,6 +113,8 @@ add_action( 'wp_footer', function () { ?>
 add_action( 'wp_head', function () {
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+	/* preload Unbounded (кир. субсет) — щоб бренд-шрифт заголовків встиг до display:optional і не було font-swap CLS */
+	echo '<link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/unbounded/v12/Yq6F-LOTXCb04q32xlpat-6uR42XTqtG67H2447Ngc6L.woff2">' . "\n";
 	if ( is_front_page() ) {
 		$h = get_stylesheet_directory_uri() . '/assets/hero_bbq.webp';
 		echo '<link rel="preload" as="image" href="' . esc_url( $h ) . '" fetchpriority="high">' . "\n";
