@@ -215,6 +215,11 @@ add_action( 'wp_head', function () { ?>
   .contact { text-align: center; }
   .cline { text-align: center; }
 }
+/* fix: у каруселі трек має overflow-y:auto + padding 0 → hover-стрибок карток (translateY)
+   смикав їх вверх-вниз при скролі й обрізав верх/тінь рамкою треку. Прибираємо стрибок
+   саме в каруселі (у сітці /shop лишається) + додаємо вертикальний простір під тінь. */
+.blk-carousel-track { padding-top: 8px !important; padding-bottom: 8px !important; }
+.blk-carousel-track li.product:hover { transform: none !important; }
 </style>
 <?php }, 999 );
 
