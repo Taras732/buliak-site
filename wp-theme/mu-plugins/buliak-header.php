@@ -30,7 +30,7 @@ add_action( 'wp_body_open', function () {
 	?>
 <div class="blk-hdr-wrap">
   <header class="blk-header" id="blk-masthead"><div class="blk-hdr-container blk-hdr-flex">
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="blk-brand"><img src="<?php echo esc_url( $logo ); ?>" alt="БУЛЯК" class="blk-logo-img"></a>
+    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="blk-brand"><img src="<?php echo esc_url( $logo ); ?>" alt="БУЛЯК" class="blk-logo-img" width="1242" height="481"></a>
 
     <nav class="blk-nav" aria-label="Головна навігація"><ul class="blk-nav-list">
       <li><a href="<?php echo $shop; ?>" class="blk-nav-link">Продукція</a></li>

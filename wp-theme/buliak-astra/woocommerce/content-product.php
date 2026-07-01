@@ -17,7 +17,7 @@ $price   = function_exists( 'wc_price' ) ? wc_price( $product->get_price(), arra
 		if ( $product->get_image_id() ) {
 			echo $product->get_image( 'woocommerce_thumbnail' ); // phpcs:ignore
 		} else {
-			echo '<span class="blk-card-ph"><img src="https://buliak.com/wp-content/uploads/2026/06/mark-300x300.png" alt="" class="blk-card-ph-em" loading="lazy"><span class="blk-card-ph-t">фото незабаром</span></span>';
+			echo '<span class="blk-card-ph"><img src="https://buliak.com/wp-content/uploads/2026/06/mark-300x300.png" alt="" class="blk-card-ph-em" loading="lazy" width="300" height="300"><span class="blk-card-ph-t">фото незабаром</span></span>';
 		}
 	?></a>
 	<div class="blk-card-body">

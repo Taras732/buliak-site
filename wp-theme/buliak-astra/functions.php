@@ -51,7 +51,7 @@ add_action('astra_footer_before', function () {
     <footer class="buliak-footer">
       <div class="blk-fc-cont blk-fc-cols">
         <div class="blk-fc-brand">
-          <a href="<?php echo esc_url(home_url('/')); ?>" class="blk-fc-logo"><img src="<?php echo esc_url($logo); ?>" alt="БУЛЯК"></a>
+          <a href="<?php echo esc_url(home_url('/')); ?>" class="blk-fc-logo"><img src="<?php echo esc_url($logo); ?>" alt="БУЛЯК" width="1242" height="481"></a>
         </div>
         <div class="blk-fc-col">
           <h4>Контакти</h4>
